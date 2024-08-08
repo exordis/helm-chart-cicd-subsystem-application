@@ -5,3 +5,4 @@ templates/temporary.yaml
 tests/__snapshot__/*
 tmp/
 charts/
+*.tgz
