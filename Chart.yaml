@@ -1,0 +1,16 @@
+apiVersion: v2
+name: foundation-subsystem-application
+description: Base helm-chart for deployment of application as a part of subsystem
+type: application
+version: 0.1.0
+annotations:
+  sdk.engine.templates-prefix: subsystem-application
+dependencies:
+  - name: devops-sdk
+    alias: sdk
+    version: "~0.1.15"
+    repository: oci://registry.gitlab.com/knst/cy/registry/charts
+  # - name: devops-sdk
+  #   alias: sdk
+  #   version: "0.1.0"
+  #   repository: file://../helm-chart-devops-sdk     

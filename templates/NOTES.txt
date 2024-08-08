@@ -1,0 +1,2 @@
+{{- include "sdk.engine.init" $ -}}
+deployed application {{ template "sdk.naming.application-canonical-name" (list $.Values.global.subsystem $.Values.application) }} of subsystem {{.Values.global.product}}/{{ .Values.global.subsystem }} to environment {{ .Values.global.environment -}}

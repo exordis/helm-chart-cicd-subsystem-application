@@ -1,0 +1,17 @@
+suite: Service multiline test
+templates:
+  - templates/services.yaml
+values:
+  - ../values.linter.yaml
+tests:
+  - it: |
+      should pass all kinds of assertion
+    asserts:
+      - isNotEmpty:
+          path: spec.ports
+      - isNotEmpty:
+          path: spec.selector
+      - isKind:
+          of: Service
+      - isAPIVersion:
+          of: v1

@@ -1,0 +1,47 @@
+{{- include "sdk.engine.init" $ -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sdk.naming.application.deployment" (list $.Values.global.subsystem $.Values.application $.Values.instanceName) }}
+  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
+  labels:
+    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
+  annotations:
+    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+    {{- range $configMap := $.entities.configMaps }}    
+    checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
+    {{- end }}
+spec:
+  replicas: {{ $.Values.replicas }}
+  selector:
+    matchLabels:
+      {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "subsystem-application.metadata.common-labels" $ | nindent 8 }}
+      annotations:
+        {{- range $configMap := $.entities.configMaps }}    
+        checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
+        {{- end }}
+    spec:
+      containers:
+{{- range $.entities.containers }}
+        - {{ .spec | toYaml |  nindent 10 | trim }}
+{{- end }}
+      initContainers:
+{{- range $.entities.initContainers }}
+        - {{ .spec | toYaml | nindent 10 | trim }}
+{{- end }}
+      volumes:
+{{- range $.entities.volumes }}
+        - name: {{ .name }}
+          {{ .type }}: {{ .spec | toYaml | nindent 12 }}
+{{- end }}
+

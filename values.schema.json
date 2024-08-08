@@ -1,0 +1,349 @@
+{
+    "$schema": "https://json-schema.org/schema#",
+    "type": "object",
+    "required": [
+        "application",
+        "applicationType",
+        "global",
+        "version"
+    ],
+    "properties": {
+        "sdk": {
+            "type": "object"
+        },
+        "foundation-sdk": {
+            "type": "object"
+        },
+        "global": {
+            "type": "object",
+            "required": [
+                "product",
+                "subsystem",
+                "environment"
+            ],
+            "properties": {
+                "product": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]([- ][A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9])*$"
+                },
+                "subsystem": {
+                    "type": "string",
+                    "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+                },
+                "environment": {
+                    "type": "string",
+                    "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+                }
+            }
+        },
+        "application": {
+            "type": "string",
+            "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+        },
+        "externalSecretScope": {
+            "type": "string"
+        },
+        "applicationType": {
+            "type": "string",
+            "enum": [
+                "service",
+                "web"
+            ]
+        },
+        "applicationContainer": {
+            "type": "object"
+        },
+        "replicas": {
+            "type": "integer"
+        },
+        "dockerRegistry": {
+            "type": "string"
+        },
+        "instanceName": {
+            "type": "string"
+        },
+        "image": {
+            "type": "string"
+        },
+        "certManagerClusterIssuer": {
+            "type": "string",
+            "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+        },
+        "version": {
+            "$ref": "#/definitions/dockerImageVersion"
+        },
+        "envs": {
+            "type": "object",
+            "patternProperties": {
+                "^\\S+$": {
+                    "type": [
+                        "string",
+                        "integer"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "initContainers": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                    "$ref": "#/definitions/container"
+                }
+            },
+            "additionalProperties": false
+        },
+        "dataFolders": {
+            "type": "object",
+            "properties": {
+                "configuration": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                            "$ref": "#/definitions/dataFolder"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "content": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                            "$ref": "#/definitions/dataFolder"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "externalSecretsStrategy": {
+            "type": "string",
+            "enum": [
+                "none",
+                "latest"
+            ]
+        },
+        "sidecars": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                    "$ref": "#/definitions/container"
+                }
+            },
+            "additionalProperties": false
+        },
+        "volumes": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                    "$ref": "#/definitions/volume"
+                }
+            },
+            "additionalProperties": false
+        },
+        "services": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                    "$ref": "#/definitions/service"
+                },
+                "additionalProperties": false
+            },
+            "additionalProperties": false
+        },
+        "ingresses": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/ingress"
+            }
+        },
+        "serviceMonitorKeys": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "__test_injected_code_variable": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "dataFolder": {
+            "type": "object",
+            "properties": {
+                "spec": {
+                    "type": "object"
+                },
+                "version": {
+                    "$ref": "#/definitions/dockerImageVersion"
+                },
+                "sizeLimit": {
+                    "type": "string"
+                },
+                "mounts": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-zA-Z]+$": {
+                            "type": "object",
+                            "patternProperties": {
+                                "^\/.*$": {
+                                    "$ref": "#/definitions/nullableAbsolutePath"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "ingressBackend": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "service": {
+                    "type": "string",
+                    "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "port",
+                "service"
+            ]
+        },
+        "ingress": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "public",
+                        "internal"
+                    ]
+                },
+                "default_backend": {
+                    "$ref": "#/definitions/ingressBackend"
+                },
+                "rewriteTarget": {
+                    "type": "string"
+                },
+                "useRegex": {
+                    "type": "boolean"
+                },
+                "useTls": {
+                    "type": "boolean"
+                },
+                "hosts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "paths": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "path": {
+                                "type": "string"
+                            },
+                            "pathType": {
+                                "type": "string"
+                            },
+                            "backend": {
+                                "$ref": "#/definitions/ingressBackend"
+                            }
+                        },
+                        "required": [
+                            "path"
+                        ]
+                    }
+                },
+                "spec": {
+                    "type": "object"
+                }
+            },
+            "required": [
+                "hosts",
+                "paths"
+            ]
+        },
+        "volume": {
+            "type": "object",
+            "required": [],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "spec": {
+                    "type": "object"
+                },
+                "mounts": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-zA-Z]+$": {
+                            "$ref": "#/definitions/absolutePath"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "targetPort": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dockerImageVersion": {
+            "type": "string",
+            "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        },
+        "nullableAbsolutePath": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^\/.*$"
+        },
+        "absolutePath": {
+            "type": [
+                "string"
+            ],
+            "pattern": "^\/.*$"
+        },
+        "container": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "type": "string"
+                },
+                "version": {
+                    "$ref": "#/definitions/dockerImageVersion"
+                },
+                "spec": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

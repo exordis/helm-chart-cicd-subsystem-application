@@ -1,0 +1,16 @@
+{{- include "sdk.engine.init" $ -}}
+{{- range  $.entities.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
+  labels:
+    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
+  annotations: 
+    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+spec:
+{{ .spec | toYaml | indent 2 }}
+
+{{- end }}

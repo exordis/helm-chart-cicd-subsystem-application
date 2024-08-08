@@ -1,0 +1,6 @@
+dependencies:
+- name: devops-sdk
+  repository: oci://registry.gitlab.com/knst/cy/registry/charts
+  version: 0.1.15
+digest: sha256:0b2b0d68eb89047901c3c8789612232e80de9a1c84a642903846d836ce37f406
+generated: "2024-08-08T16:39:05.9050452+03:00"

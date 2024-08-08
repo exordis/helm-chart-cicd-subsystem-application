@@ -1,0 +1,15 @@
+{{- include "sdk.engine.init" $ -}}
+{{- range  $.entities.configMaps }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) }}
+  labels:
+    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
+  annotations:
+    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+data:
+  {{- .data  | toYaml | nindent 2 }}
+{{- end -}}

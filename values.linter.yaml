@@ -1,0 +1,114 @@
+application: some-application
+applicationType: service
+dockerRegistry: registry.gitlab.com
+replicas: 3
+instanceName: some-instancename
+version: 0.0.0
+
+global: 
+  product: Some Product
+  subsystem: some-subsystem
+  environment: test
+
+externalSecretScope: qa2
+
+envs: 
+  TEST: 123
+  SUBSYSTEM: wrong-subsystem
+  
+applicationContainer: {}
+
+externalSecretsStrategy: latest
+
+serviceMonitorKeys:
+  username: Metrics__Authentication__Username
+  password: Metrics__Authentication__Password
+
+services:
+  service-a:
+    #spec:
+    monitor: {}
+    ports:
+      8080: # name: default [service name]-[port]
+        targetPort: 8080
+      8081: # name: default [service name]-[port]
+        targetPort: 8080
+  service-b:
+    ports:
+      8181: # name: default [service name]-[port]
+        targetPort: 8080 # target port
+
+ingresses:
+  internal:
+    default_backend:
+      service: service-a #validate service + port exist
+      port: 80  #validate service + port exist
+    rewriteTarget: /$2
+    useTls: true
+    hosts:
+      - k3s.local
+    paths:
+      - path: /api/v3(/|$)(.*)
+        pathType: Prefix
+      - path: /
+        pathType: Prefix
+  public:          
+    type: public
+    default_backend:
+      service: service-b #validate service + port exist
+      port: 80
+    rewriteTarget: /$2
+    hosts:
+      - service-api.inceptum.com
+      - service-api2.inceptum.com
+    paths:
+      - path: /public-api-one
+        pathType: Prefix
+        backend:
+          service: bla-bla-bla
+          port: 80
+      - path: /public-api-two
+        pathType: Prefix
+    spec:
+      ingressClassName: nginx
+
+
+
+initContainers:
+  migration:
+    image: my-default-image
+    version: 0.0.0
+    #spec:
+    #  imagePullPolicy: Always
+
+sidecars:
+  jsreport:
+    image: jsreport
+    version: 0.0.0
+    #spec:
+
+#TODO: replace with dict name->spec
+volumes:
+  volume1:
+    #spec:
+    #type: emptyDir
+    mounts: #shouldn't be empty
+      applicationContainer: /some-data
+      jsreport: /some-another-data-but-same-as-for-applicationContainer
+
+
+
+
+dataFolders:
+  content:
+    "templates":
+      spec:
+        imagePullPolicy: Always
+      version: 1.24.0-dev.5
+      sizeLimit: 200Mi
+      mounts: #shouldn't be empty
+        applicationContainer:
+          "/data/templates/original": null #use key by default or /data/templates/original
+          "/data/templates/generated": /data/templates/generated
+        jsreport:
+          "/data/templates/generated": /jsreport

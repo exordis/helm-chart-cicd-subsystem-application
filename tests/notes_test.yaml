@@ -1,0 +1,15 @@
+suite: test templates/NOTES.txt
+templates:
+  - templates/NOTES.txt
+values:
+  - ../values.linter.yaml
+tests:
+  - it: should work
+    set:
+      global.product: Some Product
+      global.subsystem: some-subsystem
+      global.environment: test
+      application: some-application
+    asserts:
+      - equalRaw:
+          value: "deployed application some-subsystem-some-application of subsystem Some Product/some-subsystem to environment test"

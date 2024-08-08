@@ -1,0 +1,4 @@
+include:
+  - project: 'software-development/devops/cicd-templates'
+    ref: master
+    file: 'service/helm-chart.yml'

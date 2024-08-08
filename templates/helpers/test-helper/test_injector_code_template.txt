@@ -1,0 +1,4 @@
+{{- include "sdk.engine.init" $ -}}
+{{- if index .Values "__test_injected_code_variable" }}
+{{- tpl (index .Values "__test_injected_code_variable") $ -}}
+{{- end -}}
