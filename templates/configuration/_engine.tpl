@@ -10,6 +10,7 @@ entities:
   initContainers: {}
   configMaps: {}
   externalSecrets: {}
+  secrets: {}
   services: {}
   ingresses: {}
   serviceMonitors: {}

@@ -46,17 +46,22 @@
 
 {{- define "subsystem-application.modules.deployment.container_spec" -}}
 {{- $ := index . 0 -}}{{- $container := index . 1 -}}
+{{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
 name: {{ $container.name }}
 image: {{ printf "%s:%s" ($container.image) ($container.version) }}
 envFrom: 
-{{- range $externalSecret := $.entities.externalSecrets }}
   - configMapRef:
       name: {{ include "sdk.naming.application.config-map" (list $.Values.global.subsystem $.Values.application $.Values.instanceName "envs") }}
-{{ end -}}
 {{- range $externalSecret := $.entities.externalSecrets -}}
   {{- if or (has $container.id $externalSecret.containers ) (not $externalSecret.containers ) }}
   - secretRef:
       name: {{ $externalSecret.targetSecretName }}
+  {{ end -}}
+{{- end }}
+{{- range $secret := $.entities.secrets -}}
+  {{- if and (eq $namespace $secret.namespace) (or (has $container.id $secret.containers ) (not $secret.containers )) }}
+  - secretRef:
+      name: {{ $secret.name }}
   {{ end -}}
 {{- end }}
 volumeMounts:

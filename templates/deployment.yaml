@@ -1,16 +1,19 @@
 {{- include "sdk.engine.init" $ -}}
+{{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "sdk.naming.application.deployment" (list $.Values.global.subsystem $.Values.application $.Values.instanceName) }}
-  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
+  namespace: {{ $namespace |quote }}
   labels:
     {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
   annotations:
     {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
-    {{- range $configMap := $.entities.configMaps }}    
+    {{- range $configMap := $.entities.configMaps -}}   
+      {{- if  $configMap.namespace | eq $namespace }}    
     checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
+      {{- end }}
     {{- end }}
 spec:
   replicas: {{ $.Values.replicas }}
@@ -27,8 +30,10 @@ spec:
       labels:
         {{- include "subsystem-application.metadata.common-labels" $ | nindent 8 }}
       annotations:
-        {{- range $configMap := $.entities.configMaps }}    
+        {{- range $configMap := $.entities.configMaps -}}    
+          {{- if  $configMap.namespace | eq $namespace }}    
         checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
+          {{- end }}
         {{- end }}
     spec:
       containers:

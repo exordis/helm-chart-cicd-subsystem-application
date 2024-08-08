@@ -1,14 +1,27 @@
 {{- define "subsystem-application.modules.external-secrets.read" -}}
   {{- /* create single external secret: */ -}}  
   {{- /* NOTE: Later should come from values: */ -}}  
-  {{- $mainSecret := dict "key" (include "sdk.naming.application.external-secret-key" (list $.Values.global.subsystem $.Values.application $.Values.instance $.Values.externalSecretScope  )) -}}
-  {{- include "sdk.engine.create-entity" (list $ "external-secret" "main" $mainSecret) -}}
+  {{- /* $mainSecret := dict "key" (include "sdk.naming.application.external-secret-key" (list $.Values.global.subsystem $.Values.application $.Values.instance $.Values.externalSecretScope  ))*/ -}}
+  {{- /* include "sdk.engine.create-entity" (list $ "external-secret" "main" $mainSecret) */ -}}
 
   {{- /* create single config map for envs: */ -}}  
   {{- $metadataEnvs := include "subsystem-application.configuration.envs.inceptum-metadata-environment-variables" $ | fromYaml }}
   {{- $metadataEnvs := mustMergeOverwrite  (deepCopy $.Values.envs) $metadataEnvs }}
   {{- $envsConfigMap := dict "data" $metadataEnvs  }}
   {{- include "sdk.engine.create-entity" (list $ "config-map" "envs" $envsConfigMap) -}}
+
+  {{- range $id, $configMap := $.Values.configMaps -}}  
+    {{- include "sdk.engine.create-entity" (list $ "config-map" $id $configMap) -}}
+  {{- end -}}
+
+  {{- range $id, $externalSecret := $.Values.externalSecrets -}}  
+    {{- include "sdk.engine.create-entity" (list $ "external-secret" $id $externalSecret) -}}
+  {{- end -}}
+
+
+  {{- range $id, $secret := $.Values.secrets -}}  
+    {{- include "sdk.engine.create-entity" (list $ "secret" $id $secret) -}}
+  {{- end -}}
 {{- end -}}
 
 

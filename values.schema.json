@@ -124,6 +124,24 @@
                 "latest"
             ]
         },
+        "secrets": {
+          "type": "object",
+          "patternProperties": {
+              "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                  "$ref": "#/definitions/secret"
+              }
+          },
+          "additionalProperties": false
+        },        
+        "configMaps": {
+          "type": "object",
+          "patternProperties": {
+              "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                  "$ref": "#/definitions/configMap"
+              }
+          },
+          "additionalProperties": false
+        },        
         "sidecars": {
             "type": "object",
             "patternProperties": {
@@ -175,6 +193,44 @@
     },
     "additionalProperties": false,
     "definitions": {
+          "configMap": {
+            "type": "object",
+            "properties": {
+              "namespace": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object",
+                "patternProperties": {
+                    "^[a-zA-Z_][-a-zA-Z0-9_]+$": {
+                        "type": "string"
+                    }
+                }
+              }
+            }
+        },     
+        "secret": {
+          "type": "object",
+          "properties": {
+            "containers": {
+              "type": "array",
+              "items": {
+                  "type": "string"
+                }
+            },
+            "namespace": {
+              "type": "string"
+            },
+            "stringData": {
+              "type": "object",
+              "patternProperties": {
+                  "^[a-zA-Z_][-a-zA-Z0-9_]+$": {
+                      "type": "string"
+                  }
+              }
+            }
+          }
+        },     
         "dataFolder": {
             "type": "object",
             "properties": {
@@ -345,5 +401,6 @@
                 }
             }
         }
+      }
     }
 }
