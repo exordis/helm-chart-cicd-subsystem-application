@@ -15,6 +15,11 @@ metadata:
     checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
       {{- end }}
     {{- end }}
+    {{- range $secret := $.entities.secrets -}}
+      {{- if and (eq $namespace $secret.namespace) (or (has $container.id $secret.containers ) (not $secret.containers )) }}
+    checksum/secret.{{$secret.id}}: {{ include "sdk.common.checksum" (list $secret.stringData) }}
+      {{ end -}}
+    {{- end }}    
 spec:
   replicas: {{ $.Values.replicas }}
   selector:
@@ -35,6 +40,11 @@ spec:
         checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
           {{- end }}
         {{- end }}
+        {{- range $secret := $.entities.secrets -}}
+          {{- if and (eq $namespace $secret.namespace) (or (has $container.id $secret.containers ) (not $secret.containers )) }}
+        checksum/secret.{{$secret.id}}: {{ include "sdk.common.checksum" (list $secret.stringData) }}
+          {{ end -}}
+        {{- end }}          
     spec:
       containers:
 {{- range $.entities.containers }}
