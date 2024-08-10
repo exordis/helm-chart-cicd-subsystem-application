@@ -10,16 +10,7 @@ metadata:
     {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
   annotations:
     {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
-    {{- range $configMap := $.entities.configMaps -}}   
-      {{- if  $configMap.namespace | eq $namespace }}    
-    checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
-      {{- end }}
-    {{- end }}
-    {{- range $secret := $.entities.secrets -}}
-      {{- if and (eq $namespace $secret.namespace) (or (has $container.id $secret.containers ) (not $secret.containers )) }}
-    checksum/secret.{{$secret.id}}: {{ include "sdk.common.checksum" (list $secret.stringData) }}
-      {{ end -}}
-    {{- end }}    
+ 
 spec:
   replicas: {{ $.Values.replicas }}
   selector:
@@ -41,7 +32,7 @@ spec:
           {{- end }}
         {{- end }}
         {{- range $secret := $.entities.secrets -}}
-          {{- if and (eq $namespace $secret.namespace) (or (has $container.id $secret.containers ) (not $secret.containers )) }}
+          {{- if  $secret.namespace | eq $namespace }}   
         checksum/secret.{{$secret.id}}: {{ include "sdk.common.checksum" (list $secret.stringData) }}
           {{ end -}}
         {{- end }}          
