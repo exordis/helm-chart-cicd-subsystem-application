@@ -1,9 +1,4 @@
 {{- define "subsystem-application.modules.external-secrets.read" -}}
-  {{- /* create single external secret: */ -}}  
-  {{- /* NOTE: Later should come from values: */ -}}  
-  {{- /* $mainSecret := dict "key" (include "sdk.naming.application.external-secret-key" (list $.Values.global.subsystem $.Values.application $.Values.instance $.Values.externalSecretScope  ))*/ -}}
-  {{- /* include "sdk.engine.create-entity" (list $ "external-secret" "main" $mainSecret) */ -}}
-
   {{- /* create single config map for envs: */ -}}  
   {{- $metadataEnvs := include "subsystem-application.configuration.envs.inceptum-metadata-environment-variables" $ | fromYaml }}
   {{- $metadataEnvs := mustMergeOverwrite  (deepCopy $.Values.envs) $metadataEnvs }}
