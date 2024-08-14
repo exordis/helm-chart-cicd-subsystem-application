@@ -31,7 +31,7 @@
     {{- $_:= set $externalSecret "spec" ( (include "sdk.common.with-defaults" (list $ $externalSecret.spec "subsystem-application.configuration.defaults.specs.external-secret" $overrides )) | fromYaml ) -}}
 
     {{- /* apply default binding if none is porviced in external secret sepc*/ -}}  
-    {{- if  and (not $externalSecret.spec.data) (not $externalSecret.spec.dataFrom) -}}
+    {{- if  and (not $externalSecret.spec.data) (not $externalSecret.spec.dataFrom) ($externalSecret.key)  -}}
         {{- $binding:= include "subsystem-application.modules.external-secrets._default_binding"  (list $ $externalSecret)  | fromYaml -}}
         {{- $_:= set $externalSecret "spec" ( mustMergeOverwrite (deepCopy $externalSecret.spec) $binding ) -}}
     {{- end -}} 
