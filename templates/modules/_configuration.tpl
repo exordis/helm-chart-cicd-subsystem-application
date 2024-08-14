@@ -50,9 +50,9 @@ target:
   template:
     metadata:
       labels:
-        {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
+        {{- include "subsystem-application.metadata.common-labels" $ | nindent 8 }}
       annotations:
-        {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+        {{- include "subsystem-application.metadata.common-annotations" $ | nindent 8 }}
 
 {{- end -}}
 
