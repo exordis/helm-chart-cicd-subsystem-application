@@ -44,7 +44,7 @@
   {{- $externalSecret:=  index . 1 -}}
 secretStoreRef:
   name: {{ include "sdk.naming.subsystem.secret-store" (list $.Values.global.subsystem $.Values.global.environment) }}
-  kind: SecretStore
+  kind: ClusterSecretStore
 target:
   name: {{ $externalSecret.targetSecretName }}    
 template:
