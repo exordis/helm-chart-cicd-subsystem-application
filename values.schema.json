@@ -133,6 +133,15 @@
           },
           "additionalProperties": false
       },
+      "externalSecrets": {
+          "type": "object",
+          "patternProperties": {
+              "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                  "$ref": "#/definitions/externalSecret"
+              }
+          },
+          "additionalProperties": false
+      },
       "configMaps": {
           "type": "object",
           "patternProperties": {
@@ -228,6 +237,28 @@
                           "type": "string"
                       }
                   }
+              }
+          }
+      },
+      "externalSecret": {
+          "type": "object",
+          "properties": {
+              "key": {
+                  "type": "string",
+                  "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+              },            
+              "targetSecretName": {
+                  "type": "string",
+                  "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+              },            
+              "containers": {
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
+              },
+              "spec": {
+                "type": "object"
               }
           }
       },
