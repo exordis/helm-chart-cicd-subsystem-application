@@ -47,6 +47,13 @@ secretStoreRef:
   kind: SecretStore
 target:
   name: {{ $externalSecret.targetSecretName }}    
+template:
+  metadata:
+    labels:
+      {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
+    annotations:
+      {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+
 {{- end -}}
 
 
