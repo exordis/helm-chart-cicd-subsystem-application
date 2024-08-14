@@ -29,8 +29,13 @@
   {{- range $name, $externalSecret := $.entities.externalSecrets -}}
     {{- $overrides:= ( (include "subsystem-application.modules.external-secrets._owerrides" (list $ $externalSecret) ) | fromYaml) -}}
     {{- $_:= set $externalSecret "spec" ( (include "sdk.common.with-defaults" (list $ $externalSecret.spec "subsystem-application.configuration.defaults.specs.external-secret" $overrides )) | fromYaml ) -}}
-  {{- end -}}
 
+    {{- /* apply default binding if none is porviced in external secret sepc*/ -}}  
+    {{- if  and (not $externalSecret.spec.data) (not $externalSecret.spec.dataFrom) -}}
+        {{- $binding:= include "subsystem-application.modules.external-secrets._default_binding"  (list $ $externalSecret)  | fromYaml -}}
+        {{- $_:= set $externalSecret "spec" ( mustMergeOverwrite (deepCopy $externalSecret.spec) $binding ) -}}
+    {{- end -}} 
+  {{- end -}}
 {{- end -}}
 
 
@@ -42,10 +47,14 @@ secretStoreRef:
   kind: SecretStore
 target:
   name: {{ $externalSecret.targetSecretName }}    
-dataFrom:
-  - extract:
-      conversionStrategy: Default
-      decodingStrategy: None      
-      key: {{ $externalSecret.key }}
 {{- end -}}
 
+
+{{- define "subsystem-application.modules.external-secrets._default_binding" -}}
+{{- $:=  index . 0 -}}
+{{- $externalSecret:=  index . 1 -}}
+data:
+  - secretKey: {{ $externalSecret.key }}
+    remoteRef:
+      key: {{ $externalSecret.key }}
+{{- end -}}
