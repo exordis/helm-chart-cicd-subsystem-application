@@ -1,6 +1,6 @@
 dependencies:
-- name: devops-sdk
+- name: cicd-sdk
   repository: oci://registry.gitlab.com/knst/cy/registry/charts
-  version: 0.1.15
-digest: sha256:0b2b0d68eb89047901c3c8789612232e80de9a1c84a642903846d836ce37f406
-generated: "2024-08-08T16:39:05.9050452+03:00"
+  version: 0.1.19
+digest: sha256:aff99e98a3b192f480eb09540307e39ebcf84712029bdfb0f9613b803cc7b8d4
+generated: "2024-08-28T15:29:29.2699348+03:00"
