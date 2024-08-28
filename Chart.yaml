@@ -1,14 +1,14 @@
 apiVersion: v2
-name: devops-subsystem-application
+name: cicd-subsystem-application
 description: Base helm-chart for deployment of application as a part of subsystem
 type: application
 version: 0.1.0
 annotations:
   sdk.engine.templates-prefix: subsystem-application
 dependencies:
-  - name: devops-sdk
+  - name: cicd-sdk
     alias: sdk
-    version: "~0.1.15"
+    version: "~0.1.19"
     repository: oci://registry.gitlab.com/knst/cy/registry/charts
   # - name: devops-sdk
   #   alias: sdk
