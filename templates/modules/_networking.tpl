@@ -40,7 +40,7 @@
 
 {{- define "subsystem-application.modules.ingress._ingress-spec-overrides" -}}
 {{- $ := index . 0 -}}{{- $ingress := index . 1 -}}
-ingressClassName: "{{  (ternary "nginx" "nginx-internal" ($ingress.type | eq "public")) }}"
+ingressClassName: "{{  (ternary "nginx-public" "nginx" ($ingress.type | eq "public")) }}"
 rules:
   {{- range $host := $ingress.hosts }}
   - host: {{$host}}
