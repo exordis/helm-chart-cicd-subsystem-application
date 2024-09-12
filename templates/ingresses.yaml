@@ -14,7 +14,7 @@ metadata:
     {{ if $.Values.certManagerClusterIssuer }}cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}{{ end }}
     kubernetes.io/tls-acme: 'true'
     {{- end }}
-    nginx.ingress.kubernetes.io/use-regex: {{ .useRegex | quote }}
+    {{ if .useRegex }}nginx.ingress.kubernetes.io/use-regex: {{ .useRegex | quote }}{{ end }}
     {{ if .rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: "{{.rewriteTarget}}"{{ end }}
     {{ if ge (.proxyBodySize | int) 0 }}nginx.ingress.kubernetes.io/proxy-body-size: "{{.proxyBodySize}}"{{ end }}
     {{ if not .proxyBuffering }}nginx.ingress.kubernetes.io/proxy-buffering: off{{ end }}
