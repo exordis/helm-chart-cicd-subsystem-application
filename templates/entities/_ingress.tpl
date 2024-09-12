@@ -3,7 +3,7 @@
 {{- define "subsystem-application.entities.ingress.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 type: internal
-useRegex: true
+useRegex: false
 proxyBuffering: true
 proxyBodySize: -1
 useTls: true

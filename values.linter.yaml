@@ -43,7 +43,6 @@ ingresses:
     default_backend:
       service: service-a #validate service + port exist
       port: 80  #validate service + port exist
-    rewriteTarget: /$2
     useTls: true
     hosts:
       - k3s.local
@@ -57,6 +56,7 @@ ingresses:
     default_backend:
       service: service-b #validate service + port exist
       port: 80
+    useRegex: true
     rewriteTarget: /$2
     proxyBuffering: false
     proxyBodySize: 0
