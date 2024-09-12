@@ -13,4 +13,4 @@ global: {}
 #  environment:
 
 externalSecretsStrategy: none
-certManagerClusterIssuer: letsencrypt-prod
+# certManagerClusterIssuer: letsencrypt-prod

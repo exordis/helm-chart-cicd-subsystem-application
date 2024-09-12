@@ -58,6 +58,10 @@ ingresses:
       service: service-b #validate service + port exist
       port: 80
     rewriteTarget: /$2
+    proxyBuffering: false
+    proxyBodySize: 0
+    annotations:
+      aaa: '1'
     hosts:
       - service-api.inceptum.com
       - service-api2.inceptum.com

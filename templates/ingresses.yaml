@@ -11,10 +11,16 @@ metadata:
   annotations:
     {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
     {{- if .useTls }}
-    cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}
+    {{ if $.Values.certManagerClusterIssuer }}cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}{{ end }}
+    kubernetes.io/tls-acme: 'true'
     {{- end }}
     nginx.ingress.kubernetes.io/use-regex: {{ .useRegex | quote }}
-    {{ if .rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: {{.rewriteTarget}}{{ end }}
+    {{ if .rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: "{{.rewriteTarget}}"{{ end }}
+    {{ if ge (.proxyBodySize | int) 0 }}nginx.ingress.kubernetes.io/proxy-body-size: "{{.proxyBodySize}}"{{ end }}
+    {{ if not .proxyBuffering }}nginx.ingress.kubernetes.io/proxy-buffering: off{{ end }}
+    {{- range $key,$value:=.annotations }}
+    {{ $key }}: "{{$value}}"
+    {{- end }}
 spec:
   {{- .spec | toYaml | nindent 2  }}
 {{- end -}}

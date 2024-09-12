@@ -326,6 +326,12 @@
               "rewriteTarget": {
                   "type": "string"
               },
+              "proxyBodySize": {
+                  "type": "integer"
+              },
+              "proxyBuffering": {
+                  "type": "boolean"
+              },
               "useRegex": {
                   "type": "boolean"
               },
@@ -337,6 +343,14 @@
                   "items": {
                       "type": "string"
                   }
+              },
+              "annotations":{
+                "type": "object",
+                "patternProperties": {
+                    "^.+$": {
+                        "type": "string"
+                    }
+                }
               },
               "paths": {
                   "type": "array",

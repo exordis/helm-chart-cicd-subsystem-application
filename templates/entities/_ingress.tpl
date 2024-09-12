@@ -4,7 +4,10 @@
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 type: internal
 useRegex: true
+proxyBuffering: true
+proxyBodySize: -1
 useTls: true
+annotations: []
 spec: {}
 paths: []
 tlsSecretName: {{ printf "%s-%s" ( include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id) ) "tls" }}
