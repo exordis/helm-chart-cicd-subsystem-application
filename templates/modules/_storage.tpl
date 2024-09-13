@@ -2,7 +2,8 @@
 
   {{- range $id, $pvc := $.Values.pvcs -}}  
     {{- include "sdk.engine.create-entity" (list $ "pvc" $id $pvc) -}}
-    {{- $volume := (dict "type" "persistentVolumeClaim"  "spec" (dict "claimName" $pvc.name) "mounts" $pvc.mounts )   -}}
+    {{- $name :=  dig $id "name" "UNSET" $.entities.pvcs -}}
+    {{- $volume := (dict "type" "persistentVolumeClaim"  "spec" (dict "claimName" $name) "mounts" $pvc.mounts )   -}}
     {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume) -}}
   {{- end -}}
 
