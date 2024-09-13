@@ -185,6 +185,12 @@
               "$ref": "#/definitions/ingress"
           }
       },
+      "pvcs": {
+        "type": "object",
+        "additionalProperties": {
+            "$ref": "#/definitions/pvc"
+        }
+      },
       "serviceMonitorKeys": {
           "type": "object",
           "properties": {
@@ -309,6 +315,22 @@
               "service"
           ]
       },
+      "pvc": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "size": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]*(\\.[0-9]+)?(E|P|T|G|M|k|Ei|Pi|Ti|Gi|Mi|Ki)$"
+            },            
+            "spec": {
+                "type": "object"
+            },
+            "mounts": {
+                "$ref": "#/definitions/nonEmptyMounts"
+            }
+        }
+      },
       "ingress": {
           "type": "object",
           "additionalProperties": false,
@@ -390,20 +412,18 @@
                   "type": "string"
               },
               "type": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "emptyDir"
+                    ]
               },
               "spec": {
                   "type": "object"
               },
               "mounts": {
-                  "type": "object",
-                  "patternProperties": {
-                      "^[a-zA-Z]+$": {
-                          "$ref": "#/definitions/absolutePath"
-                      }
-                  },
-                  "additionalProperties": false
-              }
+                "$ref": "#/definitions/nonEmptyMounts"
+            }
+
           },
           "additionalProperties": false
       },
@@ -418,6 +438,21 @@
       "dockerImageVersion": {
           "type": "string",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+      },
+      "mounts":{
+        "type": "object",
+        "patternProperties": {
+            "^[a-zA-Z]+$": {
+                "$ref": "#/definitions/absolutePath"
+            }
+        },
+        "additionalProperties": false
+      },
+      "nonEmptyMounts":{
+        "allOf": [
+            { "$ref": "#/definitions/mounts" },
+            { "minProperties": 1 }
+            ]
       },
       "nullableAbsolutePath": {
           "type": [

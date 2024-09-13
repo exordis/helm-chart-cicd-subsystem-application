@@ -22,6 +22,18 @@
   {{- range $name, $ingress := $.entities.ingresses -}}
     {{- $spec_overrides := (include "subsystem-application.modules.ingress._ingress-spec-overrides" (list $ $ingress)) |fromYaml -}}
     {{- $_:= set $ingress "spec" (include "sdk.common.with-defaults" (list $ $ingress.spec "subsystem-application.configuration.defaults.specs.ingress" $spec_overrides) | fromYaml )  -}}
+    {{- if hasKey $.entities.services $ingress.default_backend.service | not -}}
+      {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' references missing service '%s'." $name $ingress.default_backend.service -}}
+      {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+    {{- end -}}
+
+    {{- range $path := $ingress.paths  -}}
+      {{- if hasKey $path "backend" | and (hasKey $.entities.services $path.backend.service | not) -}}
+        {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' path '%s' references missing service '%s'." $name $path.path $path.backend.service -}}
+        {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+      {{- end -}}
+    {{- end -}}
+
   {{- end -}}
 
   {{- range $id, $service := $.entities.services -}}

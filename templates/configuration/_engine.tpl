@@ -4,6 +4,7 @@ modules:
   - deployment
   - data-folders
   - networking
+  - storage
 entities:
   containers: {}
   volumes: {}
@@ -14,6 +15,7 @@ entities:
   services: {}
   ingresses: {}
   serviceMonitors: {}
+  pvcs: {}
 shared_ids:
   - ["initContainers", "containers"]
 logging: true
