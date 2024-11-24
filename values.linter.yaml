@@ -63,8 +63,8 @@ ingresses:
     annotations:
       aaa: '1'
     hosts:
-      - service-api.inceptum.com
-      - service-api2.inceptum.com
+      - service-api.exordis.com
+      - service-api2.exordis.com
     paths:
       - path: /public-api-one
         pathType: Prefix

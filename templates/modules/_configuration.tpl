@@ -1,6 +1,6 @@
 {{- define "subsystem-application.modules.external-secrets.read" -}}
   {{- /* create single config map for envs: */ -}}  
-  {{- $metadataEnvs := include "subsystem-application.configuration.envs.inceptum-metadata-environment-variables" $ | fromYaml }}
+  {{- $metadataEnvs := include "subsystem-application.configuration.envs.exordis-metadata-environment-variables" $ | fromYaml }}
   {{- $metadataEnvs := mustMergeOverwrite  (deepCopy $.Values.envs) $metadataEnvs }}
   {{- $envsConfigMap := dict "data" $metadataEnvs  }}
   {{- include "sdk.engine.create-entity" (list $ "config-map" "envs" $envsConfigMap) -}}
