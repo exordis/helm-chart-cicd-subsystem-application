@@ -1,4 +1,4 @@
-{{- define "subsystem-application.configuration.envs.inceptum-metadata-environment-variables" -}}
+{{- define "subsystem-application.configuration.envs.exordis-metadata-environment-variables" -}}
 EXORDIS_PRODUCT: {{ $.Values.global.product | quote }}
 EXORDIS_SUBSYSTEM: {{ $.Values.global.subsystem | quote }}
 EXORDIS_APPLICATION: {{ include "sdk.naming.application-canonical-name" (list $.Values.global.subsystem $.Values.application) | quote }}
