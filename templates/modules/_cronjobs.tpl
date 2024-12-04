@@ -21,7 +21,7 @@
 
 
 {{- define "subsystem-application.modules.cronjobs.process" -}}
-  {{- /* iterrate entities.cronjobs and assemble specs: */ -}} 
+  {{- /* iterate entities.cronjobs and assemble specs: */ -}} 
   {{- range $id, $cronjobs := $.entities.cronjobs -}}
     {{- $spec_overrides := dict -}}
     {{- $_:= set $cronjobs "spec" (include "sdk.common.with-defaults" (list $ $cronjobs.spec "subsystem-application.configuration.defaults.specs.cronjob" $spec_overrides ) | fromYaml )  -}}

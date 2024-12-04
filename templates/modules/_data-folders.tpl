@@ -2,7 +2,7 @@
 
   {{- range $folderType := (list "content" "configuration") -}}
     {{- include "sdk.engine.log" (list $ (printf "Reading %s data folders" $folderType) 2) -}}
-    {{- /* iterrate folders in values:  */ -}}
+    {{- /* iterate folders in values:  */ -}}
     {{- range $folderName, $dataFolder := ( index $.Values.dataFolders $folderType) | default dict }}
       {{- include "sdk.engine.log" (list $ (printf "Reading data folder '%s'" $folderName) 2) -}}
 

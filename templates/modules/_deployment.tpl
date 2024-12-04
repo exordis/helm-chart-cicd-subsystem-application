@@ -22,20 +22,20 @@
 
 
 {{- define "subsystem-application.modules.deployment.process" -}}
-  {{- /* iterrate entities.containers and assemble specs: */ -}} 
+  {{- /* iterate entities.containers and assemble specs: */ -}} 
   {{- range $id, $container := $.entities.containers -}}
     {{- $spec_overrides := (include "subsystem-application.modules.deployment.container_spec" (list $ $container) ) |fromYaml -}}
     {{- $defaultsFrom := ( $id | eq "applicationContainer" | ternary "subsystem-application.configuration.defaults.specs.application-container" "subsystem-application.configuration.defaults.specs.sidecar-container") -}}
     {{- $_:= set $container "spec" (include "sdk.common.with-defaults" (list $ .spec $defaultsFrom $spec_overrides ) | fromYaml )  -}}
   {{ end -}}
 
-  {{- /* iterrate entities.initContainers and assemble specs: */ -}} 
+  {{- /* iterate entities.initContainers and assemble specs: */ -}} 
   {{- range $id, $container := $.entities.initContainers -}}
     {{- $spec_overrides := (include "subsystem-application.modules.deployment.container_spec" (list $ $container) ) |fromYaml -}}
     {{- $_:= set $container "spec" (include "sdk.common.with-defaults" (list $ .spec "subsystem-application.configuration.defaults.specs.init-container" $spec_overrides ) | fromYaml )  -}}
   {{ end -}}
 
-  {{- /* iterrate entities.volumes and assemble specs: */ -}} 
+  {{- /* iterate entities.volumes and assemble specs: */ -}} 
   {{- range $name, $volume := $.entities.volumes -}}
     {{- $_:= set $volume "spec" (include "sdk.common.with-defaults" (list $ $volume.spec (printf  "subsystem-application.configuration.defaults.specs.volume.%s" $volume.type )) | fromYaml)  -}}
   {{- end -}}    
