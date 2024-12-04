@@ -8,6 +8,7 @@
 {{- $image:= printf "%s/software-development/subsystems/%s/%s-%s" $.Values.dockerRegistry $.Values.global.subsystem $application_type  $canonical_name -}}
 spec: {}
 image: {{ $image }}
+version: latest
 {{- end -}}
 
 {{- define "subsystem-application.entities.container.overrides" -}}
