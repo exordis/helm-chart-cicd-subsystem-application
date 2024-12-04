@@ -146,10 +146,11 @@ externalSecrets:
 
 cronjobs:
   cleanup:
+    schedule: 0 6 * * *
     containers:
       main: 
         image: "registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner"
-        # version: "0.1.0"
+        version: "0.1.0"
         spec:
           args: 
             - "tag" 

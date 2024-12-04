@@ -12,7 +12,7 @@ metadata:
     {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
 spec:
   schedule: {{ .schedule | quote}}
-  concurrencyPolicy: {{ .concurrencyPolicy}}
+  concurrencyPolicy: "{{ .concurrencyPolicy }}"
   failedJobsHistoryLimit: {{ .failedJobsHistoryLimit}}
   jobTemplate:
     spec:
