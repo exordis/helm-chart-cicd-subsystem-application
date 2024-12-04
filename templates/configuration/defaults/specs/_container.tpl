@@ -15,6 +15,9 @@ resources:
 {{- define "subsystem-application.configuration.defaults.specs._sidecar-container" -}}
 {{- end }}
 
+{{- define "subsystem-application.configuration.defaults.specs._job-container" -}}
+{{- end }}
+
 
 
 {{- define "subsystem-application.configuration.defaults.specs._application-container" -}}
@@ -60,3 +63,11 @@ readinessProbe:
   {{- $applicationContainer := (include "subsystem-application.configuration.defaults.specs._application-container" $ ) | fromYaml -}}
   {{- mustMergeOverwrite (deepCopy $container) $applicationContainer | toYaml -}}
 {{- end }}
+
+
+{{- define "subsystem-application.configuration.defaults.specs.job-container" -}}
+  {{- $container:= (include "subsystem-application.configuration.defaults.specs._container" $) | fromYaml -}}
+  {{- $jobContainer := (include "subsystem-application.configuration.defaults.specs._job-container" $ ) | fromYaml -}}
+  {{- mustMergeOverwrite (deepCopy $container) $jobContainer | toYaml -}}
+{{- end }}
+

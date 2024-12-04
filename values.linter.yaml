@@ -143,3 +143,15 @@ externalSecrets:
         - secretKey: password
           remoteRef:
             key: GITLAB_PYPI_REGISTRY_PASSWORD
+
+cronjobs:
+  cleanup:
+    containers:
+      main: 
+        image: "registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner:0.1.0"
+        spec:
+          args: 
+            - "tag" 
+            - "delete"
+            - "--registry"
+      

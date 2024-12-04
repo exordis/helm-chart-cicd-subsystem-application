@@ -1,6 +1,6 @@
 dependencies:
 - name: cicd-sdk
   repository: oci://registry.gitlab.com/knst/cy/registry/charts
-  version: 0.1.20
-digest: sha256:4265c0b0675a97f06df4d6daf71e0d7fc532aeb5ca4ce2ddd8d38e9b8128053c
-generated: "2024-09-13T12:08:05.8187609+03:00"
+  version: 0.1.23
+digest: sha256:0fbcb97d9312516f08674aebbd098d3e658f9891175e2202f43664599b51de43
+generated: "2024-12-04T21:27:34.313128+02:00"

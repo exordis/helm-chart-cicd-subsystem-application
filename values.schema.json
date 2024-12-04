@@ -204,6 +204,15 @@
               }
           }
       },
+      "cronjobs": {
+        "type": "object",
+        "patternProperties": {
+            "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                "$ref": "#/definitions/cronjob"
+            }
+        },
+        "additionalProperties": false
+      },      
       "__test_injected_code_variable": {
           "type": "string"
       }
@@ -226,6 +235,10 @@
               }
           }
       },
+      "cronjob": {
+        "type": "object"
+      },
+
       "secret": {
           "type": "object",
           "properties": {

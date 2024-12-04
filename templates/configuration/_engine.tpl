@@ -5,6 +5,7 @@ modules:
   - data-folders
   - networking
   - storage
+  - cronjobs
 entities:
   containers: {}
   volumes: {}
@@ -16,6 +17,7 @@ entities:
   ingresses: {}
   serviceMonitors: {}
   pvcs: {}
+  cronjobs: {}
 shared_ids:
   - ["initContainers", "containers"]
 logging: true

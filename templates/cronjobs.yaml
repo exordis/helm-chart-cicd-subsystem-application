@@ -1,0 +1,33 @@
+{{- include "sdk.engine.init" $ -}}
+{{- range  $.entities.cronjobs }}
+---
+apiVersion: v1
+kind: CronJob
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
+  annotations:
+    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+spec:
+  schedule: {{ .schedule | quote}}
+  concurrencyPolicy: {{ .concurrencyPolicy}}
+  failedJobsHistoryLimit: {{ .failedJobsHistoryLimit}}
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: {{ .ttlSecondsAfterFinished }}
+      template:
+        metadata:
+          labels:
+            {{- include "subsystem-application.metadata.common-labels" $ | nindent 12 }}
+          annotations:
+            {{- include "subsystem-application.metadata.common-annotations" $ | nindent 12 }}      
+        spec: 
+          restartPolicy: {{ .restartPolicy }}
+          containers: 
+            {{- range .containers }}
+            - {{  .spec | toYaml |  nindent 14 | trim }}
+              
+            {{- end }}            
+{{- end -}}
