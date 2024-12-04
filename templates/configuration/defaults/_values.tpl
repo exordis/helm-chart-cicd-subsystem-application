@@ -1,5 +1,9 @@
 {{- define "subsystem-application.configuration.defaults.values" -}}
-image: {{ printf "%s/%s-%s" .Values.dockerRegistry .Values.global.subsystem .Values.applicationType  (include "sdk.naming.application-canonical-name" (list .Values.global.subsystem .Values.application))  }}
+{{- if and $.Values.version (default .Values.deployment true) -}}
+deployment: true
+{{- end }}
+version: {{(default .Values.version "latest") }}
+image: {{ printf "%s/%s" .Values.dockerRegistry (include "sdk.naming.application-canonical-name" (list .Values.global.subsystem .Values.application))  }}
 externalSecretScope: {{ $.Values.global.environment }}
 dataFolders: {}
 {{- end -}}

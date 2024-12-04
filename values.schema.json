@@ -4,8 +4,7 @@
   "required": [
       "application",
       "applicationType",
-      "global",
-      "version"
+      "global"
   ],
   "properties": {
       "sdk": {
@@ -14,6 +13,9 @@
       "foundation-sdk": {
           "type": "object"
       },
+      "deployment": {
+        "type": "boolean"
+      },      
       "global": {
           "type": "object",
           "required": [

@@ -1,5 +1,6 @@
 {{- include "sdk.engine.init" $ -}}
 {{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
+{{- if $.Values.deployment -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -10,7 +11,6 @@ metadata:
     {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
   annotations:
     {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
- 
 spec:
   replicas: {{ $.Values.replicas }}
   selector:
@@ -49,5 +49,6 @@ spec:
 {{- range $.entities.volumes }}
         - name: {{ .name }}
           {{ .type }}: {{ .spec | toYaml | nindent 12 }}
+{{- end }}
 {{- end }}
 

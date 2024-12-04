@@ -4,6 +4,7 @@ dockerRegistry: registry.gitlab.com
 replicas: 3
 instanceName: some-instancename
 version: 0.0.0
+deployment: true
 
 global: 
   product: Some Product
