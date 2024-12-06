@@ -1,11 +1,11 @@
 {{- define "subsystem-application.configuration.engine" -}}
 modules:
-  - external-secrets
-  - deployment
-  - data-folders
+  # - external-secrets
+  # - deployment
+  # - data-folders
   - networking
   - storage
-  - cronjobs
+  # - cronjobs
 entities:
   containers: {}
   volumes: {}
