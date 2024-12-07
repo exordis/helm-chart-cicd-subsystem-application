@@ -13,12 +13,11 @@ spec: {}
 {{- define "subsystem-application.entities.volume.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
 name: {{ include "sdk.naming.application.deployment.volume" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
-spec:
-  # emptyDir defaults
+  {{- /* emptyDir defaults */ -}}
   {{- if $volume.type | eq "emptyDir" }}
-  sizeLimit: 100Mi
+spec:
+  sizeLimit: {{  $volume.spec.sizeLimit | default "100Mi" }}
   {{- end -}}
-
 
 {{- end -}}
 
@@ -29,18 +28,17 @@ spec:
 {{- define "subsystem-application.entities.volume.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
 
-# Handle pvc reference
-{{- if eq $volume.type "persistentVolumeClaim" | and $volume.pvc -}}
+  {{- /* Handle pvc reference */ -}}
+  {{- if eq $volume.type "persistentVolumeClaim" | and $volume.pvc -}}
 
-  # Validate referenced pvc exists
-  {{- if hasKey $.entities.pvcs $volume.pvc | not -}}
-    {{- $error := printf "\nVALIDATION ISSUES:\n Volume '%s' references missing PVC '%s'." $id $volume.pvc -}}
-    {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
-  {{- end -}}
+    {{- /* Validate referenced pvc exists */ -}}
+    {{- if hasKey $.entities.pvcs $volume.pvc | not -}}
+      {{- $error := printf "\nVALIDATION ISSUES:\n Volume '%s' references missing PVC '%s'." $id $volume.pvc -}}
+      {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+    {{- end -}}
 
-  {{- $pvc := dig $volume.pvc "UNSET" $.entities.pvcs -}} 
-mounts: {{ $pvc.mounts }}
+  {{- $pvc := get $.entities.pvcs $volume.pvc -}} 
 spec:
   claimName: {{ $pvc.name }}
-  {{- end }}
+  {{- end -}}
 {{- end -}}

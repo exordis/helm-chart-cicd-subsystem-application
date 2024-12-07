@@ -10,5 +10,7 @@ dependencies:
     alias: sdk
     # version: "~0.1.24"
     # repository: oci://registry.gitlab.com/knst/cy/registry/charts
-    version: "0.1.0"
-    repository: file://../helm-chart-cicd-sdk 
+    version: "0.1.25-dev.1+entities-refactoring-123"
+    repository: oci://registry.gitlab.com/knst/cy/registry/charts
+    # version: "0.1.0"
+    # repository: file://../helm-chart-cicd-sdk 

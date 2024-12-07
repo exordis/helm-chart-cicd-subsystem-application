@@ -6,8 +6,7 @@
 {{- $application_type := $id | eq "applicationContainer" | ternary $.Values.applicationType "service"  -}}
 {{- $application := $id | eq "applicationContainer" | ternary $.Values.application $id  -}}
 {{- $canonical_name := include "sdk.naming.application-canonical-name" (list $.Values.global.subsystem $application) -}}
-{{- /* TODO: fix default image template */ -}}
-{{- $image:= printf "%s/software-development/subsystems/%s/%s-%s" $.Values.dockerRegistry $.Values.global.subsystem $application_type  $canonical_name -}}
+{{- $image:= printf "%s/%s" $.Values.dockerRegistry $canonical_name -}}
 
 spec: 
   imagePullPolicy: IfNotPresent
