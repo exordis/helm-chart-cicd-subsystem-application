@@ -1,6 +1,6 @@
 {{- define "subsystem-application.configuration.engine" -}}
 modules:
-  - external-secrets
+  - configuration
   - deployment
   - data-folders
   - networking

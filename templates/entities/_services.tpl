@@ -1,22 +1,40 @@
 {{- define "subsystem-application.entities.service.collection" -}}services{{- end -}}
+{{- define "subsystem-application.entities.services.entity" -}}service{{- end -}}
+
+
+
+
 
 {{- define "subsystem-application.entities.service.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 ports: []
-spec: {}
+spec: 
+  sessionAffinity: None
 {{- end -}}
 
-{{- define "subsystem-application.entities.service.overrides" -}}
-{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
+
+{{- define "subsystem-application.entities.service.create" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
+
+# Return entity overrides
 name: {{ include "sdk.naming.application.service" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+spec:
+  selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
+  ports:
+    {{- range $portNumber, $port :=  $service.ports }}
+    - name: {{ $port.name | default (printf "%s-%s" $id $portNumber) }}
+      protocol: {{ $port.protocol | default "TCP"  }}
+      port: {{ $portNumber }}
+      targetPort: {{ $port.targetPort | default $portNumber }}
+    {{- end -}}
+
 {{- end -}}
 
 
-{{- define "subsystem-application.entities.service.pre-process" -}}
-    {{- range $portNumber, $port:=  $.ports -}}
-      {{- $_:= set $port "name" (printf "%s-%s" $.id $portNumber) -}}
-      {{- $_:= set $port "protocol" ( $port.protocol | default "TCP" ) -}}
-    {{- end -}}
+{{- define "subsystem-application.entities.service.process" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
+
+
 {{- end }}
 
 

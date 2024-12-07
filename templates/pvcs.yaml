@@ -5,7 +5,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .name }}
-  namespace: {{ .namespace }}
+  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
   labels:
     {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
   annotations:

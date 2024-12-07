@@ -28,6 +28,5 @@ spec:
           containers: 
             {{- range .containers }}
             - {{  .spec | toYaml |  nindent 14 | trim }}
-              
             {{- end }}            
 {{- end -}}
