@@ -1,4 +1,4 @@
-{{- define "subsystem-application.modules.external-secrets.read" -}}
+{{- define "subsystem-application.modules.configuration.read" -}}
   {{- /* create single config map for envs: */ -}}  
   {{- $metadataEnvs := include "subsystem-application.configuration.envs.exordis-metadata-environment-variables" $ | fromYaml }}
   {{- $metadataEnvs := mustMergeOverwrite  (deepCopy $.Values.envs) $metadataEnvs }}
@@ -20,17 +20,8 @@
 {{- end -}}
 
 
-{{- define "subsystem-application.modules.external-secrets.process" -}}
-  {{- range $name, $externalSecret := $.entities.externalSecrets -}}
-    {{- $overrides:= ( (include "subsystem-application.modules.external-secrets._owerrides" (list $ $externalSecret) ) | fromYaml) -}}
-    {{- $_:= set $externalSecret "spec" ( (include "sdk.common.with-defaults" (list $ $externalSecret.spec "subsystem-application.configuration.defaults.specs.external-secret" $overrides )) | fromYaml ) -}}
-
-    {{- /* apply default binding if none is porviced in external secret sepc*/ -}}  
-    {{- if  and (not $externalSecret.spec.data) (not $externalSecret.spec.dataFrom) ($externalSecret.key)  -}}
-        {{- $binding:= include "subsystem-application.modules.external-secrets._default_binding"  (list $ $externalSecret)  | fromYaml -}}
-        {{- $_:= set $externalSecret "spec" ( mustMergeOverwrite (deepCopy $externalSecret.spec) $binding ) -}}
-    {{- end -}} 
-  {{- end -}}
+{{- define "subsystem-application.modules.configuration.process" -}}
+  
 {{- end -}}
 
 
