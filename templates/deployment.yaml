@@ -38,17 +38,24 @@ spec:
         {{- end }}          
     spec:
       containers:
-{{- range $.entities.containers }}
+{{- range $.entities.containers -}}
+  {{- if .parent | not }}
         - {{ .spec | toYaml |  nindent 10 | trim }}
+  {{- end -}}
 {{- end }}
       initContainers:
-{{- range $.entities.initContainers }}
+{{- range $.entities.initContainers -}}
+  {{- if .parent | not }}
         - {{ .spec | toYaml | nindent 10 | trim }}
+  {{- end -}}
 {{- end }}
       volumes:
 {{- range $.entities.volumes }}
+  {{- if .parent | not }}
         - name: {{ .name }}
           {{ .type }}: {{ .spec | toYaml | nindent 12 }}
+  {{- end -}}
 {{- end }}
+
 {{- end }}
 

@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.ingress.collection" -}}ingresses{{- end -}}
 {{- define "subsystem-application.entities.ingresses.entity" -}}ingress{{- end -}}
+{{- define "subsystem-application.entities.ingress.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.ingress.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

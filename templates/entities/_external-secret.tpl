@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.external-secret.collection" -}}externalSecrets{{- end -}}
 {{- define "subsystem-application.entities.externalSecrets.entity" -}}external-secret{{- end -}}
+{{- define "subsystem-application.entities.external-secret.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.external-secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
@@ -13,9 +14,10 @@ targetSecretName: {{ include "sdk.naming.application.secret" (list $.Values.glob
 key:
 {{- end -}}
 
+
+
 {{- define "subsystem-application.entities.external-secret.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $externalSecret := index . 2 -}}
-
 name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
 spec:
   secretStoreRef:

@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.container.collection" -}}containers{{- end -}}
 {{- define "subsystem-application.entities.containers.entity" -}}container{{- end -}}
+{{- define "subsystem-application.entities.container.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.container.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

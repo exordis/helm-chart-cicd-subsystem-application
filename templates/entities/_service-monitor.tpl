@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.service-monitor.collection" -}}serviceMonitors{{- end -}}
 {{- define "subsystem-application.entities.serviceMonitors.entity" -}}service-monitor{{- end -}}
+{{- define "subsystem-application.entities.service-monitor.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.service-monitor.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

@@ -1,6 +1,6 @@
 {{- define "subsystem-application.entities.config-map.collection" -}}configMaps{{- end -}}
 {{- define "subsystem-application.entities.configMaps.entity" -}}config-map{{- end -}}
-
+{{- define "subsystem-application.entities.config-map.subcollections" -}}{{- end -}}
 {{- define "subsystem-application.entities.config-map.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}

@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.secret.collection" -}}secrets{{- end -}}
 {{- define "subsystem-application.entities.secrets.entity" -}}secret{{- end -}}
+{{- define "subsystem-application.entities.secret.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

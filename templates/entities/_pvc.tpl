@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.pvc.collection" -}}pvcs{{- end -}}
 {{- define "subsystem-application.entities.pvcs.entity" -}}pvc{{- end -}}
+{{- define "subsystem-application.entities.pvc.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.pvc.defaults" -}}
 {{- /* TODO: get rid of $ and $data, defaults should be just yaml*/ -}}

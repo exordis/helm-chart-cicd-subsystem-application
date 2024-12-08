@@ -1,5 +1,9 @@
 {{- define "subsystem-application.entities.cronjob.collection" -}}cronjobs{{- end -}}
 {{- define "subsystem-application.entities.cronjobs.entity" -}}cronjob{{- end -}}
+{{- define "subsystem-application.entities.cronjob.subcollections" -}}
+containers: container
+volumes: container
+{{- end -}}
 
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.service.collection" -}}services{{- end -}}
 {{- define "subsystem-application.entities.services.entity" -}}service{{- end -}}
+{{- define "subsystem-application.entities.service.subcollections" -}}{{- end -}}
 
 
 

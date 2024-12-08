@@ -1,5 +1,6 @@
 {{- define "subsystem-application.entities.volume.collection" -}}volumes{{- end -}}
 {{- define "subsystem-application.entities.volumes.entity" -}}volume{{- end -}}
+{{- define "subsystem-application.entities.volume.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.volume.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
