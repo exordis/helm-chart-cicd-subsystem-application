@@ -12,7 +12,6 @@ restartPolicy: "Never"
 spec: {}
 containers: {}
 volumes: {}
-
 {{ end -}}
 
 {{- define "subsystem-application.entities.cronjob.create" -}}
