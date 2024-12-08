@@ -16,11 +16,8 @@ spec:
   selector:
     matchLabels:
       {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+  strategy: 
+    {{- $.Values.strategy | toYaml | nindent 4}}
   template:
     metadata:
       labels:
