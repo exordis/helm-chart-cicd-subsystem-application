@@ -22,9 +22,6 @@ spec:
 {{- end -}}
 
 
-
-
-
 {{- define "subsystem-application.entities.volume.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
 
