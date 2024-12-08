@@ -5,7 +5,7 @@
 
 
 {{- define "subsystem-application.modules.cronjobs.read" -}}
-  {{- /* add cronjobs containers to entities.cronjobs: */ -}} 
+  {{- /* add cronjobs to entities.cronjobs: */ -}} 
   {{- range $id, $cronjob := $.Values.cronjobs }}
     {{- include "sdk.engine.create-entity" (list $ "cronjob" $id $cronjob) -}}
   {{- end -}}
