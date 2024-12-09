@@ -1,6 +1,6 @@
 dependencies:
 - name: cicd-sdk
-  repository: file://../helm-chart-cicd-sdk
-  version: 0.1.0
-digest: sha256:5021b4376155d13b7813af6b8a4ff46dbaded2bed5cb04499b8a54fb2d7f8882
-generated: "2024-12-09T15:23:49.0216473+02:00"
+  repository: oci://registry.gitlab.com/knst/cy/registry/charts
+  version: 0.1.29
+digest: sha256:059e087666c886c166b2d9d3ad8bca16e43d942d4eff04c5dfa26eec1de926d6
+generated: "2024-12-09T16:53:10.4628745+02:00"

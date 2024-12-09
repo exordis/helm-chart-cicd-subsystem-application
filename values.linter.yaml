@@ -2,8 +2,11 @@ application: some-application
 applicationType: service
 dockerRegistry: registry.gitlab.com
 instanceName: some-instancename
+
 version: 0.0.0
-workload: deployment
+# workload: deployment
+# workload: none
+
 replicas: 3
 
 deployment:
