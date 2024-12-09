@@ -1,3 +1,14 @@
+[ ] [BUG] secret refs should be defined in containers, not in secrets / external secrets entities. In general - there should be no references on workload parts in root level entities
+[ ] service monitors
+[ ] sidecar probes are missing and not clear what there should be by default
+[ ] certificates and ingress tls
+[ ] naming convention may generate name that does not fit 63
+[ ] values json schema is not complete
+[ ] checksum annotations 
+    - is checksum annotations needed both in deployment metadata and in deployment.template metadata?
+[ ] docs for moudules/entities approach
+[ ] what is 'refreshInterval: 1m' in external secret manifest an dhow to set it properly
+[ ] fix tests
 [x] defaults should contain only yamls with defaults for entities
 [x] datafolders - instead of independently building volumes from data folders and volumes need to extends volumes with generated from data folders and build (less copy paste artefacts)
 [x] same for sidecars and main container - build containers collection and render it 
@@ -14,13 +25,3 @@
 [X] naming templates should have same args in the same order 
 [x] ugly set of selectors in services.yaml
 [x] store logs and outut on fail
-[ ] service monitors
-[ ] sidecar probes are missing and not clear what there should be by default
-[ ] certificates and ingress tls
-[ ] naming convention may generate name that does not fit 63
-[ ] values json schema is not complete
-[ ] checksum annotations 
-    - is checksum annotations needed both in deployment metadata and in deployment.template metadata?
-[ ] docs for moudules/entities approach
-[ ] what is 'refreshInterval: 1m' in external secret manifest an dhow to set it properly
-[ ] fix tests

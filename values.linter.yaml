@@ -8,6 +8,16 @@ version: 0.0.0
 # workload: none
 
 replicas: 3
+global: 
+  product: Some Product
+  subsystem: some-subsystem
+  environment: test
+externalSecretScope: qa2
+externalSecretsStrategy: latest
+
+envs: 
+  TEST: 123
+  SUBSYSTEM: wrong-subsystem
 
 deployment:
   strategy:
@@ -16,20 +26,14 @@ deployment:
       maxUnavailable: 25%
     type: RollingUpdate
 
-global: 
-  product: Some Product
-  subsystem: some-subsystem
-  environment: test
 
-externalSecretScope: qa2
-
-envs: 
-  TEST: 123
-  SUBSYSTEM: wrong-subsystem
+configMaps:
+  config:
+    data:
+      test: "123"
   
 applicationContainer: {}
 
-externalSecretsStrategy: latest
 
 serviceMonitorKeys:
   username: Metrics__Authentication__Username
