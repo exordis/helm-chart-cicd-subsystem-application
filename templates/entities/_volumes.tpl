@@ -4,9 +4,16 @@
 
 {{- define "subsystem-application.entities.volume.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-type: emptyDir
 mounts: {}
+  {{- /* emptyDir defaults */ -}}
+  {{- if $data.type | default "emptyDir" | eq "emptyDir" }}
+type: "emptyDir"
+spec:
+  sizeLimit: "100Mi"
+  {{- else }}
 spec: {}
+  {{- end -}}
+
 {{- end -}}
 
 
@@ -14,12 +21,6 @@ spec: {}
 {{- define "subsystem-application.entities.volume.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
 name: {{ include "sdk.naming.application.deployment.volume" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
-  {{- /* emptyDir defaults */ -}}
-  {{- if $volume.type | eq "emptyDir" }}
-spec:
-  sizeLimit: {{  $volume.spec.sizeLimit | default "100Mi" }}
-  {{- end -}}
-
 {{- end -}}
 
 

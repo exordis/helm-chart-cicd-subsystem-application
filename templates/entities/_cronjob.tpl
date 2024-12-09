@@ -2,7 +2,6 @@
 {{- define "subsystem-application.entities.cronjobs.entity" -}}cronjob{{- end -}}
 {{- define "subsystem-application.entities.cronjob.subcollections" -}}
 containers: container
-volumes: container
 {{- end -}}
 
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
@@ -28,10 +27,10 @@ name: {{ include "sdk.naming.application.cronjob" (list $.Values.global.subsyste
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
 
 {{- range $container_id, $container := $cronjob.containers }}
-  {{- $container := (include "sdk.engine.initialize-entity" (list $ "container" $container_id $container))  | fromYaml -}}
+  {{- /* $container := (include "sdk.engine.initialize-entity" (list $ "container" $container_id $container))  | fromYaml */ -}}
   {{- /* TODO: dirty solution. Process should be called on engine level. It pulls deployment settings fro envsFrom and volumes, uses deployment containers naming etc */ -}}
-  {{- $_:= mustMergeOverwrite $container (include "subsystem-application.entities.container-base.process" (list $ $container_id $container ) | fromYaml)  -}}
-  {{- $_:= set $cronjob.containers $container_id $container -}}
+  {{- /*$_:= mustMergeOverwrite $container (include "subsystem-application.entities.container-base.process" (list $ $container_id $container ) | fromYaml)*/ -}}
+  {{- /*$_:= set $cronjob.containers $container_id $container*/ -}}
 {{- end -}}    
 
 {{- end }}
