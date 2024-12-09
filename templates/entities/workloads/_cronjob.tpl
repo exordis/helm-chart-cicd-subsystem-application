@@ -2,6 +2,8 @@
 {{- define "subsystem-application.entities.cronjobs.entity" -}}cronjob{{- end -}}
 {{- define "subsystem-application.entities.cronjob.subcollections" -}}
 containers: container
+initContainers: init-container
+volumes: volume
 {{- end -}}
 
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
@@ -14,6 +16,7 @@ ttlSecondsAfterFinished: 86400
 restartPolicy: "Never"
 spec: {}
 containers: {}
+initContainers: {}
 volumes: {}
 {{ end -}}
 

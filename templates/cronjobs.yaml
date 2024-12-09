@@ -28,5 +28,14 @@ spec:
           containers: 
             {{- range .containers }}
             - {{  .spec | toYaml |  nindent 14 | trim }}
-            {{- end }}            
+            {{- end }}      
+          initContainers:
+            {{- range .initContainers }}
+            - {{ .spec | toYaml | nindent 14 | trim }}
+            {{- end }}
+          volumes:
+            {{- range .volumes }}
+            - name: {{ .name }}
+              {{ .type }}: {{ .spec | toYaml | nindent 16 }}
+            {{- end }}                
 {{- end -}}

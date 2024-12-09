@@ -1,15 +1,17 @@
 application: some-application
 applicationType: service
 dockerRegistry: registry.gitlab.com
-replicas: 3
-strategy:
-  rollingUpdate:
-    maxSurge: 25%
-    maxUnavailable: 25%
-  type: RollingUpdate
 instanceName: some-instancename
 version: 0.0.0
-deployment: true
+workload: deployment
+replicas: 3
+
+deployment:
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
 
 global: 
   product: Some Product
@@ -161,4 +163,13 @@ cronjobs:
             - "tag" 
             - "delete"
             - "--registry"
-      
+    initContainers:
+      "cleanup-init":
+        image: cleanup-init
+        version: 0.0.0            
+    volumes:
+      volume2:
+        #spec:
+        #type: emptyDir
+        mounts: 
+          main: /some-data

@@ -1,6 +1,6 @@
 {{- include "sdk.engine.init" $ -}}
 {{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
-{{- if $.Values.deployment -}}
+{{- if $.Values.workload | eq "deployment" -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -17,7 +17,7 @@ spec:
     matchLabels:
       {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
   strategy: 
-    {{- $.Values.strategy | toYaml | nindent 4}}
+    {{- $.Values.deployment.strategy | toYaml | nindent 4}}
   template:
     metadata:
       labels:

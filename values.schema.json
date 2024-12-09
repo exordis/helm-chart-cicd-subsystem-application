@@ -13,8 +13,12 @@
       "foundation-sdk": {
           "type": "object"
       },
-      "deployment": {
-        "type": "boolean"
+      "workload": {
+        "type": "string",
+        "enum": [
+            "deployment",
+            "none"
+        ]
       },      
       "global": {
           "type": "object",
@@ -74,8 +78,8 @@
       "version": {
           "$ref": "#/definitions/dockerImageVersion"
       },
-      "strategy": {
-        "$ref": "#/definitions/deploymentStrategy"
+      "deployment": {
+        "$ref": "#/definitions/deployment"
       },
       "envs": {
           "type": "object",
@@ -457,8 +461,14 @@
           "type": "string",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
       },
-      "deploymentStrategy": {
-          "type": "object"
+      "deployment": {
+          "type": "object",
+          "properties": {
+              "strategy": {
+                  "type": "object"
+              }
+            },
+          "additionalProperties": false  
       },
       "mounts":{
         "type": "object",
