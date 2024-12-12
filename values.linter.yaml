@@ -31,7 +31,7 @@ configMaps:
   config:
     data:
       test: "123"
-  
+      
 applicationContainer: {}
 
 

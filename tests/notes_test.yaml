@@ -1,8 +1,6 @@
-suite: test templates/NOTES.txt
+suite: NOTES.txt
 templates:
   - templates/NOTES.txt
-values:
-  - ../values.linter.yaml
 tests:
   - it: should work
     set:

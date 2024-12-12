@@ -2,7 +2,7 @@ templates/tests.yaml
 templates/temporary.yaml
 .debug
 .idea
-tests/__snapshot__/*
+#tests/__snapshot__/*
 tmp/
 charts/
 *.tgz

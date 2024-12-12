@@ -22,7 +22,8 @@ name: {{ include "sdk.naming.application.service" (list $.Values.global.subsyste
 spec:
   selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
   ports:
-    {{- range $portNumber, $port :=  $service.ports }}
+    {{- range $portNumber, $port :=  $service.ports -}}
+    {{- $port = $port | default dict }}
     - name: {{ $port.name | default (printf "%s-%s" $id $portNumber) }}
       protocol: {{ $port.protocol | default "TCP"  }}
       port: {{ $portNumber }}

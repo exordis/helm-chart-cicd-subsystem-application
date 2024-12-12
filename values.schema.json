@@ -155,7 +155,10 @@
           "type": "object",
           "patternProperties": {
               "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
-                  "$ref": "#/definitions/configMap"
+                  "oneOf": [
+                      {"type": "null"},
+                      {"$ref": "#/definitions/configMap"}
+                  ]                
               }
           },
           "additionalProperties": false
@@ -239,7 +242,8 @@
                           "type": "string"
                       }
                   }
-              }
+              },
+              "additionalProperties": false
           }
       },
       "cronjob": {

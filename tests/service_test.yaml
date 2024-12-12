@@ -1,17 +1,16 @@
-suite: Service multiline test
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+
+suite: Entities/Services
 templates:
   - templates/services.yaml
 values:
-  - ../values.linter.yaml
+  - values.metadata.yaml
 tests:
-  - it: |
-      should pass all kinds of assertion
+  - it: Should generate simple service from minimum data in values 1
+    set:
+      services:
+        myservice:
+          ports:
+            8081: 
     asserts:
-      - isNotEmpty:
-          path: spec.ports
-      - isNotEmpty:
-          path: spec.selector
-      - isKind:
-          of: Service
-      - isAPIVersion:
-          of: v1
+      - matchSnapshot: {}
