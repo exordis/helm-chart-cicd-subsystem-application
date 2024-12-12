@@ -6,7 +6,7 @@ templates:
 values:
   - values.metadata.yaml
 tests:
-  - it: Should generate simple service from minimum data in values 1
+  - it: Should generate simple service from minimum data in values
     set:
       services:
         myservice:

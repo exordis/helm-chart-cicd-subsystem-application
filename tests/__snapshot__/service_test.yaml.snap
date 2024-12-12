@@ -1,4 +1,4 @@
-Should generate simple service from minimum data in values 1:
+Should generate simple service from minimum data in values:
   1: |
     apiVersion: v1
     kind: Service
