@@ -20,11 +20,6 @@
 {{- end -}}
 
 
-{{- define "subsystem-application.modules.configuration.process" -}}
-  
-{{- end -}}
-
-
 {{- define "subsystem-application.modules.external-secrets._owerrides" -}}
   {{- $:=  index . 0 -}}
   {{- $externalSecret:=  index . 1 -}}
@@ -50,4 +45,10 @@ data:
   - secretKey: {{ $externalSecret.key }}
     remoteRef:
       key: {{ $externalSecret.key }}
+{{- end -}}
+
+
+
+{{- define "subsystem-application.modules.configuration.process" -}}
+  
 {{- end -}}

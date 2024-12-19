@@ -1,6 +1,5 @@
 {{- define "subsystem-application.entities.external-secret.collection" -}}externalSecrets{{- end -}}
 {{- define "subsystem-application.entities.externalSecrets.entity" -}}external-secret{{- end -}}
-{{- define "subsystem-application.entities.external-secret.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.external-secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

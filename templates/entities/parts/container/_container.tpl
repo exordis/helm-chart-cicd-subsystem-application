@@ -1,6 +1,5 @@
 {{- define "subsystem-application.entities.container.collection" -}}containers{{- end -}}
 {{- define "subsystem-application.entities.containers.entity" -}}container{{- end -}}
-{{- define "subsystem-application.entities.container.subcollections" -}}{{- end -}}
 
 {{- define "subsystem-application.entities.container.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
@@ -9,7 +8,11 @@
 {{- if $id | eq "applicationContainer" }}
   {{- $_:= mustMergeOverwrite $data.spec (include "subsystem-application.entities.applicationContainer.spec.defaults" . | fromYaml ) -}}
 {{- end -}} 
+
 {{ $data | toYaml| nindent 2}}
+
+
+
 {{- end -}}
 
 

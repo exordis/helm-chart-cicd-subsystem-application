@@ -51,7 +51,7 @@ spec:
     {{ end -}}
   {{- end }}
   volumeMounts:
-  {{- range $volume := ($.parent | default $.entities).volumes | default dict -}}
+  {{- range $volume := ($container.parent | default $.entities).volumes | default dict -}}
   {{- range $mountContainer, $mountPath := $volume.mounts -}}
   {{- if $mountContainer | eq $container.id }}
     - mountPath: {{$mountPath}}

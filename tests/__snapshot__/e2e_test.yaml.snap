@@ -139,8 +139,37 @@ manifest should match snapshot:
                       cpu: 2m
                       memory: 70Mi
                   volumeMounts: null
+                - envFrom:
+                    - configMapRef:
+                        name: some-subsystem-some-application-some-instancename-envs
+                    - secretRef:
+                        name: some-subsystem-some-application-some-instancename-gitlab-token
+                  image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
+                  imagePullPolicy: Always
+                  name: some-subsystem-some-application-some-instancename-templates
+                  resources:
+                    limits:
+                      cpu: 200m
+                      memory: 1024Mi
+                    requests:
+                      cpu: 2m
+                      memory: 70Mi
+                  volumeMounts:
+                    - mountPath: /data/templates/generated
+                      name: templates-data-templates-generated
+                    - mountPath: /data/templates/original
+                      name: templates-data-templates-original
               restartPolicy: Never
               volumes:
+                - name: mypvc
+                  persistentVolumeClaim:
+                    claimName: some-subsystem-some-application-some-instancename-mypvc
+                - emptyDir:
+                    sizeLimit: 200Mi
+                  name: templates-data-templates-generated
+                - emptyDir:
+                    sizeLimit: 200Mi
+                  name: templates-data-templates-original
                 - emptyDir:
                     sizeLimit: 100Mi
                   name: volume2

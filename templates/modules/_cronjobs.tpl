@@ -1,6 +1,5 @@
 {{- /*TODO: proper json schema */ -}} 
 {{- /*TODO: volume mounts */ -}} 
-{{- /*TODO: env from */ -}} 
 {{- /*TODO: consider adding containers to entities.containers with type "job" and job reference */ -}} 
 
 
