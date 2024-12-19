@@ -1,32 +1,34 @@
 {{- define "subsystem-application.modules.data-folders.read" -}}
+  {{- /* ISSUE: not sure it is teh best approach as it relays on the order of modules  */ -}}
+  {{- range $workload := concat ($.entities.deployments | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
+    {{- range $folderType := (list "content" "configuration") -}}
+      {{- include "sdk.engine.log" (list $ (printf "Reading %s data folders" $folderType) 2) -}}
+      {{- /* iterate folders in values:  */ -}}
+      {{- range $folderName, $dataFolder := ( index $.Values.dataFolders $folderType) | default dict }}
+        {{- include "sdk.engine.log" (list $ (printf "Reading data folder '%s'" $folderName) 2) -}}
 
-  {{- range $folderType := (list "content" "configuration") -}}
-    {{- include "sdk.engine.log" (list $ (printf "Reading %s data folders" $folderType) 2) -}}
-    {{- /* iterate folders in values:  */ -}}
-    {{- range $folderName, $dataFolder := ( index $.Values.dataFolders $folderType) | default dict }}
-      {{- include "sdk.engine.log" (list $ (printf "Reading data folder '%s'" $folderName) 2) -}}
+        {{- /* add data folder init container to .initContainers:  */ -}}
+        {{- $image := include "sdk.naming.subsystem.repository-image-name" (list $.Values.dockerRegistry $.Values.global.subsystem (printf "data-%s-%s" $folderType $folderName) ) -}}
+        {{- $initContainer := (dict "name" $folderName "image" $image  "version" $dataFolder.version "spec" $dataFolder.spec  ) -}}
+        {{- include "sdk.engine.create-entity" (list $ "init-container" $folderName $initContainer $workload "initContainers") -}}
 
-      {{- /* add data folder init container to entities.initContainers:  */ -}}
-      {{- $image := include "sdk.naming.subsystem.repository-image-name" (list $.Values.dockerRegistry $.Values.global.subsystem (printf "data-%s-%s" $folderType $folderName) ) -}}
-      {{- $initContainer := (dict "name" $folderName "image" $image  "version" $dataFolder.version "spec" $dataFolder.spec  ) -}}
-      {{- include "sdk.engine.create-entity" (list $ "init-container" $folderName $initContainer) -}}
-
-      {{- /* build list of init container paths:  */ -}}
-      {{ $init_container_paths := list }}
-      {{- range $containerName, $paths := $dataFolder.mounts }}
-        {{- range $init_container_path, $path := $paths }}
-          {{- if not (has $init_container_path $init_container_paths)  -}}
-            {{- $init_container_paths = append $init_container_paths $init_container_path -}}
-            {{- $id :=  printf "%s%s" $folderName (regexReplaceAll "[^0-9a-z]" (lower $init_container_path) "-") -}}
-            {{- $volume:= include "subsystem-application.modules.data-folders.create_volume" (list $id $folderName $dataFolder $init_container_path) | fromYaml -}}
-            {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume)  -}}
-          {{- end -}}
+        {{- /* build list of init container paths and create volumes:  */ -}}
+        {{ $init_container_paths := list }}
+        {{- range $containerName, $paths := $dataFolder.mounts }}
+          {{- range $init_container_path, $path := $paths }}
+            {{- if not (has $init_container_path $init_container_paths)  -}}
+              {{- $init_container_paths = append $init_container_paths $init_container_path -}}
+              {{- $id :=  printf "%s%s" $folderName (regexReplaceAll "[^0-9a-z]" (lower $init_container_path) "-") -}}
+              {{- $volume:= include "subsystem-application.modules.data-folders.create_volume" (list $id $folderName $dataFolder $init_container_path) | fromYaml -}}
+              {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume $workload "volumes")  -}}
+            {{- end -}}
+          {{- end -}}    
         {{- end -}}    
-      {{- end -}}    
 
+        {{- include "sdk.engine.log" (list $ "" -2) -}}
+      {{- end -}}
       {{- include "sdk.engine.log" (list $ "" -2) -}}
     {{- end -}}
-    {{- include "sdk.engine.log" (list $ "" -2) -}}
   {{- end -}}
 {{- end -}}  
 

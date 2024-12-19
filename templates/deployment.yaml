@@ -1,6 +1,6 @@
 {{- include "sdk.engine.init" $ -}}
 {{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
-{{- if $.Values.workload | eq "deployment" -}}
+{{- range  $.entities.deployments }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -34,25 +34,18 @@ spec:
           {{ end -}}
         {{- end }}          
     spec:
-      containers:
-{{- range $.entities.containers -}}
-  {{- if .parent | not }}
-        - {{ .spec | toYaml |  nindent 10 | trim }}
-  {{- end -}}
-{{- end }}
+      containers: 
+        {{- range .containers }}
+        - {{  .spec | toYaml |  nindent 10 | trim }}
+        {{- end }}
       initContainers:
-{{- range $.entities.initContainers -}}
-  {{- if .parent | not }}
+        {{- range .initContainers }}
         - {{ .spec | toYaml | nindent 10 | trim }}
-  {{- end -}}
-{{- end }}
+        {{- end }}
       volumes:
-{{- range $.entities.volumes }}
-  {{- if .parent | not }}
+        {{- range .volumes }}
         - name: {{ .name }}
           {{ .type }}: {{ .spec | toYaml | nindent 12 }}
-  {{- end -}}
-{{- end }}
-
+        {{- end }}
 {{- end }}
 

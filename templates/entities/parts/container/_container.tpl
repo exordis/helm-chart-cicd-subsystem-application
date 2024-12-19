@@ -9,7 +9,11 @@
 {{- if $id | eq "applicationContainer" }}
   {{- $_:= mustMergeOverwrite $data.spec (include "subsystem-application.entities.applicationContainer.spec.defaults" . | fromYaml ) -}}
 {{- end -}} 
+
 {{ $data | toYaml| nindent 2}}
+
+
+
 {{- end -}}
 
 

@@ -15,9 +15,6 @@ global:
 externalSecretScope: qa2
 externalSecretsStrategy: latest
 
-envs: 
-  TEST: 123
-  SUBSYSTEM: wrong-subsystem
 
 deployment:
   strategy:
@@ -26,6 +23,9 @@ deployment:
       maxUnavailable: 25%
     type: RollingUpdate
 
+envs: 
+  TEST: 123
+  SUBSYSTEM: wrong-subsystem
 
 configMaps:
   config:
@@ -180,3 +180,4 @@ cronjobs:
         #type: emptyDir
         mounts: 
           main: /some-data
+        

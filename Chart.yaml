@@ -8,7 +8,7 @@ annotations:
 dependencies:
   - name: cicd-sdk
     alias: sdk
-    version: "~0.1.29"
-    repository: oci://registry.gitlab.com/knst/cy/registry/charts
-    # version: "0.1.0"
-    # repository: file://../helm-chart-cicd-sdk 
+    # version: "~0.1.29"
+    # repository: oci://registry.gitlab.com/knst/cy/registry/charts
+    version: "0.1.0"
+    repository: file://../helm-chart-cicd-sdk 

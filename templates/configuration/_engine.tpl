@@ -2,10 +2,10 @@
 modules:
   - configuration
   - deployment
-  - data-folders
   - networking
-  - storage
   - cronjobs
+  - storage
+  - data-folders
 entities:
   containers: {}
   volumes: {}
@@ -18,6 +18,7 @@ entities:
   serviceMonitors: {}
   pvcs: {}
   cronjobs: {}
+  deployments: {}
 shared_ids:
   - ["initContainers", "containers"]
 logging: true
