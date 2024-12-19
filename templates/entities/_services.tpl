@@ -1,10 +1,5 @@
 {{- define "subsystem-application.entities.service.collection" -}}services{{- end -}}
 {{- define "subsystem-application.entities.services.entity" -}}service{{- end -}}
-{{- define "subsystem-application.entities.service.subcollections" -}}{{- end -}}
-
-
-
-
 
 {{- define "subsystem-application.entities.service.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}

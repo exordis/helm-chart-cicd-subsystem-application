@@ -7,9 +7,6 @@ modules:
   - storage
   - data-folders
 entities:
-  containers: {}
-  volumes: {}
-  initContainers: {}
   configMaps: {}
   externalSecrets: {}
   secrets: {}

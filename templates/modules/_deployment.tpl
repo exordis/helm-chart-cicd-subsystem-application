@@ -32,9 +32,6 @@
 
 
 {{- define "subsystem-application.modules.deployment.process" -}}
-  {{- if $.Values.workload | eq "deployment" -}}
-
-  {{- end -}}
 {{- end -}}
 
 

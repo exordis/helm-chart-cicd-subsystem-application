@@ -1,6 +1,32 @@
 {{- define "subsystem-application.modules.data-folders.read" -}}
-  {{- /* ISSUE: not sure it is teh best approach as it relays on the order of modules  */ -}}
-  {{- range $workload := concat ($.entities.deployments | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
+{{- end -}}
+
+{{- define "subsystem-application.modules.data-folders.create_volume" -}}
+{{- $name := index . 0 }}{{- $initContainer := index . 1 }}{{- $dataFolder := index . 2 }}{{- $init_container_path := index . 3 }}
+name: {{ $name }}
+spec:
+  {{- if $dataFolder.sizeLimit }}
+  sizeLimit: {{ $dataFolder.sizeLimit }}
+  {{- end }}
+type: emptyDir
+mounts: 
+  {{$initContainer}}: {{$init_container_path }}
+{{- range $container, $mounts := $dataFolder.mounts -}}
+  {{- range $path, $mount_path := $mounts -}}
+    {{- if eq $path $init_container_path }}
+  {{$container}}: {{$mount_path | default $init_container_path }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- end -}}
+
+
+{{- define "subsystem-application.modules.data-folders.process" -}}
+{{- $:=  index . 0 -}}{{- $entity :=  index . 1 -}}
+
+  {{- if has $entity.entity_type (list "deployment" "cronjob" ) -}}
+    {{- $workload := $entity -}}
     {{- range $folderType := (list "content" "configuration") -}}
       {{- include "sdk.engine.log" (list $ (printf "Reading %s data folders" $folderType) 2) -}}
       {{- /* iterate folders in values:  */ -}}
@@ -30,29 +56,5 @@
       {{- include "sdk.engine.log" (list $ "" -2) -}}
     {{- end -}}
   {{- end -}}
-{{- end -}}  
-
-{{- define "subsystem-application.modules.data-folders.create_volume" -}}
-{{- $name := index . 0 }}{{- $initContainer := index . 1 }}{{- $dataFolder := index . 2 }}{{- $init_container_path := index . 3 }}
-name: {{ $name }}
-spec:
-  {{- if $dataFolder.sizeLimit }}
-  sizeLimit: {{ $dataFolder.sizeLimit }}
-  {{- end }}
-type: emptyDir
-mounts: 
-  {{$initContainer}}: {{$init_container_path }}
-{{- range $container, $mounts := $dataFolder.mounts -}}
-  {{- range $path, $mount_path := $mounts -}}
-    {{- if eq $path $init_container_path }}
-  {{$container}}: {{$mount_path | default $init_container_path }}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
-{{- end -}}
-
-
-{{- define "subsystem-application.modules.data-folders.process" -}}
 {{- end -}}
 

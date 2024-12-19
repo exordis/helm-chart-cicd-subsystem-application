@@ -139,7 +139,7 @@ dataFolders:
           "/data/templates/generated": /data/templates/generated
         jsreport:
           "/data/templates/generated": /jsreport
-
+        
 externalSecrets:
   gitlab-token:
     spec:
