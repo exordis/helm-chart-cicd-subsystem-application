@@ -8,6 +8,7 @@ externalSecretScope: {{ $.Values.global.environment }}
 dataFolders: {}
 workload: {{ $workload }}
 deployment:
+  revisionHistoryLimit: 1
   strategy:
     rollingUpdate:
       maxSurge: 25%

@@ -199,6 +199,7 @@ manifest should match snapshot:
       namespace: some-subsystem-test
     spec:
       replicas: 3
+      revisionHistoryLimit: 1
       selector:
         matchLabels:
           exordis/application: some-subsystem-some-application

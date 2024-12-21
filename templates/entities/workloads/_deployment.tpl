@@ -3,7 +3,13 @@
 
 {{- define "subsystem-application.entities.deployment.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-spec: {}
+{{- /* 
+TODO:
+- Values.deployment should be source of spec. 
+- template should take .spec from deployment entity or spec should be removed
+ */ -}}
+spec: 
+  revisionHistoryLimit: 2
 containers: {}
 initContainers: {}
 volumes: {}

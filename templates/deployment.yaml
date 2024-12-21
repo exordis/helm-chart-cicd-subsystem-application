@@ -13,6 +13,7 @@ metadata:
     {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
 spec:
   replicas: {{ $.Values.replicas }}
+  revisionHistoryLimit: {{ $.Values.deployment.revisionHistoryLimit | default 2}}
   selector:
     matchLabels:
       {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
