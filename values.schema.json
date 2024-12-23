@@ -334,6 +334,9 @@
               },
               "port": {
                   "type": "integer"
+              },
+              "foreign": {
+                  "type": "boolean"
               }
           },
           "required": [

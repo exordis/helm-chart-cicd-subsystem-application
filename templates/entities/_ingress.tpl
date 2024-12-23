@@ -4,6 +4,7 @@
 {{- define "subsystem-application.entities.ingress.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 type: internal
+default_backend: {}
 useRegex: false
 proxyBuffering: true
 proxyBodySize: -1
@@ -38,15 +39,15 @@ name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsyste
 
 
   # Validate default backend references existing service
-  {{- if hasKey $.entities.services $ingress.default_backend.service | not -}}
-    {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' references missing service '%s'." $id $ingress.default_backend.service -}}
+  {{- if and (hasKey $.entities.services $ingress.default_backend.service | not) ($ingress.default_backend.foreign | default false) -}}
+    {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' references missing service '%s'. Either explicitly mark backend with `foreign: true` or define service in services" $id $ingress.default_backend.service -}}
     {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
   {{- end -}}
 
   # Validate all backend fields reference existing services
   {{- range $path := $ingress.paths  -}}
-    {{- if hasKey $path "backend" | and (hasKey $.entities.services $path.backend.service | not) -}}
-      {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' path '%s' references missing service '%s'." $id $path.path $path.backend.service -}}
+    {{- if and (hasKey $path "backend" | and (hasKey $.entities.services $path.backend.service | not)) ($path.backend.foreign | default false) -}}
+      {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' path '%s' references missing service '%s'.  Either explicitly mark backend with `foreign: true` or define service in services" $id $path.path $path.backend.service -}}
       {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
     {{- end -}}
   {{- end -}}
@@ -65,8 +66,8 @@ spec:
       {{- range $path := $ingress.paths }}
           - backend:
               service:
-                name:  {{ (get $.entities.services $path.backend.service).name}}
-                # name:  {{ include "sdk.naming.application.service" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $path.backend.service)  }}
+                {{/* if service is missing from $.entities.services and backend is not marked as foreign, validation fails above */}}
+                name:  {{ (dig $path.backend.service (dict "name" $path.backend.service) $.entities.services ).name}}
                 port:
                   number: {{$path.backend.port}}
             path: {{$path.path}}

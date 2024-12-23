@@ -93,6 +93,19 @@ ingresses:
 
 
 
+  foreign:
+    useTls: true
+    default_backend:
+      service: service-not-managed-with-chart
+      port: 80  
+    hosts:
+      - service-not-managed-with-chart.exordis.com
+    paths:
+      - path: /
+        pathType: ImplementationSpecific
+
+
+
 initContainers:
   migration:
     image: my-default-image

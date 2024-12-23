@@ -13,6 +13,7 @@ metadata:
     {{- if .useTls }}
     {{ if $.Values.certManagerClusterIssuer }}cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}{{ end }}
     kubernetes.io/tls-acme: 'true'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     {{- end }}
     {{ if .useRegex }}nginx.ingress.kubernetes.io/use-regex: {{ .useRegex | quote }}{{ end }}
     {{ if .rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: "{{.rewriteTarget}}"{{ end }}
