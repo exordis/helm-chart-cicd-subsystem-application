@@ -160,6 +160,7 @@ manifest should match snapshot:
                     - mountPath: /data/templates/original
                       name: templates-data-templates-original
               restartPolicy: Never
+              serviceAccountName: default
               volumes:
                 - name: mypvc
                   persistentVolumeClaim:
@@ -175,7 +176,6 @@ manifest should match snapshot:
                   name: volume2
           ttlSecondsAfterFinished: 86400
       schedule: 0 6 * * *
-      serviceAccountName: default
   4: |
     apiVersion: apps/v1
     kind: Deployment
