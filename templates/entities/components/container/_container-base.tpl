@@ -3,7 +3,6 @@
 
 {{- define "subsystem-application.entities.container-base.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-{{- $application_type := $id | eq "applicationContainer" | ternary $.Values.applicationType "service"  -}}
 {{- $application := $id | eq "applicationContainer" | ternary $.Values.application $id  -}}
 {{- $canonical_name := include "sdk.naming.application-canonical-name" (list $.Values.global.subsystem $application) -}}
 {{- $image:= printf "%s/%s" $.Values.dockerRegistry $canonical_name -}}
