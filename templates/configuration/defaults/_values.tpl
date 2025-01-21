@@ -4,7 +4,6 @@
 version: {{ default .Values.version "latest" }}
 {{ end -}}
 image: {{ printf "%s/%s" .Values.dockerRegistry (include "sdk.naming.application-canonical-name" (list .Values.global.subsystem .Values.application))  }}
-externalSecretScope: {{ $.Values.global.environment }}
 dataFolders: {}
 workload: {{ $workload }}
 deployment:

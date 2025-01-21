@@ -5,8 +5,8 @@ global:
 
 application: some-application
 applicationType: service
-
 instanceName: some-instancename
+
 
 dockerRegistry: registry.gitlab.com
 version: 0.0.0
@@ -15,10 +15,6 @@ version: 0.0.0
 # workload: none
 
 replicas: 3
-
-
-externalSecretScope: qa2
-externalSecretsStrategy: latest
 
 deployment:
   strategy:
@@ -37,11 +33,6 @@ configMaps:
       test: "123"
       
 applicationContainer: {}
-
-
-serviceMonitorKeys:
-  username: Metrics__Authentication__Username
-  password: Metrics__Authentication__Password
 
 services:
   service-a:

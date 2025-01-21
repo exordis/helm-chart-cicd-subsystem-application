@@ -46,9 +46,6 @@
           "type": "string",
           "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
       },
-      "externalSecretScope": {
-          "type": "string"
-      },
       "applicationType": {
           "type": "string",
           "enum": [
@@ -126,13 +123,6 @@
           },
           "additionalProperties": false
       },
-      "externalSecretsStrategy": {
-          "type": "string",
-          "enum": [
-              "none",
-              "latest"
-          ]
-      },
       "secrets": {
           "type": "object",
           "patternProperties": {
@@ -202,17 +192,6 @@
         "additionalProperties": {
             "$ref": "#/definitions/pvc"
         }
-      },
-      "serviceMonitorKeys": {
-          "type": "object",
-          "properties": {
-              "username": {
-                  "type": "string"
-              },
-              "password": {
-                  "type": "string"
-              }
-          }
       },
       "cronjobs": {
         "type": "object",
