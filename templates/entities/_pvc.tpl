@@ -4,9 +4,7 @@
 {{- define "subsystem-application.entities.pvc.defaults" -}}
 {{- /* TODO: get rid of $ and $data, defaults should be just yaml*/ -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
-annotations: {}
-labels: {}
+{{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
 mounts: {}
 size: 1Gi
 spec:

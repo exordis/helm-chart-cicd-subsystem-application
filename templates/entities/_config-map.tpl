@@ -3,10 +3,8 @@
 
 {{- define "subsystem-application.entities.config-map.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+{{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
 data: {}
-labels: {}
-annotations: {}
 {{- end -}}
 
 {{- define "subsystem-application.entities.config-map.create" -}}
