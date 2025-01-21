@@ -3,7 +3,9 @@
 
 {{- define "subsystem-application.entities.secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
+annotations: {}
+labels: {}
 containers:
 stringData: {}
 {{- end -}}

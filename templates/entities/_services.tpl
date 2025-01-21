@@ -3,6 +3,9 @@
 
 {{- define "subsystem-application.entities.service.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
+namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
+annotations: {}
+labels: {}
 ports: []
 spec: 
   sessionAffinity: None

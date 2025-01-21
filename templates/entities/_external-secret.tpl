@@ -3,6 +3,9 @@
 
 {{- define "subsystem-application.entities.external-secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
+namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+annotations: {}
+labels: {}
 containers:
 spec: 
   refreshInterval: 1m

@@ -1,20 +1,24 @@
-application: some-application
-applicationType: service
-dockerRegistry: registry.gitlab.com
-instanceName: some-instancename
-
-version: 0.0.0
-# workload: deployment
-# workload: none
-
-replicas: 3
 global: 
   product: Some Product
   subsystem: some-subsystem
   environment: test
+
+application: some-application
+applicationType: service
+
+instanceName: some-instancename
+
+dockerRegistry: registry.gitlab.com
+version: 0.0.0
+
+# workload: deployment
+# workload: none
+
+replicas: 3
+
+
 externalSecretScope: qa2
 externalSecretsStrategy: latest
-
 
 deployment:
   strategy:
@@ -97,12 +101,14 @@ ingresses:
     useTls: true
     default_backend:
       service: service-not-managed-with-chart
-      port: 80  
+      port: 80
+      foreign: true  
     hosts:
       - service-not-managed-with-chart.exordis.com
     paths:
       - path: /
         pathType: ImplementationSpecific
+        
 
 
 

@@ -8,11 +8,17 @@ TODO:
 - Values.deployment should be source of spec. 
 - template should take .spec from deployment entity or spec should be removed
  */ -}}
+namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+annotations: {}
+labels: {}
+
+
 spec: 
   revisionHistoryLimit: 2
 containers: {}
 initContainers: {}
 volumes: {}
+
 {{ end -}}
 
 

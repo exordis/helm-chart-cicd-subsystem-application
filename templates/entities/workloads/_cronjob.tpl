@@ -15,6 +15,8 @@ spec: {}
 containers: {}
 initContainers: {}
 volumes: {}
+labels: {}
+annotations: {}
 {{ end -}}
 
 {{- define "subsystem-application.entities.cronjob.create" -}}

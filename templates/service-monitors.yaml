@@ -3,13 +3,7 @@
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
-metadata:
-  name: {{ .name }}
-  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
-  labels:
-    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
-  annotations: 
-    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}    
+metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 2}}
 spec:
 {{ .spec | toYaml | indent 2 }}
 {{- end -}}

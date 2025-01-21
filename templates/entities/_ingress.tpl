@@ -3,6 +3,9 @@
 
 {{- define "subsystem-application.entities.ingress.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
+namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
+annotations: {}
+labels: {}
 type: internal
 default_backend: {}
 useRegex: false
@@ -20,8 +23,6 @@ tlsSecretName: {{ printf "%s-%s" ( include "sdk.naming.application.ingress" (lis
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
 
 name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
-
-
 {{- end -}}
 
 
@@ -29,6 +30,20 @@ name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsyste
 
 {{- define "subsystem-application.entities.ingress.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
+  # Validate default backend references existing service
+  {{- if and (hasKey $ingress.default_backend "service") (hasKey $.entities.services $ingress.default_backend.service | not) ($ingress.default_backend.foreign | default false | not) -}}
+    {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' default backend references missing service '%s'. Either explicitly mark backend with `foreign: true` or define service '%s' in services" $id $ingress.default_backend.service $ingress.default_backend.service -}}
+    {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+  {{- end -}}
+
+  # Validate all backend fields reference existing services
+  {{- range $path := $ingress.paths  -}}
+    {{- if and (hasKey $path "backend") (hasKey $.entities.services $path.backend.service | not) ($path.backend.foreign | default false | not  ) -}}
+      {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' path '%s' backend references missing service '%s'.  Either explicitly mark backend with `foreign: true` or define service '%s' in services" $id $path.path $path.backend.service $path.backend.service -}}
+      {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+    {{- end -}}
+  {{- end -}}
+
   # Use default backend where not provided explicitly 
   # TODO: check https://kubernetes.io/docs/concepts/services-networking/ingress/#types-of-ingress
   {{- if $ingress.default_backend -}}
@@ -38,24 +53,17 @@ name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsyste
   {{- end -}}
 
 
-  # Validate default backend references existing service
-  {{- if and (hasKey $.entities.services $ingress.default_backend.service | not) ($ingress.default_backend.foreign | default false) -}}
-    {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' references missing service '%s'. Either explicitly mark backend with `foreign: true` or define service in services" $id $ingress.default_backend.service -}}
-    {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
-  {{- end -}}
-
-  # Validate all backend fields reference existing services
-  {{- range $path := $ingress.paths  -}}
-    {{- if and (hasKey $path "backend" | and (hasKey $.entities.services $path.backend.service | not)) ($path.backend.foreign | default false) -}}
-      {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' path '%s' references missing service '%s'.  Either explicitly mark backend with `foreign: true` or define service in services" $id $path.path $path.backend.service -}}
-      {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
-    {{- end -}}
-  {{- end -}}
-
-
-
-
 # Return entity overrides
+annotations:
+  {{- if $ingress.useTls }}
+  {{ if $.Values.certManagerClusterIssuer }}cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}{{ end }}
+  kubernetes.io/tls-acme: 'true'
+  nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  {{- end }}
+  {{ if $ingress.useRegex }}nginx.ingress.kubernetes.io/use-regex: {{ $ingress.useRegex | quote }}{{ end }}
+  {{ if $ingress.rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: "{{$ingress.rewriteTarget}}"{{ end }}
+  {{ if ge ($ingress.proxyBodySize | int) 0 }}nginx.ingress.kubernetes.io/proxy-body-size: "{{$ingress.proxyBodySize}}"{{ end }}
+  {{ if not $ingress.proxyBuffering }}nginx.ingress.kubernetes.io/proxy-buffering: "off"{{ end }}
 spec:
   ingressClassName: "{{  (ternary "nginx-public" "nginx" ($ingress.type | eq "public")) }}"
   rules:

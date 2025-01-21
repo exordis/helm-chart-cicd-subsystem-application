@@ -3,13 +3,7 @@
 ---
 apiVersion: batch/v1
 kind: CronJob
-metadata:
-  name: {{ .name }}
-  namespace: {{ .namespace }}
-  labels:
-    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
-  annotations:
-    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 2}}
 spec:
   schedule: {{ .schedule | quote}}
   concurrencyPolicy: "{{ .concurrencyPolicy }}"
