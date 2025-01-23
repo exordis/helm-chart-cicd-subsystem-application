@@ -3,3 +3,4 @@ global:
   subsystem: some-subsystem
   environment: test
 application: some-application
+version: 0.0.0

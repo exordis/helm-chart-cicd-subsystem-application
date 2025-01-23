@@ -4,7 +4,8 @@
   "required": [
       "application",
       "applicationType",
-      "global"
+      "global",
+      "version"
   ],
   "properties": {
       "sdk": {
@@ -13,6 +14,15 @@
       "foundation-sdk": {
           "type": "object"
       },
+      "version": {
+        "$ref": "#/definitions/dockerImageVersion"
+      },
+      "repository": {
+        "type": "string"
+      },
+      "registry": {
+          "type": "string"
+      },      
       "workload": {
         "type": "string",
         "enum": [
@@ -53,27 +63,18 @@
               "web"
           ]
       },
-      "applicationContainer": {
-          "type": "object"
+      "applicationContainer":{
+        "$ref": "#/definitions/container"
       },
       "replicas": {
           "type": "integer"
       },
-      "dockerRegistry": {
-          "type": "string"
-      },
       "instanceName": {
-          "type": "string"
-      },
-      "image": {
           "type": "string"
       },
       "certManagerClusterIssuer": {
           "type": "string",
           "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
-      },
-      "version": {
-          "$ref": "#/definitions/dockerImageVersion"
       },
       "deployment": {
         "$ref": "#/definitions/deployment"
@@ -279,9 +280,9 @@
               "spec": {
                   "type": "object"
               },
-              "version": {
-                  "$ref": "#/definitions/dockerImageVersion"
-              },
+              "image": {
+                "$ref": "#/definitions/dockerImage"    
+              },            
               "sizeLimit": {
                   "type": "string"
               },
@@ -484,19 +485,32 @@
           ],
           "pattern": "^\/.*$"
       },
+      "dockerImage":{
+        "type": "object",
+        "properties": {
+            "repository": {
+                "type": "string"
+            },
+            "registry": {
+                "type": "string"
+            },              
+            "version": {
+                "$ref": "#/definitions/dockerImageVersion"
+            }
+        },   
+        "additionalProperties": false         
+      },
       "container": {
           "type": "object",
           "properties": {
-              "image": {
-                  "type": "string"
-              },
-              "version": {
-                  "$ref": "#/definitions/dockerImageVersion"
-              },
               "spec": {
                   "type": "object"
+              },
+              "image": {
+                  "$ref": "#/definitions/dockerImage"    
               }
-          }
+          },
+          "additionalProperties": false
       }
   }
 }

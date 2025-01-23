@@ -1,7 +1,6 @@
 application: ""
 applicationType: service
 instanceName: ""
-dockerRegistry: registry.gitlab.com
 replicas: 3
 # version: 0.0.0
 applicationContainer: {}

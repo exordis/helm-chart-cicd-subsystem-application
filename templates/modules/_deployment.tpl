@@ -4,7 +4,7 @@
     {{- $containers := dict -}} 
     {{- $_:= set $data "volumes" ($.Values.volumes | default dict | deepCopy) -}} 
     {{- $_:= set $data "containers" ($.Values.sidecars | default dict | deepCopy) -}} 
-    {{- $_:= set $data.containers "applicationContainer" (dict "image" $.Values.image "version" $.Values.version "spec" $.Values.applicationContainer )  -}} 
+    {{- $_:= set $data.containers "applicationContainer" ($.Values.applicationContainer | default dict )  -}} 
     {{- $_:= set $data "initContainers"  ($.Values.initContainers | default dict | deepCopy) -}} 
     {{- include "sdk.engine.create-entity" (list $ "deployment" "workload" $data) -}}
   {{- end -}}

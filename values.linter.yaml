@@ -8,13 +8,26 @@ applicationType: service
 instanceName: some-instancename
 
 
-dockerRegistry: registry.gitlab.com
-version: 0.0.0
+envs: 
+  TEST: 123
+  SUBSYSTEM: wrong-subsystem
 
 # workload: deployment
-# workload: none
 
 replicas: 3
+version: 0.0.0
+registry: registry.gitlab.com
+#repository: 'some-subsystem-some-application'
+
+
+# applicationContainer: 
+#   image:
+#     registry: registry.gitlab.com
+#     repository: 'some-subsystem-some-application'
+#     version: 0.0.0
+#   spec: {}
+
+
 
 deployment:
   strategy:
@@ -23,16 +36,14 @@ deployment:
       maxUnavailable: 25%
     type: RollingUpdate
 
-envs: 
-  TEST: 123
-  SUBSYSTEM: wrong-subsystem
+
 
 configMaps:
   config:
     data:
       test: "123"
       
-applicationContainer: {}
+
 
 services:
   service-a:
@@ -105,15 +116,17 @@ ingresses:
 
 initContainers:
   migration:
-    image: my-default-image
-    version: 0.0.0
+    image:
+      repository: my-default-image
+      version: 0.0.0
     #spec:
     #  imagePullPolicy: Always
 
 sidecars:
   jsreport:
-    image: jsreport
-    version: 0.0.0
+    image:
+      repository: jsreport
+      version: 0.0.0
     #spec:
 
 #TODO: replace with dict name->spec
@@ -141,7 +154,10 @@ dataFolders:
     "templates":
       spec:
         imagePullPolicy: Always
-      version: 1.24.0-dev.5
+      image:
+        # registry: "templates"
+        version: 1.24.0-dev.5
+        repository: "software-development/subsystems/some-subsystem/data-content-templates"
       sizeLimit: 200Mi
       mounts: #shouldn't be empty
         applicationContainer:
@@ -173,8 +189,10 @@ cronjobs:
     schedule: 0 6 * * *
     containers:
       main: 
-        image: "registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner"
-        version: "0.1.0"
+        image: 
+          registry: "registry.gitlab.com"
+          repository: "knst/cy/registry/cicd-docker-registry-cleaner"
+          version: "0.1.0"
         spec:
           args: 
             - "tag" 
@@ -182,8 +200,9 @@ cronjobs:
             - "--registry"
     initContainers:
       "cleanup-init":
-        image: cleanup-init
-        version: 0.0.0            
+        image: 
+          repository: cleanup-init
+          version: 0.0.0            
     volumes:
       volume2:
         #spec:

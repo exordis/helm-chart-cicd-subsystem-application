@@ -128,7 +128,7 @@ manifest should match snapshot:
                         name: some-subsystem-some-application-some-instancename-envs
                     - secretRef:
                         name: some-subsystem-some-application-some-instancename-gitlab-token
-                  image: cleanup-init:0.0.0
+                  image: registry.gitlab.com/cleanup-init:0.0.0
                   imagePullPolicy: IfNotPresent
                   name: some-subsystem-some-application-some-instancename-cleanup-init
                   resources:
@@ -285,7 +285,7 @@ manifest should match snapshot:
                     name: some-subsystem-some-application-some-instancename-envs
                 - secretRef:
                     name: some-subsystem-some-application-some-instancename-gitlab-token
-              image: jsreport:0.0.0
+              image: registry.gitlab.com/jsreport:0.0.0
               imagePullPolicy: IfNotPresent
               name: some-subsystem-some-application-some-instancename-jsreport
               resources:
@@ -306,7 +306,7 @@ manifest should match snapshot:
                     name: some-subsystem-some-application-some-instancename-envs
                 - secretRef:
                     name: some-subsystem-some-application-some-instancename-gitlab-token
-              image: my-default-image:0.0.0
+              image: registry.gitlab.com/my-default-image:0.0.0
               imagePullPolicy: IfNotPresent
               name: some-subsystem-some-application-some-instancename-migration
               resources:

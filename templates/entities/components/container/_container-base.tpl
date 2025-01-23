@@ -3,10 +3,6 @@
 
 {{- define "subsystem-application.entities.container-base.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-{{- $application := $id | eq "applicationContainer" | ternary $.Values.application $id  -}}
-{{- $canonical_name := include "sdk.naming.application-canonical-name" (list $.Values.global.subsystem $application) -}}
-{{- $image:= printf "%s/%s" $.Values.dockerRegistry $canonical_name -}}
-
 spec: 
   imagePullPolicy: IfNotPresent
   resources:
@@ -16,7 +12,10 @@ spec:
     requests:
       cpu: 2m
       memory: 70Mi
-image: {{ $image }}
+image: 
+  version:  {{ $.Values.version }}
+  registry: {{ $.Values.registry }}
+  repository: {{ $.Values.repository }}
 version: latest
 
 {{- end -}}
@@ -33,7 +32,7 @@ name: {{ include "sdk.naming.application.deployment.container" (list $.Values.gl
 {{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
 spec:
   name: {{ $container.name }}
-  image: {{ printf "%s:%s" ($container.image) ($container.version) }}
+  image: {{ printf "%s/%s:%s" $container.image.registry $container.image.repository $container.image.version }}
   envFrom: 
     - configMapRef:
         name: {{ include "sdk.naming.application.config-map" (list $.Values.global.subsystem $.Values.application $.Values.instanceName "envs") }}

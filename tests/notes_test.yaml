@@ -8,6 +8,7 @@ tests:
       global.subsystem: some-subsystem
       global.environment: test
       application: some-application
+      version: 0.0.0
     asserts:
       - equalRaw:
           value: "deployed application some-subsystem-some-application of subsystem Some Product/some-subsystem to environment test"

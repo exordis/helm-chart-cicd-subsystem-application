@@ -1,2 +1,5 @@
 configmap
 envs
+microservice
+sharding
+lifecycle

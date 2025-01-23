@@ -34,8 +34,10 @@ mounts:
         {{- include "sdk.engine.log" (list $ (printf "Reading data folder '%s'" $folderName) 2) -}}
 
         {{- /* add data folder init container to .initContainers:  */ -}}
-        {{- $image := include "sdk.naming.subsystem.repository-image-name" (list $.Values.dockerRegistry $.Values.global.subsystem (printf "data-%s-%s" $folderType $folderName) ) -}}
-        {{- $initContainer := (dict "name" $folderName "image" $image  "version" $dataFolder.version "spec" $dataFolder.spec  ) -}}
+        {{- /*$image := dict "registry" ( $dataFolder.image.registry | default $.Values.image.registry) "version" ( $dataFolder.image.version | default $.Values.image.version) "repository" ( $dataFolder.image.repository | default $.Values.image.repository)*/ -}}
+        {{- /*$image := include "sdk.naming.subsystem.repository-image-name" (list $.Values.image.registry $.Values.global.subsystem (printf "data-%s-%s" $folderType $folderName) )*/ -}}
+        {{- /*$initContainer := (dict "name" $folderName "image" $image  "version" $dataFolder.version "spec" $dataFolder.spec  )*/ -}}
+        {{- $initContainer := (dict "name" $folderName "image" ($dataFolder.image| default dict) "spec" $dataFolder.spec  ) -}}
         {{- include "sdk.engine.create-entity" (list $ "init-container" $folderName $initContainer $workload "initContainers") -}}
 
         {{- /* build list of init container paths and create volumes:  */ -}}
