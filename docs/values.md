@@ -1,3 +1,7 @@
+---
+order: 1
+---
+
 ## Description
 
 Entire helm chart deploys application, sacrificing some flexibility for simplicity and unification. 
@@ -40,7 +44,7 @@ Metadata values except `product` are used to build resource names with [Naming C
 
 `product` is used only as reference value and represents mapping of subsystem as technical asset on organization business unit or marketing naming.
 
-`product` value is not available for resource name construction to avoid massive kubernetes resources renaming in case of `subsystem` handover from one business unit to another or marketing naming change.
+`product` value is not available for resource name construction to avoid massive kubernetes Resources renaming in case of `subsystem` handover from one business unit to another or marketing naming change.
 
 !!! NOTE
     Kubernetes has 64 characters limit for resource names, so metadata values should be as short as possible to avoid exceeding this limit, though yet not loosing clear identification.
@@ -72,8 +76,8 @@ As application is intended to be microservice or web application there can not b
 
 Application main workload type is set with `workload`:
 
-  - `deployment` application should be deployed as kubernetes `Deployment`. See [Deployment](entities/Workloads/deployment.md) for more details (default)
-  - `none` no workload is to be deployed (degenerate case but may be useful in some cases if some resources have independent lifecycle within `subsystem` )
+  - `deployment` application should be deployed as kubernetes `Deployment`. See [Deployment](Workloads/deployment.md) for more details (default)
+  - `none` no workload is to be deployed (degenerate case but may be useful in some cases if some Resources have independent lifecycle within `subsystem` )
 
 !!! NOTE
     Support of `StatefulSet` to be added later
@@ -87,14 +91,54 @@ Values that are applicable to all types of workloads are defined on root level o
 - `registry` - (optional) registry to pull  application docker images from. Defaults to `docker.io`
 - `repository` - (optional)  Defaults to match application canonical name `[Values.global.subsystem]-[Values.global.application]`. 
 
-All [containers](entitites/Components/container.md) defined in values are using root `version`, `registry`, `repository` as default values of `image` fields.
+All [containers](Components/containers.md) defined in values are using root `version`, `registry`, `repository` as default values of `image` fields.
 
 
+### Entities
+
+The remaining part of values is definition of entities that are translated to kubernetes manifests.
+
+Entities are of following types
+
+#### Workload components
+
+Components of workloads. 
+
+Main workload components are to be defined on root level of values and not deployed if skipped if `workload` value is set to `none`. This ensures that main workload is only one and lets change type of main workload without significant changes in `values`
+
+Batch workload components are to be defined as part of corresponding workload. 
+
+- [application container](./Components/containers.md#application-container)
+- [init containers](Components/containers.md#init-containers)
+- [sidecars](Components/containers.md#sidecars)
+- [volumes](Components/volumes.md)
+
+#### Resources
+
+Standalone resources to be deployed.
+
+- [configmap](Resources/configmaps.md)
+- [secret](Resources/secrets.md)
+- [external-secret](Resources/external-secret.md)
+- [ingress](Resources/ingress.md)
+- [PVC](Resources/pvc.md)
+- [service](Resources/service.md)
+
+#### Workloads
+
+Tuning of main workload based on its type.
+
+- [Deployment](Workloads/deployment.md)
 
 
+#### Batch Workloads
 
+Batch workloads to be deployed.
 
+- [CronJob](Batch Workloads/cronjob.md)
 
+#### Patterns
 
-  
+Synthetics entities representing deployment patterns. Translated to creation and linking of components and resources. 
 
+- [Data Folder](Patterns/data-folder.md)

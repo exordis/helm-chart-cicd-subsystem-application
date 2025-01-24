@@ -1,1 +1,5 @@
+---
+order: -1
+---
+
 - [ ] BUG: selector labels template will match cronjob pods together with deployment ones when used for service
