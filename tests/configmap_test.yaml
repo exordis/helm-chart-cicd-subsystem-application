@@ -80,6 +80,7 @@ tests:
         sidecar1: {}
       initContainers: 
         init1: {}
+        init2: {}
       configMaps:
         config:
           value: 1
@@ -88,17 +89,12 @@ tests:
       value: Deployment
     asserts:
       - contains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application")].envFrom
+          path: spec.template.spec.containers[*].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - contains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
-          content:
-            configMapRef:
-              name: some-subsystem-some-application-config
-      - contains:
-          path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          path: spec.template.spec.initContainers[*].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
@@ -112,29 +108,37 @@ tests:
       workload: deployment
       sidecars: 
         sidecar1: {}
+        sidecar2: {}
       initContainers: 
         init1: {}
+        init2: {}
       configMaps:
         config:
           containers:
             - init1 
+            - sidecar1 
           value: 1
     documentSelector:
       path: kind
       value: Deployment
     asserts:
-      - notContains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application")].envFrom
+      - contains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - notContains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
+          path: spec.template.spec.containers[?(@.name != "some-subsystem-some-application-sidecar1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - contains:
           path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - notContains:
+          path: spec.template.spec.initContainers[?(@.name != "some-subsystem-some-application-init1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
@@ -161,17 +165,12 @@ tests:
       value: Deployment
     asserts:
       - notContains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application")].envFrom
+          path: spec.template.spec.containers[*].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - notContains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
-          content:
-            configMapRef:
-              name: some-subsystem-some-application-config
-      - notContains:
-          path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          path: spec.template.spec.initContainers[*].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
