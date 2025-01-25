@@ -224,6 +224,22 @@
       "configMap": {
         "type": "object",
         "properties": {
+          "annotations": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "labels": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
           "namespace": {
             "type": "string"
           },
@@ -257,6 +273,22 @@
               "type": "string"
             }
           },
+          "annotations": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "labels": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },           
           "namespace": {
             "type": "string"
           },

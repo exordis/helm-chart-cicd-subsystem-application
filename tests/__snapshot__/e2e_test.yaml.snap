@@ -621,6 +621,7 @@ manifest should match snapshot:
     metadata:
       annotations:
         exordis/subsystemDescription: some-subsystem subsystem
+        test_annotation: annotation1
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
         app.kubernetes.io/instance: some-instancename
@@ -635,6 +636,7 @@ manifest should match snapshot:
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
+        test_label: labels1
       name: some-subsystem-some-application-some-instancename-password
       namespace: some-subsystem-test
     stringData:
