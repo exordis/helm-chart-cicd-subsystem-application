@@ -18,16 +18,12 @@ spec:
       labels:
         {{- include "subsystem-application.metadata.common-labels" $ | nindent 8 }}
       annotations:
-        {{- range $configMap := $.entities.configMaps -}}    
-          {{- if  $configMap.namespace | eq $namespace }}    
-        checksum/configMap.{{$configMap.id}}: {{ include "sdk.common.checksum" (list $configMap.data) }}
-          {{- end }}
+        {{- range $configMapId := .referencedConfigMaps }}
+        checksum/configMap.{{$configMapId}}: {{ include "sdk.common.checksum" (list (get $.entities.configMaps $configMapId).data ) }}
+        {{- end -}}
+        {{- range $secretId := .referencedSecrets }}
+        checksum/secret.{{$secretId}}: {{ include "sdk.common.checksum" (list (get $.entities.secrets $secretId).stringData ) }}
         {{- end }}
-        {{- range $secret := $.entities.secrets -}}
-          {{- if  $secret.namespace | eq $namespace }}   
-        checksum/secret.{{$secret.id}}: {{ include "sdk.common.checksum" (list $secret.stringData) }}
-          {{ end -}}
-        {{- end }}          
     spec:
       containers: 
         {{- range .containers }}

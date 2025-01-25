@@ -2,10 +2,12 @@
 suite: Entities/ConfigMaps
 templates:
   - templates/configmaps.yaml
+  - templates/deployment.yaml
 values:
   - values.metadata.yaml
 tests:
   - it: Should generate configMap from minimum data in values 
+    template: templates/configmaps.yaml
     set:
       configMaps:
         config:
@@ -24,6 +26,7 @@ tests:
 
 
   - it: Should generate configMap with provided namespace 
+    template: templates/configmaps.yaml
     set:
       configMaps:
         config:
@@ -40,6 +43,7 @@ tests:
 
 
   - it: Should generate configMap from empty data
+    template: templates/configmaps.yaml
     set:
       configMaps:
         config:
@@ -55,6 +59,7 @@ tests:
 
 
   - it: Should generate configMap from empty definition
+    template: templates/configmaps.yaml
     set:
       configMaps:
         config:
@@ -67,4 +72,108 @@ tests:
           count: 0
 
 
+  - it: Should generate configMap reference in all deployment containers if configmap.containers is not defined
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+      initContainers: 
+        init1: {}
+      configMaps:
+        config:
+          value: 1
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - contains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - contains:
+          path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - exists:
+          path: spec.template.metadata.annotations["checksum/configMap.config"]
+  
 
+  - it: Should generate configMap reference only for containers listed by configmap.containers if defined
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+      initContainers: 
+        init1: {}
+      configMaps:
+        config:
+          containers:
+            - init1 
+          value: 1
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - notContains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - contains:
+          path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - exists:
+          path: spec.template.metadata.annotations["checksum/configMap.config"]
+  
+
+  
+  - it: Should not generate configMap reference in deployment configmap.containers does not list any of its containers
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+      initContainers: 
+        init1: {}
+      configMaps:
+        config:
+          containers: 
+            - non-deployment-container
+          value: 1
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - notContains:
+          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - notContains:
+          path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          content:
+            configMapRef:
+              name: some-subsystem-some-application-config
+      - notExists:
+          path: spec.template.metadata.annotations["checksum/configMap.config"]

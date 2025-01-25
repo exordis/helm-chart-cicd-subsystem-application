@@ -34,16 +34,20 @@ spec:
   name: {{ $container.name }}
   image: {{ printf "%s/%s:%s" $container.image.registry $container.image.repository $container.image.version }}
   envFrom: 
+  {{- range $configMap := $.entities.configMaps -}}
+    {{- if and (eq $namespace $configMap.namespace) (or (eq $configMap.containers nil ) (has $container.id $configMap.containers )) }}
     - configMapRef:
-        name: {{ include "sdk.naming.application.config-map" (list $.Values.global.subsystem $.Values.application $.Values.instanceName "envs") }}
+        name: {{ $configMap.name }}
+    {{ end -}}
+  {{- end }}
   {{- range $externalSecret := $.entities.externalSecrets -}}
-    {{- if or (has $container.id $externalSecret.containers ) (not $externalSecret.containers ) }}
+    {{- if or (has $container.id $externalSecret.containers ) (eq  $externalSecret.containers nil ) }}
     - secretRef:
         name: {{ $externalSecret.targetSecretName }}
     {{ end -}}
   {{- end }}
   {{- range $secret := $.entities.secrets -}}
-    {{- if and (eq $namespace $secret.namespace) (or (has $container.id $secret.containers ) (not $secret.containers )) }}
+    {{- if and (eq $namespace $secret.namespace) (or (eq $secret.containers nil  ) (has $container.id $secret.containers )) }}
     - secretRef:
         name: {{ $secret.name }}
     {{ end -}}

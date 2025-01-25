@@ -126,9 +126,17 @@
       },
       "secrets": {
         "type": "object",
+        
         "patternProperties": {
           "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
-            "$ref": "#/definitions/secret"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/secret"
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -219,6 +227,12 @@
           "namespace": {
             "type": "string"
           },
+          "containers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },          
           "data": {
             "type": "object",
             "patternProperties": {
@@ -235,6 +249,7 @@
       },
       "secret": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "containers": {
             "type": "array",

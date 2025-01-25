@@ -106,6 +106,8 @@ manifest should match snapshot:
                     - --registry
                   envFrom:
                     - configMapRef:
+                        name: some-subsystem-some-application-some-instancename-config
+                    - configMapRef:
                         name: some-subsystem-some-application-some-instancename-envs
                     - secretRef:
                         name: some-subsystem-some-application-some-instancename-gitlab-token
@@ -125,6 +127,8 @@ manifest should match snapshot:
               initContainers:
                 - envFrom:
                     - configMapRef:
+                        name: some-subsystem-some-application-some-instancename-config
+                    - configMapRef:
                         name: some-subsystem-some-application-some-instancename-envs
                     - secretRef:
                         name: some-subsystem-some-application-some-instancename-gitlab-token
@@ -140,6 +144,8 @@ manifest should match snapshot:
                       memory: 70Mi
                   volumeMounts: null
                 - envFrom:
+                    - configMapRef:
+                        name: some-subsystem-some-application-some-instancename-config
                     - configMapRef:
                         name: some-subsystem-some-application-some-instancename-envs
                     - secretRef:
@@ -217,6 +223,7 @@ manifest should match snapshot:
           annotations:
             checksum/configMap.config: 199a739d5d9b1f5ad6a1d492c0fb4526ee0e1e822df753687048f5890a65855b
             checksum/configMap.envs: 304d5879766886576f9d1f4fa3bd0b5f33ab93356178dfdc27d39076f29bcc58
+            checksum/secret.password: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
           labels:
             app.kubernetes.io/component: some-subsystem-some-application
             app.kubernetes.io/instance: some-instancename
@@ -235,9 +242,13 @@ manifest should match snapshot:
           containers:
             - envFrom:
                 - configMapRef:
+                    name: some-subsystem-some-application-some-instancename-config
+                - configMapRef:
                     name: some-subsystem-some-application-some-instancename-envs
                 - secretRef:
                     name: some-subsystem-some-application-some-instancename-gitlab-token
+                - secretRef:
+                    name: some-subsystem-some-application-some-instancename-password
               image: registry.gitlab.com/some-subsystem-some-application:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
@@ -282,6 +293,8 @@ manifest should match snapshot:
                   name: volume1
             - envFrom:
                 - configMapRef:
+                    name: some-subsystem-some-application-some-instancename-config
+                - configMapRef:
                     name: some-subsystem-some-application-some-instancename-envs
                 - secretRef:
                     name: some-subsystem-some-application-some-instancename-gitlab-token
@@ -303,6 +316,8 @@ manifest should match snapshot:
           initContainers:
             - envFrom:
                 - configMapRef:
+                    name: some-subsystem-some-application-some-instancename-config
+                - configMapRef:
                     name: some-subsystem-some-application-some-instancename-envs
                 - secretRef:
                     name: some-subsystem-some-application-some-instancename-gitlab-token
@@ -318,6 +333,8 @@ manifest should match snapshot:
                   memory: 70Mi
               volumeMounts: null
             - envFrom:
+                - configMapRef:
+                    name: some-subsystem-some-application-some-instancename-config
                 - configMapRef:
                     name: some-subsystem-some-application-some-instancename-envs
                 - secretRef:
@@ -599,6 +616,30 @@ manifest should match snapshot:
         requests:
           storage: 10Gi
   10: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      annotations:
+        exordis/subsystemDescription: some-subsystem subsystem
+      labels:
+        app.kubernetes.io/component: some-subsystem-some-application
+        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: some-subsystem-some-application
+        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/version: 0.0.0
+        exordis/application: some-subsystem-some-application
+        exordis/application-instance: some-instancename
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: some-subsystem
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: some-subsystem-some-application-some-instancename-password
+      namespace: some-subsystem-test
+    stringData:
+      password: passw0rd
+  11: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -636,7 +677,7 @@ manifest should match snapshot:
           exordis/application-instance: some-instancename
           exordis/environment: test
           exordis/subsystem: some-subsystem
-  11: |
+  12: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -674,7 +715,7 @@ manifest should match snapshot:
         exordis/environment: test
         exordis/subsystem: some-subsystem
       sessionAffinity: None
-  12: |
+  13: |
     apiVersion: v1
     kind: Service
     metadata:

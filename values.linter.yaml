@@ -42,7 +42,13 @@ configMaps:
   config:
     data:
       test: "123"
-      
+
+secrets:
+  password:
+    containers: 
+      - applicationContainer
+    stringData:
+      password: "passw0rd"      
 
 
 services:
