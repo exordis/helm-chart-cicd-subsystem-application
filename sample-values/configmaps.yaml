@@ -1,0 +1,18 @@
+configMaps:
+  config1:
+    # defaults to application namespace based on convention
+    namespace: "my-namespace"
+    # defaults to empty dict
+    labels: 
+      extra-label: "label value"
+    # defaults to empty dict
+    annotations: 
+      extra-annotation: "annotation value"
+    data:
+      value1: "test"
+      value2: "123"
+  config2:
+    containers:
+      - applicationContainer
+    data:
+      value: "test"

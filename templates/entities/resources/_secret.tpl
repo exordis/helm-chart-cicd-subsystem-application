@@ -15,4 +15,9 @@ name: {{ include "sdk.naming.application.secret" (list $.Values.global.subsystem
 
 
 {{- define "subsystem-application.entities.secret.process" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $secret := index . 2 -}}
+{{- include "subsystem-application.validation.container-refs" (list $ "Secret" $id $secret.containers ) -}}
+
+
+
 {{- end }}

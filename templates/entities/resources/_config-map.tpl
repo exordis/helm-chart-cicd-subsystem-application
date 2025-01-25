@@ -14,4 +14,7 @@ name: {{ include "sdk.naming.application.config-map" (list $.Values.global.subsy
 
 
 {{- define "subsystem-application.entities.config-map.process" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $configMap := index . 2 -}}
+{{- include "subsystem-application.validation.container-refs" (list $ "ConfigMap" $id $configMap.containers ) -}}
+
 {{- end }}

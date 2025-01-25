@@ -5,7 +5,9 @@ global:
 application: some-application
 version: 0.0.0
 
-# sidecars: 
-#   sidecar1: {}
-# initContainers: 
-#   init1: {}
+# secrets:
+#   password:
+#     containers: 
+#       - missing
+#     stringData:
+#       key: "value" 

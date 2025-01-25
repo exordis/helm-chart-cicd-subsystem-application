@@ -25,6 +25,7 @@ volumes: {}
 {{- define "subsystem-application.entities.deployment.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $deployment := index . 2 -}}
 name: {{ include "sdk.naming.application.deployment" (list $.Values.global.subsystem $.Values.application $.Values.instanceName) }}
+workloadType: main
 subcollections:
   - containers
   - initContainers

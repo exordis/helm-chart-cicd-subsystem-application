@@ -38,25 +38,9 @@ deployment:
 
 
 
-configMaps:
-  config:
-    labels:
-      test_label: "labels1"  
-    annotations:
-      test_annotation: "annotation1"  
-    data:
-      test: "123"
 
-secrets:
-  password:
-    labels:
-      test_label: "labels1"  
-    annotations:
-      test_annotation: "annotation1"  
-    containers: 
-      - applicationContainer
-    stringData:
-      password: "passw0rd"      
+
+   
 
 
 services:
