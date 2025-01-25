@@ -40,6 +40,10 @@ deployment:
 
 configMaps:
   config:
+    labels:
+      test_label: "labels1"  
+    annotations:
+      test_annotation: "annotation1"  
     data:
       test: "123"
 
