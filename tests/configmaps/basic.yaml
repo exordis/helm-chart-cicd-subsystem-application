@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/ConfigMaps
+templates:
+  - templates/configmaps.yaml
+  - templates/deployment.yaml
+  - templates/cronjobs.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate configMap from minimum data in values 
+    template: templates/configmaps.yaml
+    set:
+      configMaps:
+        config:
+          data:
+            key: "value" 
+    documentSelector:
+      path: metadata.name
+      value: some-subsystem-some-application-config 
+    asserts:
+      - equal:
+          path: data.key
+          value: value
+      - equal:
+          path: metadata.namespace
+          value: some-subsystem-test
+
+
+  - it: Should generate configMap with provided namespace 
+    template: templates/configmaps.yaml
+    set:
+      configMaps:
+        config:
+          namespace: some-namespace
+          data:
+            key: "value" 
+    documentSelector:
+      path: metadata.name
+      value: some-subsystem-some-application-config
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: some-namespace
+
+
+  - it: Should generate configMap from empty data
+    template: templates/configmaps.yaml
+    set:
+      configMaps:
+        config:
+          namespace: mynamespace
+          data: {}
+    documentSelector:
+      path: metadata.name
+      value: some-subsystem-some-application-config 
+    asserts:
+      - lengthEqual:
+          path: data
+          count: 0
+
+
+  - it: Should fail when referencing non existing container
+    template: templates/configmaps.yaml
+    set:
+      configMaps:
+        config:
+          containers: 
+            - missing
+          data:
+            key: "value" 
+    asserts:
+      - failedTemplate:
+          errorPattern: "ConfigMap 'config' references undefined containers: 'missing'"
