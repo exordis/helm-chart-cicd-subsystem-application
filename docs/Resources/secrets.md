@@ -61,12 +61,18 @@ secrets:
 - Each item in `containers` references `applicationContainer` or existing `id` in `init-container` or `sidecars`
 - Each item in `containers` belongs to the same some-namespace as the secret
 
+## Overrides
+
+`name`
+
+:   `name` is generated from id by [convention](../naming conventions.md)
+
 
 ## Manifests Generation 
 
 - `secretRef` is added to containers with ids listed in `secret.containers` (all if this field is not set)
 - annotation with checksum of configmap is added to workloads manifests if at least one container of has `secretRef` added
-- secret manifest is generated:
+- secret manifest is generated
  
     ``` yaml
     ---

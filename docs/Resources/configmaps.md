@@ -59,6 +59,11 @@ configMaps:
 - Each item in `containers` references `applicationContainer` or existing `id` in `init-container` or `sidecars`
 - Each item in `containers` belongs to the same some-namespace as the secret
 
+## Overrides
+
+`name`
+
+:   `name` is generated from id by [convention](../naming conventions.md)
 
 ## Manifest Generation 
 

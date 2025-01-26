@@ -6,9 +6,10 @@ replicas: 3
 applicationContainer: {}
 envs: {}
 
-global: {}
+global:
 #  product: 
 #  subsystem: 
 #  environment:
-
-# certManagerClusterIssuer: letsencrypt-prod
+  naming:
+    secret: "{{.subsystem}}-{{.application}}-{{.id}}"
+    config-map: "{{.subsystem}}-{{.application}}-{{.id}}"

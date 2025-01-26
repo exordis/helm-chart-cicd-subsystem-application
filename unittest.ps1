@@ -5,7 +5,7 @@
 
 
 # Define the default -f argument
-$defaultArg = "-f 'tests/**/*_test.yaml'"
+$defaultArg = "-f 'tests/**/*-tests.yaml' -f 'tests/**/*-test.yaml' -f 'tests/**/*_test.yaml'"
 
 # Parse the provided arguments
 $providedArgs = @() # Initialize an array for processed arguments
@@ -24,5 +24,7 @@ if (-not $hasFileArg) {
   $providedArgs += $defaultArg
 }
 
-
+# helm dependency update tests/chart
+# helm dependency build tests/chart
+# docker run -ti --rm -v .:/src --entrypoint /bin/sh helmunittest/helm-unittest:3.16.3-0.7.0 -c "cp -R /src/* /apps && cd /apps && helm unittest -f 'tests/**/*-tests.yaml' ./tests/chart" 
 docker run -ti --rm -v .:/src --entrypoint /bin/sh helmunittest/helm-unittest:3.16.3-0.7.0 -c "cp -R /src/* /apps && cd /apps && helm unittest . $providedArgs && rm -rf /src/tests/__snapshot__ && cp -R /apps/tests/__snapshot__ /src/tests/" 
