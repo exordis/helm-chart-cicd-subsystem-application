@@ -8,12 +8,11 @@ tests:
     set:
       global:
         naming:
-          secret: "{{.subsystem}}-{{.application}}-{{.id}}"
+          Secret: "{{.subsystem}}-{{.application}}-{{.id}}"
       tests:
         data:
-          entity:
-            id: password
-            entity_type: secret
+          id: password
+          kind: Secret
     asserts:
       - equal:
           path: metadata.name
@@ -28,9 +27,8 @@ tests:
           secret: "#$%%${{.subsystem}}____{{.application}}*&^*&^{{.id}}%^^&%&^%^&"
       tests:
         data:
-          entity:
-            id: SECRET_PASSWORD___
-            entity_type: secret
+          id: SECRET_PASSWORD___
+          kind: Secret
     asserts:
       - equal:
           path: metadata.name
@@ -42,12 +40,11 @@ tests:
     set:
       global:
         naming:
-          secret: "{{.subsystem}}-{{.application}}-{{.id}}-very-long-postfix-exceeding-kubernetes-64-chars-limit"
+          Secret: "{{.subsystem}}-{{.application}}-{{.id}}-very-long-postfix-exceeding-kubernetes-64-chars-limit"
       tests:
         data:
-          entity:
-            id: password
-            entity_type: secret
+          id: password
+          kind: Secret
     asserts:
       - failedTemplate:
           errorPattern: name 'cicd-application-chart-tests-password-very-long-postfix-exceeding-kubernetes-64-chars-limit' length is longer than 63 symbols
@@ -60,9 +57,21 @@ tests:
     set:
       tests:
         data:
-          entity:
-            id: config
-            entity_type: config-map
+          id: config
+          kind: ConfigMap
+    asserts:
+      - equal:
+          path: metadata.name
+          value: cicd-application-chart-tests-config
+
+  - it: Should use default naming kind is unknown
+    values:
+      - values.metadata.yaml  
+    set:
+      tests:
+        data:
+          id: config
+          kind: Unknown
     asserts:
       - equal:
           path: metadata.name

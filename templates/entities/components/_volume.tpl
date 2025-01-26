@@ -18,14 +18,15 @@ spec: {}
 
 
 {{- define "subsystem-application.entities.volume.create" -}}
-{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
-name: {{ include "sdk.naming.application.deployment.volume" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}{{- $parent := index . 3 -}}
+kind: Volume
+name: {{ include "subsystem-application.convention.name" (list $ $id "Volume" $parent.kind $parent.id  ) | quote }}
+
 {{- end -}}
 
 
 {{- define "subsystem-application.entities.volume.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
-
   {{- /* Handle pvc reference */ -}}
   {{- if eq $volume.type "persistentVolumeClaim" | and $volume.pvc -}}
 
@@ -38,5 +39,5 @@ name: {{ include "sdk.naming.application.deployment.volume" (list $.Values.globa
   {{- $pvc := get $.entities.pvcs $volume.pvc -}} 
 spec:
   claimName: {{ $pvc.name }}
-  {{- end -}}
+  {{- end }}
 {{- end -}}

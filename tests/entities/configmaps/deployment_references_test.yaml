@@ -56,22 +56,22 @@ tests:
       value: Deployment
     asserts:
       - contains:
-          path: spec.template.spec.containers[?(@.name == "some-subsystem-some-application-sidecar1")].envFrom
+          path: spec.template.spec.containers[?(@.name == "sidecar1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - notContains:
-          path: spec.template.spec.containers[?(@.name != "some-subsystem-some-application-sidecar1")].envFrom
+          path: spec.template.spec.containers[?(@.name != "sidecar1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - contains:
-          path: spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-init1")].envFrom
+          path: spec.template.spec.initContainers[?(@.name == "init1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - notContains:
-          path: spec.template.spec.initContainers[?(@.name != "some-subsystem-some-application-init1")].envFrom
+          path: spec.template.spec.initContainers[?(@.name != "init1")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config

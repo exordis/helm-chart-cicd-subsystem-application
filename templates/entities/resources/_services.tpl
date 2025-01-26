@@ -14,7 +14,8 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
 
 # Return entity overrides
-name: {{ include "sdk.naming.application.service" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
+kind: Service
+name: {{ include "subsystem-application.convention.name" (list $ $id "Service"  ) | quote }} 
 spec:
   selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
   ports:
@@ -31,8 +32,6 @@ spec:
 
 {{- define "subsystem-application.entities.service.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
-
-
 {{- end }}
 
 

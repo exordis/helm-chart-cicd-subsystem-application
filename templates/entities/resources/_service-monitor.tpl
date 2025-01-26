@@ -21,7 +21,8 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
 
 # Return entity overrides
-name: {{ include "sdk.naming.application.service-monitor" (list $.Values.global.subsystem $.Values.application $.Values.instance $id) }}
+kind: ServiceMonitor
+name: {{ include "subsystem-application.convention.name" (list $ $id "ServiceMonitor"  ) | quote }} 
 spec:
   selector:
       matchLabels: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}
@@ -32,6 +33,7 @@ spec:
 
 {{- define "subsystem-application.entities.service-monitor.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $serviceMonitor := index . 2 -}}
+
 
 {{- end -}}
 

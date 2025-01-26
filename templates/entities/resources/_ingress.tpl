@@ -19,8 +19,8 @@ tlsSecretName: {{ printf "%s-%s" ( include "sdk.naming.application.ingress" (lis
 
 {{- define "subsystem-application.entities.ingress.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
-
-name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
+kind: "Ingress"
+name: {{ include "subsystem-application.convention.name" (list $ $id "Ingress"  ) | quote }} 
 {{- end -}}
 
 
@@ -28,6 +28,7 @@ name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsyste
 
 {{- define "subsystem-application.entities.ingress.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
+
   # Validate default backend references existing service
   {{- if and (hasKey $ingress.default_backend "service") (hasKey $.entities.services $ingress.default_backend.service | not) ($ingress.default_backend.foreign | default false | not) -}}
     {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' default backend references missing service '%s'. Either explicitly mark backend with `foreign: true` or define service '%s' in services" $id $ingress.default_backend.service $ingress.default_backend.service -}}
@@ -49,7 +50,6 @@ name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsyste
       {{- $_ := set $path "backend" ($path.backend | default $ingress.default_backend) -}}
     {{- end -}}
   {{- end -}}
-
 
 # Return entity overrides
 annotations:

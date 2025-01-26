@@ -16,7 +16,8 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
 
 # Return entity overrides
-name: {{ include "sdk.naming.application.pvc" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
+kind: PersistentVolumeClaim
+name: {{ include "subsystem-application.convention.name" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
 spec:
   resources:
     requests:
@@ -29,7 +30,7 @@ spec:
 
 {{- define "subsystem-application.entities.pvc.process" -}}
 {{- /* TBC: provide entities instead of $ to limit context*/ -}}
-{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
 
 {{- end -}}
 

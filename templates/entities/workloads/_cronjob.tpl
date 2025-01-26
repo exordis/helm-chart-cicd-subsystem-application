@@ -21,7 +21,8 @@ annotations: {}
 
 {{- define "subsystem-application.entities.cronjob.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
-name: {{ include "sdk.naming.application.cronjob" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
+kind: CronJob
+name: {{ include "subsystem-application.convention.name" (list $ $id "CronJob"  ) | quote }} 
 workloadType: batch
 subcollections:
   - containers

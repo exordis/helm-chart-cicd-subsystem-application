@@ -25,12 +25,12 @@ tests:
       value: CronJob
     asserts:
       - contains:
-          path: spec.jobTemplate.spec.template.spec.containers[?(@.name == "some-subsystem-some-application-main")].envFrom
+          path: spec.jobTemplate.spec.template.spec.containers[?(@.name == "main")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config
       - notContains:
-          path: spec.jobTemplate.spec.template.spec.initContainers[?(@.name == "some-subsystem-some-application-secondary")].envFrom
+          path: spec.jobTemplate.spec.template.spec.initContainers[?(@.name == "secondary")].envFrom
           content:
             configMapRef:
               name: some-subsystem-some-application-config

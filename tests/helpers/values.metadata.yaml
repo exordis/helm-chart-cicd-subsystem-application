@@ -9,4 +9,4 @@ tests:
     apiVersion: v1
     kind: ConfigMap
     metadata:
-      name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.entity) | quote }}           
+      name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.id $.Values.tests.data.kind ) | quote }}           

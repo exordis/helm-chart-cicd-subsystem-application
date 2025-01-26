@@ -12,16 +12,16 @@ global:
 #  environment:
   naming:
     # workloads
-    deployment: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    cronjob: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    Deployment: "{{.subsystem}}-{{.application}}-{{.instance}}"
+    CronJob: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
     # components
-    container: "{{.id}}"
-    volume: "{{.id}}"
+    Container: '{{ternary "application" .id (.id | eq "applicationContainer") }}'
+    Volume: "{{.id}}"
     # resources
-    secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    external-secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    config-map: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    ingress: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    pvc: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    service-monitor: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    service: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    ConfigMap: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    Secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    ExternalSecret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    Ingress: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    PersistentVolumeClaim: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    ServiceMonitor: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    Service: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"

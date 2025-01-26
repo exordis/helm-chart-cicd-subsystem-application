@@ -18,7 +18,8 @@ key:
 
 {{- define "subsystem-application.entities.external-secret.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $externalSecret := index . 2 -}}
-name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
+kind: ExternalSecret
+name: {{ include "subsystem-application.convention.name" (list $ $id "ExternalSecret"  ) | quote }} 
 spec:
   secretStoreRef:
     name: {{ include "sdk.naming.subsystem.secret-store" (list $.Values.global.subsystem $.Values.global.environment) }}
@@ -43,6 +44,8 @@ spec:
 
 
 {{- define "subsystem-application.entities.external-secret.process" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $externalSecret := index . 2 -}}
+
 
 
 {{- end }}

@@ -133,7 +133,7 @@ manifest should match snapshot:
                         name: some-subsystem-some-application-some-instance-secret2
                   image: registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner:0.1.0
                   imagePullPolicy: IfNotPresent
-                  name: some-subsystem-some-application-some-instance-main
+                  name: main
                   resources:
                     limits:
                       cpu: 200m
@@ -150,7 +150,7 @@ manifest should match snapshot:
                         name: some-subsystem-some-application-some-instance-envs
                   image: registry.gitlab.com/cleanup-init:0.0.0
                   imagePullPolicy: IfNotPresent
-                  name: some-subsystem-some-application-some-instance-cleanup-init
+                  name: cleanup-init
                   resources:
                     limits:
                       cpu: 200m
@@ -164,7 +164,7 @@ manifest should match snapshot:
                         name: some-subsystem-some-application-some-instance-envs
                   image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
                   imagePullPolicy: Always
-                  name: some-subsystem-some-application-some-instance-templates
+                  name: templates
                   resources:
                     limits:
                       cpu: 200m
@@ -268,7 +268,7 @@ manifest should match snapshot:
                 initialDelaySeconds: 10
                 periodSeconds: 10
                 timeoutSeconds: 10
-              name: some-subsystem-some-application-some-instance
+              name: application
               readinessProbe:
                 httpGet:
                   path: /healthcheck/ready
@@ -305,7 +305,7 @@ manifest should match snapshot:
                     name: some-subsystem-some-application-some-instance-envs
               image: registry.gitlab.com/jsreport:0.0.0
               imagePullPolicy: IfNotPresent
-              name: some-subsystem-some-application-some-instance-jsreport
+              name: jsreport
               resources:
                 limits:
                   cpu: 200m
@@ -324,7 +324,7 @@ manifest should match snapshot:
                     name: some-subsystem-some-application-some-instance-envs
               image: registry.gitlab.com/my-default-image:0.0.0
               imagePullPolicy: IfNotPresent
-              name: some-subsystem-some-application-some-instance-migration
+              name: migration
               resources:
                 limits:
                   cpu: 200m
@@ -338,7 +338,7 @@ manifest should match snapshot:
                     name: some-subsystem-some-application-some-instance-envs
               image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
               imagePullPolicy: Always
-              name: some-subsystem-some-application-some-instance-templates
+              name: templates
               resources:
                 limits:
                   cpu: 200m
