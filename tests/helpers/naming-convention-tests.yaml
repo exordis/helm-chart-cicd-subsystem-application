@@ -14,11 +14,6 @@ tests:
           entity:
             id: password
             entity_type: secret
-        template: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.entity) | quote }}           
     asserts:
       - equal:
           path: metadata.name
@@ -36,11 +31,6 @@ tests:
           entity:
             id: SECRET_PASSWORD___
             entity_type: secret
-        template: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.entity) | quote }}           
     asserts:
       - equal:
           path: metadata.name
@@ -58,11 +48,6 @@ tests:
           entity:
             id: password
             entity_type: secret
-        template: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.entity) | quote }}           
     asserts:
       - failedTemplate:
           errorPattern: name 'cicd-application-chart-tests-password-very-long-postfix-exceeding-kubernetes-64-chars-limit' length is longer than 63 symbols
@@ -78,11 +63,6 @@ tests:
           entity:
             id: config
             entity_type: config-map
-        template: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.entity) | quote }}           
     asserts:
       - equal:
           path: metadata.name

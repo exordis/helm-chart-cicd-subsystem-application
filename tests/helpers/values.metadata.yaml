@@ -4,3 +4,9 @@ global:
   environment: qa
 application: application-chart-tests
 version: 0.0.0
+tests:
+  template: |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name:  {{ include "subsystem-application.convention.name" (list $ $.Values.tests.data.entity) | quote }}           
