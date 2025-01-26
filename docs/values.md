@@ -44,7 +44,7 @@ Metadata values except `product` are used to build resource names with [Naming C
 
 `product` is used only as reference value and represents mapping of subsystem as technical asset on organization business unit or marketing naming.
 
-`product` value is not available for resource name construction to avoid massive kubernetes Resources renaming in case of `subsystem` handover from one business unit to another or marketing naming change.
+`product` value is not available for resource name construction to avoid massive kubernetes resources renaming in case of `subsystem` handover from one business unit to another or marketing naming change.
 
 !!! NOTE
     Kubernetes has 64 characters limit for resource names, so metadata values should be as short as possible to avoid exceeding this limit, though yet not loosing clear identification.

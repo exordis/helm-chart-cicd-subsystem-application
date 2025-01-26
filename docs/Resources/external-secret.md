@@ -9,7 +9,7 @@ externalSecrets:
       target:
         creationPolicy: Owner
         deletionPolicy: Retain
-    targetSecretName: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Secret"  ) | quote }} 
+    targetSecretName: {{'{{'}} include "subsystem-application.naming.conventions.kind" (list $ $id "Secret"  ) | quote {{'}}'}}
     key:
 
 ```
