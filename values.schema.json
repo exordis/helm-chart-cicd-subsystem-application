@@ -72,7 +72,7 @@
       "replicas": {
         "type": "integer"
       },
-      "instanceName": {
+      "instance": {
         "type": "string"
       },
       "certManagerClusterIssuer": {

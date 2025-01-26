@@ -13,14 +13,14 @@ useTls: true
 annotations: []
 spec: {}
 paths: []
-tlsSecretName: {{ printf "%s-%s" ( include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id) ) "tls" }}
+tlsSecretName: {{ printf "%s-%s" ( include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instance $id) ) "tls" }}
 {{- end -}}
 
 
 {{- define "subsystem-application.entities.ingress.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
 
-name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+name: {{ include "sdk.naming.application.ingress" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
 {{- end -}}
 
 

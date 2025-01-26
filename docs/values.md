@@ -20,7 +20,7 @@ global:
 
 application: application-name
 applicationType: service
-instanceName: instance-name
+instance: instance-name
 ```
 
 #### Global Metadata Values
@@ -37,7 +37,7 @@ Following values are defined within global section as they belong to subsystem c
 - `applicationType` - (mandatory) type of the application:
     -  `service` - microservice
     -  `web` - web application
-- `instanceName` - (optional) name of the instance of the application. E.g. subsystem may deploy multiple application instances in sharding scenarios. If there is only one instance this field is ok to be omitted.
+- `instance` - (optional) name of the instance of the application. E.g. subsystem may deploy multiple application instances in sharding scenarios. If there is only one instance this field is ok to be omitted.
 
 
 Metadata values except `product` are used to build resource names with [Naming Conventions](naming conventions.md) and available in application pods as environment variables. Thus to adhere kubernetes naming constraints validated with regex `^[a-z]([-a-z0-9]*[a-z0-9])?$`

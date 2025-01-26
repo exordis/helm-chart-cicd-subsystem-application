@@ -9,7 +9,7 @@
 {{- $_ :=  set $args "environment" $.Values.global.environment -}}
 {{- $_ :=  set $args "application" $.Values.application -}}
 {{- $_ :=  set $args "applicationType" $.Values.applicationType -}}
-{{- $_ :=  set $args "instanceName" $.Values.instanceName -}}
+{{- $_ :=  set $args "instance" $.Values.instance -}}
 
 {{- $template := dig "naming" $entity.entity_type "{{.subsystem}}-{{.application}}" $.Values.global  -}}
 {{- $name := tpl $template $args -}}

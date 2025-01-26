@@ -23,7 +23,7 @@ version: latest
 
 {{- define "subsystem-application.entities.container-base.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-name: {{ include "sdk.naming.application.deployment.container" (list $.Values.global.subsystem $.Values.application $.Values.instanceName ( $id | eq "applicationContainer" | ternary "" $id) )  }}
+name: {{ include "sdk.naming.application.deployment.container" (list $.Values.global.subsystem $.Values.application $.Values.instance ( $id | eq "applicationContainer" | ternary "" $id) )  }}
 {{- end -}}
 
 

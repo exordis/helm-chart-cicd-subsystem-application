@@ -10,20 +10,20 @@ manifest should match snapshot:
         extra-annotation: annotation value
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         extra-label: label value
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-config1
+      name: some-subsystem-some-application-some-instance-config1
       namespace: my-namespace
   2: |
     apiVersion: v1
@@ -34,26 +34,26 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-config2
+      name: some-subsystem-some-application-some-instance-config2
       namespace: some-subsystem-test
   3: |
     apiVersion: v1
     data:
       EXORDIS_APPLICATION: some-subsystem-some-application
       EXORDIS_ENVIRONMENT: test
-      EXORDIS_INSTANCE: some-instancename
+      EXORDIS_INSTANCE: some-instance
       EXORDIS_PRODUCT: Some Product
       EXORDIS_SUBSYSTEM: some-subsystem
       SUBSYSTEM: wrong-subsystem
@@ -63,19 +63,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-envs
+      name: some-subsystem-some-application-some-instance-envs
       namespace: some-subsystem-test
   4: |
     apiVersion: batch/v1
@@ -84,19 +84,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-cleanup
+      name: some-subsystem-some-application-some-instance-cleanup
       namespace: some-subsystem-test
     spec:
       concurrencyPolicy: Forbid
@@ -108,13 +108,13 @@ manifest should match snapshot:
               annotations: null
               labels:
                 app.kubernetes.io/component: some-subsystem-some-application
-                app.kubernetes.io/instance: some-instancename
+                app.kubernetes.io/instance: some-instance
                 app.kubernetes.io/managed-by: helm
                 app.kubernetes.io/name: some-subsystem-some-application
                 app.kubernetes.io/part-of: some-subsystem
                 app.kubernetes.io/version: 0.0.0
                 exordis/application: some-subsystem-some-application
-                exordis/application-instance: some-instancename
+                exordis/application-instance: some-instance
                 exordis/application-type: service
                 exordis/environment: test
                 exordis/product: Some Product
@@ -128,12 +128,12 @@ manifest should match snapshot:
                     - --registry
                   envFrom:
                     - configMapRef:
-                        name: some-subsystem-some-application-some-instancename-envs
+                        name: some-subsystem-some-application-some-instance-envs
                     - secretRef:
-                        name: some-subsystem-some-application-some-instancename-secret2
+                        name: some-subsystem-some-application-some-instance-secret2
                   image: registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner:0.1.0
                   imagePullPolicy: IfNotPresent
-                  name: some-subsystem-some-application-some-instancename-main
+                  name: some-subsystem-some-application-some-instance-main
                   resources:
                     limits:
                       cpu: 200m
@@ -147,10 +147,10 @@ manifest should match snapshot:
               initContainers:
                 - envFrom:
                     - configMapRef:
-                        name: some-subsystem-some-application-some-instancename-envs
+                        name: some-subsystem-some-application-some-instance-envs
                   image: registry.gitlab.com/cleanup-init:0.0.0
                   imagePullPolicy: IfNotPresent
-                  name: some-subsystem-some-application-some-instancename-cleanup-init
+                  name: some-subsystem-some-application-some-instance-cleanup-init
                   resources:
                     limits:
                       cpu: 200m
@@ -161,10 +161,10 @@ manifest should match snapshot:
                   volumeMounts: null
                 - envFrom:
                     - configMapRef:
-                        name: some-subsystem-some-application-some-instancename-envs
+                        name: some-subsystem-some-application-some-instance-envs
                   image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
                   imagePullPolicy: Always
-                  name: some-subsystem-some-application-some-instancename-templates
+                  name: some-subsystem-some-application-some-instance-templates
                   resources:
                     limits:
                       cpu: 200m
@@ -182,7 +182,7 @@ manifest should match snapshot:
               volumes:
                 - name: mypvc
                   persistentVolumeClaim:
-                    claimName: some-subsystem-some-application-some-instancename-mypvc
+                    claimName: some-subsystem-some-application-some-instance-mypvc
                 - emptyDir:
                     sizeLimit: 200Mi
                   name: templates-data-templates-generated
@@ -201,19 +201,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename
+      name: some-subsystem-some-application-some-instance
       namespace: some-subsystem-test
     spec:
       replicas: 3
@@ -221,7 +221,7 @@ manifest should match snapshot:
       selector:
         matchLabels:
           exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instancename
+          exordis/application-instance: some-instance
           exordis/environment: test
           exordis/subsystem: some-subsystem
       strategy:
@@ -233,17 +233,17 @@ manifest should match snapshot:
         metadata:
           annotations:
             checksum/configMap.config2: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
-            checksum/configMap.envs: 304d5879766886576f9d1f4fa3bd0b5f33ab93356178dfdc27d39076f29bcc58
+            checksum/configMap.envs: 32896ea2987fd7d72f58033aa647e04047681d47e1583f757d857b7707629b5d
             checksum/secret.secret2: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
           labels:
             app.kubernetes.io/component: some-subsystem-some-application
-            app.kubernetes.io/instance: some-instancename
+            app.kubernetes.io/instance: some-instance
             app.kubernetes.io/managed-by: helm
             app.kubernetes.io/name: some-subsystem-some-application
             app.kubernetes.io/part-of: some-subsystem
             app.kubernetes.io/version: 0.0.0
             exordis/application: some-subsystem-some-application
-            exordis/application-instance: some-instancename
+            exordis/application-instance: some-instance
             exordis/application-type: service
             exordis/environment: test
             exordis/product: Some Product
@@ -253,11 +253,11 @@ manifest should match snapshot:
           containers:
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instancename-config2
+                    name: some-subsystem-some-application-some-instance-config2
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instancename-envs
+                    name: some-subsystem-some-application-some-instance-envs
                 - secretRef:
-                    name: some-subsystem-some-application-some-instancename-secret2
+                    name: some-subsystem-some-application-some-instance-secret2
               image: registry.gitlab.com/some-subsystem-some-application:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
@@ -268,7 +268,7 @@ manifest should match snapshot:
                 initialDelaySeconds: 10
                 periodSeconds: 10
                 timeoutSeconds: 10
-              name: some-subsystem-some-application-some-instancename
+              name: some-subsystem-some-application-some-instance
               readinessProbe:
                 httpGet:
                   path: /healthcheck/ready
@@ -302,10 +302,10 @@ manifest should match snapshot:
                   name: volume1
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instancename-envs
+                    name: some-subsystem-some-application-some-instance-envs
               image: registry.gitlab.com/jsreport:0.0.0
               imagePullPolicy: IfNotPresent
-              name: some-subsystem-some-application-some-instancename-jsreport
+              name: some-subsystem-some-application-some-instance-jsreport
               resources:
                 limits:
                   cpu: 200m
@@ -321,10 +321,10 @@ manifest should match snapshot:
           initContainers:
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instancename-envs
+                    name: some-subsystem-some-application-some-instance-envs
               image: registry.gitlab.com/my-default-image:0.0.0
               imagePullPolicy: IfNotPresent
-              name: some-subsystem-some-application-some-instancename-migration
+              name: some-subsystem-some-application-some-instance-migration
               resources:
                 limits:
                   cpu: 200m
@@ -335,10 +335,10 @@ manifest should match snapshot:
               volumeMounts: null
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instancename-envs
+                    name: some-subsystem-some-application-some-instance-envs
               image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
               imagePullPolicy: Always
-              name: some-subsystem-some-application-some-instancename-templates
+              name: some-subsystem-some-application-some-instance-templates
               resources:
                 limits:
                   cpu: 200m
@@ -354,7 +354,7 @@ manifest should match snapshot:
           volumes:
             - name: mypvc
               persistentVolumeClaim:
-                claimName: some-subsystem-some-application-some-instancename-mypvc
+                claimName: some-subsystem-some-application-some-instance-mypvc
             - emptyDir:
                 sizeLimit: 200Mi
               name: templates-data-templates-generated
@@ -373,19 +373,19 @@ manifest should match snapshot:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-foreign
+      name: some-subsystem-some-application-some-instance-foreign
       namespace: some-subsystem-test
     spec:
       ingressClassName: nginx
@@ -403,7 +403,7 @@ manifest should match snapshot:
       tls:
         - hosts:
             - service-not-managed-with-chart.exordis.com
-          secretName: some-subsystem-some-application-some-instancename-foreign-tls
+          secretName: some-subsystem-some-application-some-instance-foreign-tls
   7: |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
@@ -413,19 +413,19 @@ manifest should match snapshot:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-internal
+      name: some-subsystem-some-application-some-instance-internal
       namespace: some-subsystem-test
     spec:
       ingressClassName: nginx
@@ -435,14 +435,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: some-subsystem-some-application-some-instancename-service-a
+                    name: some-subsystem-some-application-some-instance-service-a
                     port:
                       number: 80
                 path: /api/v3(/|$)(.*)
                 pathType: Prefix
               - backend:
                   service:
-                    name: some-subsystem-some-application-some-instancename-service-a
+                    name: some-subsystem-some-application-some-instance-service-a
                     port:
                       number: 80
                 path: /
@@ -450,7 +450,7 @@ manifest should match snapshot:
       tls:
         - hosts:
             - k3s.local
-          secretName: some-subsystem-some-application-some-instancename-internal-tls
+          secretName: some-subsystem-some-application-some-instance-internal-tls
   8: |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
@@ -465,19 +465,19 @@ manifest should match snapshot:
         nginx.ingress.kubernetes.io/use-regex: "true"
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-public
+      name: some-subsystem-some-application-some-instance-public
       namespace: some-subsystem-test
     spec:
       ingressClassName: nginx-public
@@ -487,14 +487,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: some-subsystem-some-application-some-instancename-service-b
+                    name: some-subsystem-some-application-some-instance-service-b
                     port:
                       number: 80
                 path: /public-api-one
                 pathType: Prefix
               - backend:
                   service:
-                    name: some-subsystem-some-application-some-instancename-service-b
+                    name: some-subsystem-some-application-some-instance-service-b
                     port:
                       number: 80
                 path: /public-api-two
@@ -504,14 +504,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: some-subsystem-some-application-some-instancename-service-b
+                    name: some-subsystem-some-application-some-instance-service-b
                     port:
                       number: 80
                 path: /public-api-one
                 pathType: Prefix
               - backend:
                   service:
-                    name: some-subsystem-some-application-some-instancename-service-b
+                    name: some-subsystem-some-application-some-instance-service-b
                     port:
                       number: 80
                 path: /public-api-two
@@ -520,7 +520,7 @@ manifest should match snapshot:
         - hosts:
             - service-api.exordis.com
             - service-api2.exordis.com
-          secretName: some-subsystem-some-application-some-instancename-public-tls
+          secretName: some-subsystem-some-application-some-instance-public-tls
   9: |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -528,19 +528,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-mypvc
+      name: some-subsystem-some-application-some-instance-mypvc
       namespace: some-subsystem-test
     spec:
       accessModes:
@@ -556,20 +556,20 @@ manifest should match snapshot:
         extra-annotation: annotation value
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         extra-label: label value
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-secret1
+      name: some-subsystem-some-application-some-instance-secret1
       namespace: my-namespace
     stringData:
       password: passw0rd
@@ -580,19 +580,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-secret2
+      name: some-subsystem-some-application-some-instance-secret2
       namespace: some-subsystem-test
     stringData:
       password: passw0rd
@@ -603,34 +603,34 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-service-a
+      name: some-subsystem-some-application-some-instance-service-a
       namespace: some-subsystem-test
     spec:
       endpoints:
         - basicAuth:
             password:
               key: Metrics__Authentication__Password
-              name: some-subsystem-some-application-some-instancename-main
+              name: some-subsystem-some-application-some-instance-main
             username:
               key: Metrics__Authentication__Username
-              name: some-subsystem-some-application-some-instancename-main
+              name: some-subsystem-some-application-some-instance-main
           path: /metrics
       selector:
         matchLabels:
           exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instancename
+          exordis/application-instance: some-instance
           exordis/environment: test
           exordis/subsystem: some-subsystem
   13: |
@@ -640,19 +640,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-service-a
+      name: some-subsystem-some-application-some-instance-service-a
       namespace: some-subsystem-test
     spec:
       ports:
@@ -666,7 +666,7 @@ manifest should match snapshot:
           targetPort: 8080
       selector:
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/environment: test
         exordis/subsystem: some-subsystem
       sessionAffinity: None
@@ -677,19 +677,19 @@ manifest should match snapshot:
       annotations: {}
       labels:
         app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instancename
+        app.kubernetes.io/instance: some-instance
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: some-subsystem-some-application
         app.kubernetes.io/part-of: some-subsystem
         app.kubernetes.io/version: 0.0.0
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: some-subsystem
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instancename-service-b
+      name: some-subsystem-some-application-some-instance-service-b
       namespace: some-subsystem-test
     spec:
       ports:
@@ -699,7 +699,7 @@ manifest should match snapshot:
           targetPort: 8080
       selector:
         exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instancename
+        exordis/application-instance: some-instance
         exordis/environment: test
         exordis/subsystem: some-subsystem
       sessionAffinity: None

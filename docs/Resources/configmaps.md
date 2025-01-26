@@ -76,17 +76,17 @@ configMaps:
     apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: some-subsystem-some-application-some-instancename-config1
+      name: some-subsystem-some-application-some-instance-config1
       namespace: my-namespace
       labels:
           app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instancename
+          app.kubernetes.io/instance: some-instance
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: some-subsystem-some-application
           app.kubernetes.io/part-of: some-subsystem
           app.kubernetes.io/version: 0.0.0
           exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instancename
+          exordis/application-instance: some-instance
           exordis/application-type: service
           exordis/environment: test
           exordis/product: Some Product
@@ -102,17 +102,17 @@ configMaps:
     apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: some-subsystem-some-application-some-instancename-config2
+      name: some-subsystem-some-application-some-instance-config2
       namespace: some-subsystem-test
       labels:
           app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instancename
+          app.kubernetes.io/instance: some-instance
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: some-subsystem-some-application
           app.kubernetes.io/part-of: some-subsystem
           app.kubernetes.io/version: 0.0.0
           exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instancename
+          exordis/application-instance: some-instance
           exordis/application-type: service
           exordis/environment: test
           exordis/product: Some Product

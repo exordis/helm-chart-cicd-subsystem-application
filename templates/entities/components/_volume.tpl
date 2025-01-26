@@ -19,7 +19,7 @@ spec: {}
 
 {{- define "subsystem-application.entities.volume.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}
-name: {{ include "sdk.naming.application.deployment.volume" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+name: {{ include "sdk.naming.application.deployment.volume" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
 {{- end -}}
 
 

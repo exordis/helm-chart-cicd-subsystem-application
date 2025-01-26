@@ -10,10 +10,10 @@ spec:
       basicAuth:
         password:
           key: Metrics__Authentication__Password
-          name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instanceName "main")  }}
+          name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instance "main")  }}
         username:
           key: Metrics__Authentication__Username
-          name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instanceName "main")  }}
+          name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instance "main")  }}
 {{- end -}}
 
 
@@ -21,7 +21,7 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
 
 # Return entity overrides
-name: {{ include "sdk.naming.application.service-monitor" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id) }}
+name: {{ include "sdk.naming.application.service-monitor" (list $.Values.global.subsystem $.Values.application $.Values.instance $id) }}
 spec:
   selector:
       matchLabels: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}

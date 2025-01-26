@@ -14,7 +14,7 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
 
 # Return entity overrides
-name: {{ include "sdk.naming.application.service" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+name: {{ include "sdk.naming.application.service" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
 spec:
   selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
   ports:

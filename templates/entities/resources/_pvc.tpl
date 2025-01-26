@@ -16,7 +16,7 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
 
 # Return entity overrides
-name: {{ include "sdk.naming.application.pvc" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+name: {{ include "sdk.naming.application.pvc" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
 spec:
   resources:
     requests:

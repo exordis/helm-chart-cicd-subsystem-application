@@ -5,7 +5,7 @@ global:
 
 application: some-application
 applicationType: service
-instanceName: some-instancename
+instance: some-instance
 
 
 envs: 

@@ -79,17 +79,17 @@ secrets:
     apiVersion: v1
     kind: Secret
     metadata:
-      name: some-subsystem-some-application-some-instancename-secret1
+      name: some-subsystem-some-application-some-instance-secret1
       namespace: my-namespace
       labels:
           app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instancename
+          app.kubernetes.io/instance: some-instance
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: some-subsystem-some-application
           app.kubernetes.io/part-of: some-subsystem
           app.kubernetes.io/version: 0.0.0
           exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instancename
+          exordis/application-instance: some-instance
           exordis/application-type: service
           exordis/environment: test
           exordis/product: Some Product
@@ -104,17 +104,17 @@ secrets:
     apiVersion: v1
     kind: Secret
     metadata:
-      name: some-subsystem-some-application-some-instancename-secret2
+      name: some-subsystem-some-application-some-instance-secret2
       namespace: some-subsystem-test
       labels:
           app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instancename
+          app.kubernetes.io/instance: some-instance
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: some-subsystem-some-application
           app.kubernetes.io/part-of: some-subsystem
           app.kubernetes.io/version: 0.0.0
           exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instancename
+          exordis/application-instance: some-instance
           exordis/application-type: service
           exordis/environment: test
           exordis/product: Some Product

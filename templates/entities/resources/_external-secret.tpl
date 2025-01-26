@@ -10,7 +10,7 @@ spec:
   target:
     creationPolicy: Owner
     deletionPolicy: Retain
-targetSecretName: {{ include "sdk.naming.application.secret" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id) }}
+targetSecretName: {{ include "sdk.naming.application.secret" (list $.Values.global.subsystem $.Values.application $.Values.instance $id) }}
 key:
 {{- end -}}
 
@@ -18,7 +18,7 @@ key:
 
 {{- define "subsystem-application.entities.external-secret.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $externalSecret := index . 2 -}}
-name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instance $id)  }}
 spec:
   secretStoreRef:
     name: {{ include "sdk.naming.subsystem.secret-store" (list $.Values.global.subsystem $.Values.global.environment) }}
