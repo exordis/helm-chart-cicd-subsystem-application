@@ -12,8 +12,8 @@ global:
 #  environment:
   naming:
     kinds:
-      Namespace: "{{.subsystem}}-{{.environment}}" 
-      ClusterSecretStore: "{{.subsystem}}-{{.environment}}" 
+      Namespace: "{{.subsystem}}-{{.environment}}-{{.id}}" 
+      ClusterSecretStore: "{{.subsystem}}-{{.environment}}-{{.id}}" 
       Deployment: "{{.subsystem}}-{{.application}}-{{.instance}}"
       CronJob: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
       ConfigMap: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
