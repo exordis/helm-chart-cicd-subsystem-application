@@ -1,5 +1,5 @@
 {{- define "subsystem-application.metadata.entity-metadata-defaults" -}}
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
 labels: {}
 annotations: {}
 {{- end -}}

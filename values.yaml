@@ -11,17 +11,20 @@ global:
 #  subsystem: 
 #  environment:
   naming:
-    # workloads
-    Deployment: "{{.subsystem}}-{{.application}}-{{.instance}}"
-    CronJob: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    # components
-    Container: '{{ternary "application" .id (.id | eq "applicationContainer") }}'
-    Volume: "{{.id}}"
-    # resources
-    ConfigMap: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    Secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    ExternalSecret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    Ingress: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    PersistentVolumeClaim: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    ServiceMonitor: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    Service: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    kinds:
+      Namespace: "{{.subsystem}}-{{.environment}}" 
+      ClusterSecretStore: "{{.subsystem}}-{{.environment}}" 
+      Deployment: "{{.subsystem}}-{{.application}}-{{.instance}}"
+      CronJob: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      ConfigMap: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      Secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      ExternalSecret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      Ingress: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      PersistentVolumeClaim: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      ServiceMonitor: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+      Service: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    components:
+      Container: '{{ternary "application" .id (.id | eq "applicationContainer") }}'
+      Volume: "{{.id}}"
+    metadata:
+      application-canonical-name: "{{.subsystem}}-{{.application}}"

@@ -1,5 +1,4 @@
 {{- include "sdk.engine.init" $ -}}
-{{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
 {{- range  $.entities.deployments }}
 ---
 apiVersion: apps/v1

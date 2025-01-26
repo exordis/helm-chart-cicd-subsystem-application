@@ -1,0 +1,9 @@
+# tests:
+#   data:
+#     id: password
+#     kind: Secret1
+#   template: |
+#     apiVersion: v1
+#     kind: ConfigMap
+#     metadata:
+#       name:  {{ include "subsystem-application.naming.conventions.kind" (list $ $.Values.tests.data.id $.Values.tests.data.kind ) | quote }}           

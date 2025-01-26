@@ -17,7 +17,7 @@ spec:
 
 # Return entity overrides
 kind: PersistentVolumeClaim
-name: {{ include "subsystem-application.convention.name" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
+name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
 spec:
   resources:
     requests:

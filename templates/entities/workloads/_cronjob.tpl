@@ -5,7 +5,7 @@
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 concurrencyPolicy: "Forbid"
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
 serviceAccountName: default
 schedule: "0 0 31 2 *"
 failedJobsHistoryLimit: 1
@@ -22,7 +22,7 @@ annotations: {}
 {{- define "subsystem-application.entities.cronjob.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
 kind: CronJob
-name: {{ include "subsystem-application.convention.name" (list $ $id "CronJob"  ) | quote }} 
+name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "CronJob"  ) | quote }} 
 workloadType: batch
 subcollections:
   - containers

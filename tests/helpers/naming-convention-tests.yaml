@@ -8,7 +8,8 @@ tests:
     set:
       global:
         naming:
-          Secret: "{{.subsystem}}-{{.application}}-{{.id}}"
+          kinds:
+            Secret: "secret-{{.subsystem}}-{{.application}}-{{.id}}"
       tests:
         data:
           id: password
@@ -16,7 +17,7 @@ tests:
     asserts:
       - equal:
           path: metadata.name
-          value: cicd-application-chart-tests-password
+          value: secret-cicd-application-chart-tests-password
 
   - it: Should lower all values, trim non alpha-numeric characters and replace all sequences of non alpha-numeric characters in eh middle of the name with '-'
     values:
@@ -24,7 +25,8 @@ tests:
     set:
       global:
         naming:
-          secret: "#$%%${{.subsystem}}____{{.application}}*&^*&^{{.id}}%^^&%&^%^&"
+          kinds:
+            Secret: "#$%%${{.subsystem}}____{{.application}}*&^*&^{{.id}}%^^&%&^%^&"
       tests:
         data:
           id: SECRET_PASSWORD___
@@ -40,7 +42,8 @@ tests:
     set:
       global:
         naming:
-          Secret: "{{.subsystem}}-{{.application}}-{{.id}}-very-long-postfix-exceeding-kubernetes-64-chars-limit"
+          kinds:
+            Secret: "{{.subsystem}}-{{.application}}-{{.id}}-very-long-postfix-exceeding-kubernetes-64-chars-limit"
       tests:
         data:
           id: password

@@ -15,7 +15,7 @@ spec:
 
 # Return entity overrides
 kind: Service
-name: {{ include "subsystem-application.convention.name" (list $ $id "Service"  ) | quote }} 
+name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Service"  ) | quote }} 
 spec:
   selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
   ports:

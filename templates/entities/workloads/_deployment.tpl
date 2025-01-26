@@ -8,7 +8,7 @@ TODO:
 - Values.deployment should be source of spec. 
 - template should take .spec from deployment entity or spec should be removed
  */ -}}
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
+namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
 annotations: {}
 labels: {}
 
@@ -25,7 +25,7 @@ volumes: {}
 {{- define "subsystem-application.entities.deployment.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $deployment := index . 2 -}}
 kind: Deployment
-name: {{ include "subsystem-application.convention.name" (list $ $id "Deployment"  ) | quote }} 
+name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) | quote }} 
 workloadType: main
 subcollections:
   - containers

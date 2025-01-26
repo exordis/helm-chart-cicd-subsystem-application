@@ -24,14 +24,14 @@ version: latest
 {{- define "subsystem-application.entities.container-base.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}{{- $parent := index . 3 -}}
 kind: Container
-name: {{ include "subsystem-application.convention.name" (list $ $id "Container" $parent.kind $parent.id  ) | quote }}
+name: {{ include "subsystem-application.naming.conventions.component" (list $ $id "Container"  $parent.id $parent.kind  ) | quote }}
 
 {{- end -}}
 
 
 {{- define "subsystem-application.entities.container-base.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $container := index . 2 -}}
-{{- $namespace := include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) -}}
+{{- $namespace := $container.parent.namespace -}}
 {{- $containerRef := $container.id -}}
 
 {{- if $container.parent.workloadType | eq "batch" -}}

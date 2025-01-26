@@ -20,7 +20,7 @@ spec: {}
 {{- define "subsystem-application.entities.volume.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $volume := index . 2 -}}{{- $parent := index . 3 -}}
 kind: Volume
-name: {{ include "subsystem-application.convention.name" (list $ $id "Volume" $parent.kind $parent.id  ) | quote }}
+name: {{ include "subsystem-application.naming.conventions.component" (list $ $id "Volume" $parent.id $parent.kind   ) | quote }}
 
 {{- end -}}
 

@@ -10,10 +10,10 @@ spec:
       basicAuth:
         password:
           key: Metrics__Authentication__Password
-          name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instance "main")  }}
+          name: {{ include "subsystem-application.naming.conventions.kind" (list $ "main" "ExternalSecret"  ) | quote }} 
         username:
           key: Metrics__Authentication__Username
-          name: {{ include "sdk.naming.application.external-secret" (list $.Values.global.subsystem $.Values.application $.Values.instance "main")  }}
+          name: {{ include "subsystem-application.naming.conventions.kind" (list $ "main" "ExternalSecret"  ) | quote }} 
 {{- end -}}
 
 
@@ -22,7 +22,7 @@ spec:
 
 # Return entity overrides
 kind: ServiceMonitor
-name: {{ include "subsystem-application.convention.name" (list $ $id "ServiceMonitor"  ) | quote }} 
+name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "ServiceMonitor"  ) | quote }} 
 spec:
   selector:
       matchLabels: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}

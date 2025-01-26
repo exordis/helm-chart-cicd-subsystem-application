@@ -9,7 +9,7 @@ externalSecrets:
       target:
         creationPolicy: Owner
         deletionPolicy: Retain
-    targetSecretName: {{ include "sdk.naming.application.secret" (list $.Values.global.subsystem $.Values.application $.Values.instance $id) }}
+    targetSecretName: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Secret"  ) | quote }} 
     key:
 
 ```
