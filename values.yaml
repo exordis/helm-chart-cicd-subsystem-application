@@ -11,5 +11,17 @@ global:
 #  subsystem: 
 #  environment:
   naming:
-    secret: "{{.subsystem}}-{{.application}}-{{.id}}"
-    config-map: "{{.subsystem}}-{{.application}}-{{.id}}"
+    # workloads
+    deployment: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    cronjob: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    # components
+    container: "{{.id}}"
+    volume: "{{.id}}"
+    # resources
+    secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    external-secret: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    config-map: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    ingress: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    pvc: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    service-monitor: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+    service: "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
