@@ -5,6 +5,8 @@ values:
   - "../sample-values/values.linter.yaml"
   - "../sample-values/configmaps.yaml"
   - "../sample-values/secrets.yaml"
+  - "../sample-values/services.yaml"
+  - "../sample-values/externalSecrets.yaml"
 tests:
   - it: manifest should match snapshot
     asserts:

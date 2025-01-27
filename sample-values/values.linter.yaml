@@ -43,19 +43,7 @@ deployment:
    
 
 
-services:
-  service-a:
-    #spec:
-    monitor: {}
-    ports:
-      8080: # name: default [service name]-[port]
-        targetPort: 8080
-      8081: # name: default [service name]-[port]
-        targetPort: 8080
-  service-b:
-    ports:
-      8181: # name: default [service name]-[port]
-        targetPort: 8080 # target port
+
 
 ingresses:
   internal:
