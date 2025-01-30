@@ -13,15 +13,9 @@ Application is standalone software unit that implement specific functionality wi
 ### Metadata
 
 ``` yaml
-global: 
-  subsystem: subsystem-name
-  product: "Product Name"
-  environment: qa
-
-application: application-name
-applicationType: service
-instance: instance-name
+--8<-- "snippets/values/metadata.yaml"
 ```
+
 
 Metadata values except `product` are used to build resource names with [Naming Conventions](naming conventions.md) and available in application pods as environment variables. Thus to adhere kubernetes naming constraints validated with regex `^[a-z]([-a-z0-9]*[a-z0-9])?$`
 
@@ -87,10 +81,7 @@ Application main workload type is set with `workload`:
 #### Workload Common Values
 
 ``` yaml
-replicas: 3
-version: 0.0.0
-registry: registry.gitlab.com
-repository: some-subsystem-some-application
+--8<-- "snippets/values/workload-common.yaml"
 ```
 
 Values that are applicable to all types of workloads are defined on root level of values:

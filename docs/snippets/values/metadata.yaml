@@ -6,8 +6,3 @@ global:
 application: sample
 applicationType: service
 instance: docs
-
-replicas: 3
-version: 0.0.0
-registry: registry.gitlab.com
-repository: cicd-unittests

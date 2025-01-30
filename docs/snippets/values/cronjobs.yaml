@@ -16,7 +16,7 @@ cronjobs:
       "cleanup-init":
         image: 
           repository: cleanup-init
-          version: 0.0.0            
+          version: 1.0.0            
     volumes:
       volume2:
         #spec:

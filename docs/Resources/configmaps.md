@@ -84,7 +84,7 @@ configMaps:
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: some-subsystem-some-application
           app.kubernetes.io/part-of: some-subsystem
-          app.kubernetes.io/version: 0.0.0
+          app.kubernetes.io/version: 1.0.0
           exordis/application: some-subsystem-some-application
           exordis/application-instance: some-instance
           exordis/application-type: service
@@ -110,7 +110,7 @@ configMaps:
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: some-subsystem-some-application
           app.kubernetes.io/part-of: some-subsystem
-          app.kubernetes.io/version: 0.0.0
+          app.kubernetes.io/version: 1.0.0
           exordis/application: some-subsystem-some-application
           exordis/application-instance: some-instance
           exordis/application-type: service

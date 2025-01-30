@@ -14,7 +14,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -38,7 +38,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -67,7 +67,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -88,7 +88,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -112,7 +112,7 @@ manifest should match snapshot:
                 app.kubernetes.io/managed-by: helm
                 app.kubernetes.io/name: cicd-sample
                 app.kubernetes.io/part-of: cicd
-                app.kubernetes.io/version: 0.0.0
+                app.kubernetes.io/version: 1.0.0
                 exordis/application: cicd-sample
                 exordis/application-instance: docs
                 exordis/application-type: service
@@ -156,7 +156,7 @@ manifest should match snapshot:
                         name: cicd-sample-docs-gitlab-token
                     - secretRef:
                         name: cicd-sample-docs-secret-without-containers
-                  image: registry.gitlab.com/cleanup-init:0.0.0
+                  image: registry.gitlab.com/cleanup-init:1.0.0
                   imagePullPolicy: IfNotPresent
                   name: cleanup-init
                   resources:
@@ -217,7 +217,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -254,7 +254,7 @@ manifest should match snapshot:
             app.kubernetes.io/managed-by: helm
             app.kubernetes.io/name: cicd-sample
             app.kubernetes.io/part-of: cicd
-            app.kubernetes.io/version: 0.0.0
+            app.kubernetes.io/version: 1.0.0
             exordis/application: cicd-sample
             exordis/application-instance: docs
             exordis/application-type: service
@@ -275,7 +275,7 @@ manifest should match snapshot:
                     name: cicd-sample-docs-secret-with-containers
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
-              image: registry.gitlab.com/cicd-unittests:0.0.0
+              image: registry.gitlab.com/cicd-unittests:1.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 failureThreshold: 5
@@ -324,7 +324,7 @@ manifest should match snapshot:
                     name: cicd-sample-docs-gitlab-token
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
-              image: registry.gitlab.com/jsreport:0.0.0
+              image: registry.gitlab.com/jsreport:1.0.0
               imagePullPolicy: IfNotPresent
               name: jsreport
               resources:
@@ -347,7 +347,7 @@ manifest should match snapshot:
                     name: cicd-sample-docs-gitlab-token
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
-              image: registry.gitlab.com/my-default-image:0.0.0
+              image: registry.gitlab.com/my-default-image:1.0.0
               imagePullPolicy: IfNotPresent
               name: migration
               resources:
@@ -404,7 +404,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -443,7 +443,7 @@ manifest should match snapshot:
               app.kubernetes.io/managed-by: helm
               app.kubernetes.io/name: cicd-sample
               app.kubernetes.io/part-of: cicd
-              app.kubernetes.io/version: 0.0.0
+              app.kubernetes.io/version: 1.0.0
               exordis/application: cicd-sample
               exordis/application-instance: docs
               exordis/application-type: service
@@ -462,7 +462,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -490,7 +490,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -514,7 +514,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -537,7 +537,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -561,7 +561,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service
@@ -604,7 +604,7 @@ manifest should match snapshot:
         app.kubernetes.io/managed-by: helm
         app.kubernetes.io/name: cicd-sample
         app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 0.0.0
+        app.kubernetes.io/version: 1.0.0
         exordis/application: cicd-sample
         exordis/application-instance: docs
         exordis/application-type: service

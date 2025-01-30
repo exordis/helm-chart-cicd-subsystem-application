@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/name: cicd-sample
     app.kubernetes.io/part-of: cicd
-    app.kubernetes.io/version: 0.0.0
+    app.kubernetes.io/version: 1.0.0
     exordis/application: cicd-sample
     exordis/application-instance: docs
     exordis/application-type: service
@@ -47,7 +47,7 @@ spec:
           app.kubernetes.io/managed-by: helm
           app.kubernetes.io/name: cicd-sample
           app.kubernetes.io/part-of: cicd
-          app.kubernetes.io/version: 0.0.0
+          app.kubernetes.io/version: 1.0.0
           exordis/application: cicd-sample
           exordis/application-instance: docs
           exordis/application-type: service
