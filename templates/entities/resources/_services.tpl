@@ -4,7 +4,7 @@
 {{- define "subsystem-application.entities.service.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 {{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
-ports: []
+ports: {}
 spec: 
   sessionAffinity: None
 {{- end -}}
@@ -12,19 +12,21 @@ spec:
 
 {{- define "subsystem-application.entities.service.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
-
+{{- $_ := unset $service.spec "selector" -}}
+{{- $_ := set $service.spec "ports" list -}}
 # Return entity overrides
 kind: Service
 name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Service"  ) | quote }} 
 spec:
   selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
   ports:
-    {{- range $portNumber, $port :=  $service.ports -}}
+    {{- range $name, $port := $service.ports -}}
     {{- $port = $port | default dict }}
-    - name: {{ $port.name | default (printf "%s-%s" $id $portNumber) }}
+    {{- $_ := set $service.ports $name $port }}
+    - name: {{ $name }}
       protocol: {{ $port.protocol | default "TCP"  }}
-      port: {{ $portNumber }}
-      targetPort: {{ $port.targetPort | default $portNumber }}
+      port: {{ $port.port | default 80 }}
+      targetPort: {{ $port.targetPort | default $name }}
     {{- end -}}
 
 {{- end -}}

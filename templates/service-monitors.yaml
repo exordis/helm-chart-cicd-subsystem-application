@@ -1,5 +1,5 @@
 {{- include "sdk.engine.init" $ -}}
-{{- range $.entities.serviceMonitors -}}
+{{- range $.entities.serviceMonitors }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor

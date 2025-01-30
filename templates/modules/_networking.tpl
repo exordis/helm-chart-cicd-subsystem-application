@@ -6,12 +6,31 @@
   
   {{- range $id, $service := $.Values.services -}}
     {{- include "sdk.engine.create-entity" (list $ "service" $id $service) -}}
-  {{- end -}}
+    {{- $service = get $.entities.services $id -}}
 
-  {{- range $id, $service := $.Values.services -}}
-    {{- if hasKey $service "monitor" -}}
-        {{- include "sdk.engine.create-entity" (list $ "service-monitor" $id $service.monitor ) -}}
+    {{- $monitor := dig "monitor" dict $service -}}
+    
+    {{- $_ := set $monitor "service" $id -}}
+
+    {{- $endpoints := list -}}
+    {{- range $name, $port := $service.ports -}}
+      {{- if $port | not -}}
+      {{- end -}}
+
+      {{- if hasKey $port "monitorEndpoint" -}}
+        {{- $endpoint := deepCopy ($port.monitorEndpoint | default dict) -}}
+        {{- $_ := set $endpoint "port" $name -}}
+        {{- $endpoints = append $endpoints $endpoint -}}
+
+      {{- end -}}
     {{- end -}}
+
+    {{- if  $endpoints | len | ne 0 -}}
+      {{- $_ := set $monitor "endpoints" $endpoints -}}
+
+      {{- include "sdk.engine.create-entity" (list $ "service-monitor" $id $monitor ) -}}
+    {{- end -}}
+
   {{- end -}}
 
 {{- end -}}

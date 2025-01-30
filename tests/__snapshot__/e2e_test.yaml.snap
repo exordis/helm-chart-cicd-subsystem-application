@@ -9,21 +9,21 @@ manifest should match snapshot:
       annotations:
         extra-annotation: annotation value
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         extra-label: label value
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-config1
+      name: cicd-sample-docs-config1
       namespace: my-namespace
   2: |
     apiVersion: v1
@@ -33,71 +33,71 @@ manifest should match snapshot:
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-config2
-      namespace: some-subsystem-test
+      name: cicd-sample-docs-config2
+      namespace: cicd-test
   3: |
     apiVersion: v1
     data:
-      EXORDIS_APPLICATION: some-subsystem-some-application
+      EXORDIS_APPLICATION: cicd-sample
       EXORDIS_ENVIRONMENT: test
-      EXORDIS_INSTANCE: some-instance
+      EXORDIS_INSTANCE: docs
       EXORDIS_PRODUCT: Some Product
-      EXORDIS_SUBSYSTEM: some-subsystem
+      EXORDIS_SUBSYSTEM: cicd
       SUBSYSTEM: wrong-subsystem
       TEST: 123
     kind: ConfigMap
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-envs
-      namespace: some-subsystem-test
+      name: cicd-sample-docs-envs
+      namespace: cicd-test
   4: |
     apiVersion: batch/v1
     kind: CronJob
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-cleanup
-      namespace: some-subsystem-test
+      name: cicd-sample-docs-cleanup
+      namespace: cicd-test
     spec:
       concurrencyPolicy: Forbid
       failedJobsHistoryLimit: 1
@@ -107,18 +107,18 @@ manifest should match snapshot:
             metadata:
               annotations: null
               labels:
-                app.kubernetes.io/component: some-subsystem-some-application
-                app.kubernetes.io/instance: some-instance
+                app.kubernetes.io/component: cicd-sample
+                app.kubernetes.io/instance: docs
                 app.kubernetes.io/managed-by: helm
-                app.kubernetes.io/name: some-subsystem-some-application
-                app.kubernetes.io/part-of: some-subsystem
+                app.kubernetes.io/name: cicd-sample
+                app.kubernetes.io/part-of: cicd
                 app.kubernetes.io/version: 0.0.0
-                exordis/application: some-subsystem-some-application
-                exordis/application-instance: some-instance
+                exordis/application: cicd-sample
+                exordis/application-instance: docs
                 exordis/application-type: service
                 exordis/environment: test
                 exordis/product: Some Product
-                exordis/subsystem: some-subsystem
+                exordis/subsystem: cicd
                 helm.sh/chart: cicd-subsystem-application-0.1.0
             spec:
               containers:
@@ -128,11 +128,13 @@ manifest should match snapshot:
                     - --registry
                   envFrom:
                     - configMapRef:
-                        name: some-subsystem-some-application-some-instance-envs
+                        name: cicd-sample-docs-envs
                     - secretRef:
-                        name: some-subsystem-some-application-some-instance-gitlab-token
+                        name: cicd-sample-docs-gitlab-token
                     - secretRef:
-                        name: some-subsystem-some-application-some-instance-secret2
+                        name: cicd-sample-docs-secret-with-containers
+                    - secretRef:
+                        name: cicd-sample-docs-secret-without-containers
                   image: registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner:0.1.0
                   imagePullPolicy: IfNotPresent
                   name: main
@@ -149,9 +151,11 @@ manifest should match snapshot:
               initContainers:
                 - envFrom:
                     - configMapRef:
-                        name: some-subsystem-some-application-some-instance-envs
+                        name: cicd-sample-docs-envs
                     - secretRef:
-                        name: some-subsystem-some-application-some-instance-gitlab-token
+                        name: cicd-sample-docs-gitlab-token
+                    - secretRef:
+                        name: cicd-sample-docs-secret-without-containers
                   image: registry.gitlab.com/cleanup-init:0.0.0
                   imagePullPolicy: IfNotPresent
                   name: cleanup-init
@@ -165,9 +169,11 @@ manifest should match snapshot:
                   volumeMounts: null
                 - envFrom:
                     - configMapRef:
-                        name: some-subsystem-some-application-some-instance-envs
+                        name: cicd-sample-docs-envs
                     - secretRef:
-                        name: some-subsystem-some-application-some-instance-gitlab-token
+                        name: cicd-sample-docs-gitlab-token
+                    - secretRef:
+                        name: cicd-sample-docs-secret-without-containers
                   image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
                   imagePullPolicy: Always
                   name: templates
@@ -188,7 +194,7 @@ manifest should match snapshot:
               volumes:
                 - name: mypvc
                   persistentVolumeClaim:
-                    claimName: some-subsystem-some-application-some-instance-mypvc
+                    claimName: cicd-sample-docs-mypvc
                 - emptyDir:
                     sizeLimit: 200Mi
                   name: templates-data-templates-generated
@@ -206,30 +212,30 @@ manifest should match snapshot:
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance
-      namespace: some-subsystem-test
+      name: cicd-sample-docs
+      namespace: cicd-test
     spec:
       replicas: 3
       revisionHistoryLimit: 1
       selector:
         matchLabels:
-          exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instance
+          exordis/application: cicd-sample
+          exordis/application-instance: docs
           exordis/environment: test
-          exordis/subsystem: some-subsystem
+          exordis/subsystem: cicd
       strategy:
         rollingUpdate:
           maxSurge: 25%
@@ -239,34 +245,37 @@ manifest should match snapshot:
         metadata:
           annotations:
             checksum/configMap.config2: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
-            checksum/configMap.envs: 32896ea2987fd7d72f58033aa647e04047681d47e1583f757d857b7707629b5d
-            checksum/secret.secret2: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
+            checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
+            checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
+            checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
           labels:
-            app.kubernetes.io/component: some-subsystem-some-application
-            app.kubernetes.io/instance: some-instance
+            app.kubernetes.io/component: cicd-sample
+            app.kubernetes.io/instance: docs
             app.kubernetes.io/managed-by: helm
-            app.kubernetes.io/name: some-subsystem-some-application
-            app.kubernetes.io/part-of: some-subsystem
+            app.kubernetes.io/name: cicd-sample
+            app.kubernetes.io/part-of: cicd
             app.kubernetes.io/version: 0.0.0
-            exordis/application: some-subsystem-some-application
-            exordis/application-instance: some-instance
+            exordis/application: cicd-sample
+            exordis/application-instance: docs
             exordis/application-type: service
             exordis/environment: test
             exordis/product: Some Product
-            exordis/subsystem: some-subsystem
+            exordis/subsystem: cicd
             helm.sh/chart: cicd-subsystem-application-0.1.0
         spec:
           containers:
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instance-config2
+                    name: cicd-sample-docs-config2
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instance-envs
+                    name: cicd-sample-docs-envs
                 - secretRef:
-                    name: some-subsystem-some-application-some-instance-gitlab-token
+                    name: cicd-sample-docs-gitlab-token
                 - secretRef:
-                    name: some-subsystem-some-application-some-instance-secret2
-              image: registry.gitlab.com/some-subsystem-some-application:0.0.0
+                    name: cicd-sample-docs-secret-with-containers
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+              image: registry.gitlab.com/cicd-unittests:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 failureThreshold: 5
@@ -310,9 +319,11 @@ manifest should match snapshot:
                   name: volume1
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instance-envs
+                    name: cicd-sample-docs-envs
                 - secretRef:
-                    name: some-subsystem-some-application-some-instance-gitlab-token
+                    name: cicd-sample-docs-gitlab-token
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/jsreport:0.0.0
               imagePullPolicy: IfNotPresent
               name: jsreport
@@ -331,9 +342,11 @@ manifest should match snapshot:
           initContainers:
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instance-envs
+                    name: cicd-sample-docs-envs
                 - secretRef:
-                    name: some-subsystem-some-application-some-instance-gitlab-token
+                    name: cicd-sample-docs-gitlab-token
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/my-default-image:0.0.0
               imagePullPolicy: IfNotPresent
               name: migration
@@ -347,9 +360,11 @@ manifest should match snapshot:
               volumeMounts: null
             - envFrom:
                 - configMapRef:
-                    name: some-subsystem-some-application-some-instance-envs
+                    name: cicd-sample-docs-envs
                 - secretRef:
-                    name: some-subsystem-some-application-some-instance-gitlab-token
+                    name: cicd-sample-docs-gitlab-token
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
               imagePullPolicy: Always
               name: templates
@@ -368,7 +383,7 @@ manifest should match snapshot:
           volumes:
             - name: mypvc
               persistentVolumeClaim:
-                claimName: some-subsystem-some-application-some-instance-mypvc
+                claimName: cicd-sample-docs-mypvc
             - emptyDir:
                 sizeLimit: 200Mi
               name: templates-data-templates-generated
@@ -384,21 +399,21 @@ manifest should match snapshot:
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-gitlab-token
-      namespace: some-subsystem-test
+      name: cicd-sample-docs-gitlab-token
+      namespace: cicd-test
     spec:
       data:
         - remoteRef:
@@ -410,11 +425,11 @@ manifest should match snapshot:
       refreshInterval: 1m
       secretStoreRef:
         kind: ClusterSecretStore
-        name: some-subsystem-test
+        name: cicd-test
       target:
         creationPolicy: Owner
         deletionPolicy: Retain
-        name: some-subsystem-some-application-some-instance-gitlab-token
+        name: cicd-sample-docs-gitlab-token
         template:
           data:
             GITLAB_PYPI_REGISTRY_LOGIN: '{{ `{{ .login }}` }}'
@@ -423,355 +438,197 @@ manifest should match snapshot:
           metadata:
             annotations: null
             labels:
-              app.kubernetes.io/component: some-subsystem-some-application
-              app.kubernetes.io/instance: some-instance
+              app.kubernetes.io/component: cicd-sample
+              app.kubernetes.io/instance: docs
               app.kubernetes.io/managed-by: helm
-              app.kubernetes.io/name: some-subsystem-some-application
-              app.kubernetes.io/part-of: some-subsystem
+              app.kubernetes.io/name: cicd-sample
+              app.kubernetes.io/part-of: cicd
               app.kubernetes.io/version: 0.0.0
-              exordis/application: some-subsystem-some-application
-              exordis/application-instance: some-instance
+              exordis/application: cicd-sample
+              exordis/application-instance: docs
               exordis/application-type: service
               exordis/environment: test
               exordis/product: Some Product
-              exordis/subsystem: some-subsystem
+              exordis/subsystem: cicd
               helm.sh/chart: cicd-subsystem-application-0.1.0
   7: |
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
-        app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
-        app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
-        exordis/application-type: service
-        exordis/environment: test
-        exordis/product: Some Product
-        exordis/subsystem: some-subsystem
-        helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-foreign
-      namespace: some-subsystem-test
-    spec:
-      ingressClassName: nginx
-      rules:
-        - host: service-not-managed-with-chart.exordis.com
-          http:
-            paths:
-              - backend:
-                  service:
-                    name: service-not-managed-with-chart
-                    port:
-                      number: 80
-                path: /
-                pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - service-not-managed-with-chart.exordis.com
-          secretName: some-subsystem-some-application-some-instance-foreign-tls
-  8: |
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
-        app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
-        app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
-        exordis/application-type: service
-        exordis/environment: test
-        exordis/product: Some Product
-        exordis/subsystem: some-subsystem
-        helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-internal
-      namespace: some-subsystem-test
-    spec:
-      ingressClassName: nginx
-      rules:
-        - host: k3s.local
-          http:
-            paths:
-              - backend:
-                  service:
-                    name: some-subsystem-some-application-some-instance-service-a
-                    port:
-                      number: 80
-                path: /api/v3(/|$)(.*)
-                pathType: Prefix
-              - backend:
-                  service:
-                    name: some-subsystem-some-application-some-instance-service-a
-                    port:
-                      number: 80
-                path: /
-                pathType: Prefix
-      tls:
-        - hosts:
-            - k3s.local
-          secretName: some-subsystem-some-application-some-instance-internal-tls
-  9: |
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      annotations:
-        aaa: "1"
-        kubernetes.io/tls-acme: "true"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
-        nginx.ingress.kubernetes.io/proxy-buffering: "off"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
-        nginx.ingress.kubernetes.io/use-regex: "true"
-      labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
-        app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
-        app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
-        exordis/application-type: service
-        exordis/environment: test
-        exordis/product: Some Product
-        exordis/subsystem: some-subsystem
-        helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-public
-      namespace: some-subsystem-test
-    spec:
-      ingressClassName: nginx-public
-      rules:
-        - host: service-api.exordis.com
-          http:
-            paths:
-              - backend:
-                  service:
-                    name: some-subsystem-some-application-some-instance-service-b
-                    port:
-                      number: 80
-                path: /public-api-one
-                pathType: Prefix
-              - backend:
-                  service:
-                    name: some-subsystem-some-application-some-instance-service-b
-                    port:
-                      number: 80
-                path: /public-api-two
-                pathType: Prefix
-        - host: service-api2.exordis.com
-          http:
-            paths:
-              - backend:
-                  service:
-                    name: some-subsystem-some-application-some-instance-service-b
-                    port:
-                      number: 80
-                path: /public-api-one
-                pathType: Prefix
-              - backend:
-                  service:
-                    name: some-subsystem-some-application-some-instance-service-b
-                    port:
-                      number: 80
-                path: /public-api-two
-                pathType: Prefix
-      tls:
-        - hosts:
-            - service-api.exordis.com
-            - service-api2.exordis.com
-          secretName: some-subsystem-some-application-some-instance-public-tls
-  10: |
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-mypvc
-      namespace: some-subsystem-test
+      name: cicd-sample-docs-mypvc
+      namespace: cicd-test
     spec:
       accessModes:
         - ReadWriteOnce
       resources:
         requests:
           storage: 10Gi
-  11: |
+  8: |
     apiVersion: v1
     kind: Secret
     metadata:
       annotations:
         extra-annotation: annotation value
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         extra-label: label value
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-secret1
+      name: cicd-sample-docs-secret-full-metadata
       namespace: my-namespace
     stringData:
       password: passw0rd
-  12: |
+  9: |
     apiVersion: v1
     kind: Secret
     metadata:
       annotations: {}
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-secret2
-      namespace: some-subsystem-test
+      name: cicd-sample-docs-secret-with-containers
+      namespace: cicd-test
     stringData:
       password: passw0rd
-  13: |
+  10: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 0.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-secret-without-containers
+      namespace: cicd-test
+    stringData:
+      token: t0ken
+  11: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
-      annotations: {}
+      annotations:
+        monitor-annotation: full service monitor
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-service-a
-      namespace: some-subsystem-test
+        monitor-labels: full service monitor
+      name: cicd-sample-docs-full
+      namespace: cicd-test
     spec:
       endpoints:
-        - basicAuth:
-            password:
-              key: Metrics__Authentication__Password
-              name: some-subsystem-some-application-some-instance-main
-            username:
-              key: Metrics__Authentication__Username
-              name: some-subsystem-some-application-some-instance-main
-          path: /metrics
+        - interval: 10s
+          path: /extra-metrics
+          port: api
+        - interval: 30s
+          port: metrics
+          relabelings:
+            - action: labeldrop
+              regex: pod
+      jobLabel: full-service
+      namespaceSelector:
+        matchNames:
+          - cicd-test
       selector:
         matchLabels:
-          exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instance
+          exordis/application: cicd-sample
+          exordis/application-instance: docs
           exordis/environment: test
-          exordis/subsystem: some-subsystem
-  14: |
+          exordis/subsystem: cicd
+  12: |
     apiVersion: v1
     kind: Service
     metadata:
-      annotations: {}
+      annotations:
+        service-annotation: full service definition
       labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
         app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
         app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/application-type: service
         exordis/environment: test
         exordis/product: Some Product
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-service-a
-      namespace: some-subsystem-test
+        service-label: full service definition
+      name: cicd-sample-docs-full
+      namespace: cicd-test
     spec:
       ports:
-        - name: service-a-8080
+        - name: api
           port: 8080
           protocol: TCP
-          targetPort: 8080
-        - name: service-a-8081
-          port: 8081
+          targetPort: http
+        - name: metrics
+          port: 81
           protocol: TCP
-          targetPort: 8080
+          targetPort: 80
       selector:
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
         exordis/environment: test
-        exordis/subsystem: some-subsystem
+        exordis/subsystem: cicd
       sessionAffinity: None
-  15: |
-    apiVersion: v1
-    kind: Service
-    metadata:
-      annotations: {}
-      labels:
-        app.kubernetes.io/component: some-subsystem-some-application
-        app.kubernetes.io/instance: some-instance
-        app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: some-subsystem-some-application
-        app.kubernetes.io/part-of: some-subsystem
-        app.kubernetes.io/version: 0.0.0
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
-        exordis/application-type: service
-        exordis/environment: test
-        exordis/product: Some Product
-        exordis/subsystem: some-subsystem
-        helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: some-subsystem-some-application-some-instance-service-b
-      namespace: some-subsystem-test
-    spec:
-      ports:
-        - name: service-b-8181
-          port: 8181
-          protocol: TCP
-          targetPort: 8080
-      selector:
-        exordis/application: some-subsystem-some-application
-        exordis/application-instance: some-instance
-        exordis/environment: test
-        exordis/subsystem: some-subsystem
-      sessionAffinity: None
+      type: LoadBalancer

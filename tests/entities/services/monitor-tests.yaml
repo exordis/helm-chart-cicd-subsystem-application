@@ -1,0 +1,149 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+
+suite: Entities/Services - Monitor
+templates:
+  - templates/service-monitors.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should not generate service monitor if no port has `monitorEndpoint`
+    set:
+      services:
+        monitored: 
+          monitor:
+            spec:
+              jobLabel: does-not-matter
+          ports:
+            http:
+            api:
+    asserts:
+      - hasDocuments:
+          count: 0
+
+
+  - it: Should generate service monitor from minimum data in values
+    set:
+      services:
+        monitored: 
+          ports:
+            http:
+              monitorEndpoint:
+    asserts:
+      - containsDocument:
+          kind: ServiceMonitor
+          apiVersion: monitoring.coreos.com/v1
+          name: cicd-sample-unittests-monitored
+          namespace: cicd-test
+      - lengthEqual:
+          path: spec.endpoints
+          count: 1 
+      - contains:
+          path: spec.endpoints
+          content: 
+            interval: 15s
+            port: http          
+      - isSubset:
+          path: spec
+          content:
+            jobLabel: monitored 
+
+  - it: Should apply service monitor endpoint extra fields
+    set:
+      services:
+        monitored: 
+          ports:
+            http:
+              monitorEndpoint: 
+                interval: 30s
+                relabelings:
+                  - action: labeldrop
+                    regex: pod                   
+    asserts:
+      - containsDocument:
+          kind: ServiceMonitor
+          apiVersion: monitoring.coreos.com/v1
+          name: cicd-sample-unittests-monitored
+          namespace: cicd-test
+      - lengthEqual:
+          path: spec.endpoints
+          count: 1 
+      - contains:
+          path: spec.endpoints
+          content: 
+            interval: 30s
+            port: http
+            relabelings:
+              - action: labeldrop
+                regex: pod           
+  
+  
+  - it: Should apply service monitor metadata
+    set:
+      services:
+        monitored: 
+          monitor:
+            namespace: monitoring
+            annotations: 
+              monitor-annotation: "monitor-annotation"
+            labels: 
+              monitor-label: "monitor-label"
+          ports:
+            http:
+              monitorEndpoint: 
+    asserts:
+      - containsDocument:
+          kind: ServiceMonitor
+          apiVersion: monitoring.coreos.com/v1
+          name: cicd-sample-unittests-monitored
+      - equal:
+          path: metadata.namespace
+          value: monitoring
+      - isSubset:
+          path: metadata.annotations
+          content:
+            monitor-annotation: "monitor-annotation"
+      - isSubset:
+          path: metadata.labels
+          content:
+            monitor-label: "monitor-label"
+
+
+  - it: Should apply service monitor spec ignoring namespaceSelector and selector
+    set:
+      services:
+        monitored: 
+          monitor:
+            spec:
+              jobLabel: myjob 
+              selector: 
+                matchLabels:
+                  app.kubernetes.io/name: "does not matter"
+              namespaceSelector:
+                matchNames:
+                - does-not-matter
+          ports:
+            http:
+              monitorEndpoint: 
+    asserts:
+      - containsDocument:
+          kind: ServiceMonitor
+          apiVersion: monitoring.coreos.com/v1
+          name: cicd-sample-unittests-monitored
+          namespace: cicd-test
+      - equal:
+          path: spec.selector
+          value:
+            matchLabels:
+              exordis/application: cicd-sample
+              exordis/application-instance: unittests
+              exordis/environment: test
+              exordis/subsystem: cicd         
+      - equal:
+          path: spec.namespaceSelector
+          value:
+            matchNames:
+              - cicd-test       
+      - isSubset:
+          path: spec
+          content:
+            jobLabel: myjob 

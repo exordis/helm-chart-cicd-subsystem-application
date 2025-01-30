@@ -1,26 +1,37 @@
 ## Definition
 
 
-``` yaml
-secrets:
-  secret1:
-    # defaults to application namespace based on convention
-    namespace: "my-namespace"
-    # defaults to empty dict
-    labels: 
-      extra-label: "label value"
-    # defaults to empty dict
-    annotations: 
-      extra-annotation: "annotation value"
-    stringData:
-      password: "passw0rd" 
-  secret2:
-    containers: 
-      - applicationContainer
-      - cronjobs.cleanup.main
-    stringData:
-      password: "passw0rd" 
-```
+=== "Values"
+
+    ``` yaml
+    --8<-- "snippets/values/secrets.yaml"
+    ```
+
+=== "Secret Manifest"
+
+    ``` yaml
+    --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-full-metadata.yml"
+    ```
+
+    ``` yaml
+    --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-with-containers.yml"
+    ```
+
+    ``` yaml
+    --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-without-containers.yml"
+    ```
+
+=== "Deployment Manifest"
+
+    ``` yaml
+    --8<-- "snippets/manifests/deployment/cicd-sample-docs.yml"
+    ```
+
+=== "CronJob Manifest"
+
+    ``` yaml
+    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    ```
 
 
 `namespace`
@@ -72,56 +83,5 @@ secrets:
 
 - `secretRef` is added to containers with ids listed in `secret.containers` (all if this field is not set)
 - annotation with checksum of configmap is added to workloads manifests if at least one container of has `secretRef` added
-- secret manifest is generated
+- secret manifest is generated each secret
  
-    ``` yaml
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: some-subsystem-some-application-some-instance-secret1
-      namespace: my-namespace
-      labels:
-          app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instance
-          app.kubernetes.io/managed-by: helm
-          app.kubernetes.io/name: some-subsystem-some-application
-          app.kubernetes.io/part-of: some-subsystem
-          app.kubernetes.io/version: 0.0.0
-          exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instance
-          exordis/application-type: service
-          exordis/environment: test
-          exordis/product: Some Product
-          exordis/subsystem: some-subsystem
-          extra-label: label value
-          helm.sh/chart: cicd-subsystem-application-0.1.0
-      annotations:
-          extra-annotation: annotation value
-    stringData:
-      password: passw0rd
-    ---
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: some-subsystem-some-application-some-instance-secret2
-      namespace: some-subsystem-test
-      labels:
-          app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instance
-          app.kubernetes.io/managed-by: helm
-          app.kubernetes.io/name: some-subsystem-some-application
-          app.kubernetes.io/part-of: some-subsystem
-          app.kubernetes.io/version: 0.0.0
-          exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instance
-          exordis/application-type: service
-          exordis/environment: test
-          exordis/product: Some Product
-          exordis/subsystem: some-subsystem
-          helm.sh/chart: cicd-subsystem-application-0.1.0
-      annotations:
-          {}
-    stringData:
-      password: passw0rd
-    ```

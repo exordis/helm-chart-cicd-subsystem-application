@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 0.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs
+  namespace: cicd-test
+spec:
+  replicas: 3
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      exordis/application: cicd-sample
+      exordis/application-instance: docs
+      exordis/environment: test
+      exordis/subsystem: cicd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/configMap.config2: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
+        checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
+        checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
+        checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 0.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: cicd-sample-docs-config2
+            - configMapRef:
+                name: cicd-sample-docs-envs
+            - secretRef:
+                name: cicd-sample-docs-gitlab-token
+            - secretRef:
+                name: cicd-sample-docs-secret-with-containers
+            - secretRef:
+                name: cicd-sample-docs-secret-without-containers
+          image: registry.gitlab.com/cicd-unittests:0.0.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthcheck/live
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
+          name: application
+          readinessProbe:
+            httpGet:
+              path: /healthcheck/ready
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1024Mi
+            requests:
+              cpu: 2m
+              memory: 70Mi
+          startupProbe:
+            failureThreshold: 20
+            httpGet:
+              path: /healthcheck/live
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: /pvc-data
+              name: mypvc
+            - mountPath: /data/templates/generated
+              name: templates-data-templates-generated
+            - mountPath: /data/templates/original
+              name: templates-data-templates-original
+            - mountPath: /some-data
+              name: volume1
+        - envFrom:
+            - configMapRef:
+                name: cicd-sample-docs-envs
+            - secretRef:
+                name: cicd-sample-docs-gitlab-token
+            - secretRef:
+                name: cicd-sample-docs-secret-without-containers
+          image: registry.gitlab.com/jsreport:0.0.0
+          imagePullPolicy: IfNotPresent
+          name: jsreport
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1024Mi
+            requests:
+              cpu: 2m
+              memory: 70Mi
+          volumeMounts:
+            - mountPath: /jsreport
+              name: templates-data-templates-generated
+            - mountPath: /some-another-data-but-same-as-for-applicationContainer
+              name: volume1
+      initContainers:
+        - envFrom:
+            - configMapRef:
+                name: cicd-sample-docs-envs
+            - secretRef:
+                name: cicd-sample-docs-gitlab-token
+            - secretRef:
+                name: cicd-sample-docs-secret-without-containers
+          image: registry.gitlab.com/my-default-image:0.0.0
+          imagePullPolicy: IfNotPresent
+          name: migration
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1024Mi
+            requests:
+              cpu: 2m
+              memory: 70Mi
+          volumeMounts: null
+        - envFrom:
+            - configMapRef:
+                name: cicd-sample-docs-envs
+            - secretRef:
+                name: cicd-sample-docs-gitlab-token
+            - secretRef:
+                name: cicd-sample-docs-secret-without-containers
+          image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
+          imagePullPolicy: Always
+          name: templates
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1024Mi
+            requests:
+              cpu: 2m
+              memory: 70Mi
+          volumeMounts:
+            - mountPath: /data/templates/generated
+              name: templates-data-templates-generated
+            - mountPath: /data/templates/original
+              name: templates-data-templates-original
+      volumes:
+        - name: mypvc
+          persistentVolumeClaim:
+            claimName: cicd-sample-docs-mypvc
+        - emptyDir:
+            sizeLimit: 200Mi
+          name: templates-data-templates-generated
+        - emptyDir:
+            sizeLimit: 200Mi
+          name: templates-data-templates-original
+        - emptyDir:
+            sizeLimit: 100Mi
+          name: volume1

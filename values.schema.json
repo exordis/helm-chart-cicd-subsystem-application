@@ -491,10 +491,81 @@
       "service": {
         "type": "object",
         "properties": {
-          "targetPort": {
-            "type": "integer"
-          }
+          "annotations": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "labels": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "namespace": {
+            "type": "string"
+          },
+          "spec": {
+            "type": "object"
+          },
+          "ports": {
+            "type": "object",
+            "patternProperties": {
+              "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/definitions/servicePort"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }          
         }
+      },
+
+      "servicePort": {
+        "type": "object",
+        "properties": {
+          "monitorEndpoint": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/servicePortMonitorEndpoint"
+              }
+            ]
+          },          
+          "port": {
+            "type": "integer"
+          },          
+          "targetPort": {
+            "type":  [
+              "string",
+              "integer"
+            ]
+          },  
+          "protocol": {
+            "type": "string",
+            "enum": [
+              "TCP",
+              "UDP",
+              "STCP"
+            ]
+          }        
+        }
+      },
+      "servicePortMonitorEndpoint":{
+        "type": "object"
       },
       "dockerImageVersion": {
         "type": "string",

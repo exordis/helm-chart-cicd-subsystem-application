@@ -3,7 +3,7 @@ global:
   subsystem: cicd
   environment: qa
 application: application-chart-tests
-version: 0.0.0
+version: 1.0.0
 tests:
   template: |
     apiVersion: v1

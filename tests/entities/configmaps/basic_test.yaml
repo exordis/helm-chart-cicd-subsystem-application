@@ -16,14 +16,14 @@ tests:
             key: "value" 
     documentSelector:
       path: metadata.name
-      value: some-subsystem-some-application-config 
+      value: cicd-sample-unittests-config 
     asserts:
       - equal:
           path: data.key
           value: value
       - equal:
           path: metadata.namespace
-          value: some-subsystem-test
+          value: cicd-test
 
 
   - it: Should generate configMap with provided namespace 
@@ -36,7 +36,7 @@ tests:
             key: "value" 
     documentSelector:
       path: metadata.name
-      value: some-subsystem-some-application-config
+      value: cicd-sample-unittests-config
     asserts:
       - equal:
           path: metadata.namespace
@@ -52,7 +52,7 @@ tests:
           data: {}
     documentSelector:
       path: metadata.name
-      value: some-subsystem-some-application-config 
+      value: cicd-sample-unittests-config 
     asserts:
       - lengthEqual:
           path: data

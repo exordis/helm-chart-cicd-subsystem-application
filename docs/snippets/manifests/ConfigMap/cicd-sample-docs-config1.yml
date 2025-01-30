@@ -1,0 +1,25 @@
+apiVersion: v1
+data:
+  value1: test
+  value2: "123"
+kind: ConfigMap
+metadata:
+  annotations:
+    extra-annotation: annotation value
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 0.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    extra-label: label value
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs-config1
+  namespace: my-namespace

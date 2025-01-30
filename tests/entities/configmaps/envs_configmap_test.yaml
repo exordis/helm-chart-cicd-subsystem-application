@@ -22,22 +22,22 @@ tests:
           value: Some Product
       - equal:
           path: data.EXORDIS_SUBSYSTEM
-          value: some-subsystem
+          value: cicd
       - equal:
           path: data.EXORDIS_APPLICATION
-          value: some-subsystem-some-application
+          value: cicd-sample
       - equal:
           path: data.EXORDIS_INSTANCE
-          value: ""
+          value: "unittests"
       - equal:
           path: data.EXORDIS_ENVIRONMENT
           value: test          
       - equal:
           path: metadata.namespace
-          value: some-subsystem-test          
+          value: cicd-test          
     documentSelector:
       path: metadata.name
-      value: some-subsystem-some-application-envs
+      value: cicd-sample-unittests-envs
   
   - it: Should generate envs configMap with no values provided in config
     set: {}
@@ -47,16 +47,16 @@ tests:
           value: Some Product
       - equal:
           path: data.EXORDIS_SUBSYSTEM
-          value: some-subsystem
+          value: cicd
       - equal:
           path: data.EXORDIS_APPLICATION
-          value: some-subsystem-some-application
+          value: cicd-sample
       - equal:
           path: data.EXORDIS_INSTANCE
-          value: ""
+          value: "unittests"
       - equal:
           path: data.EXORDIS_ENVIRONMENT
           value: test
     documentSelector:
       path: metadata.name
-      value: some-subsystem-some-application-envs
+      value: cicd-sample-unittests-envs

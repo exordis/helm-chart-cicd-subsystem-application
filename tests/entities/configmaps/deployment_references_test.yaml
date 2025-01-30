@@ -25,12 +25,12 @@ tests:
           path: spec.template.spec.containers[*].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - contains:
           path: spec.template.spec.initContainers[*].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - exists:
           path: spec.template.metadata.annotations["checksum/configMap.config"]
   
@@ -59,22 +59,22 @@ tests:
           path: spec.template.spec.containers[?(@.name == "sidecar1")].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - notContains:
           path: spec.template.spec.containers[?(@.name != "sidecar1")].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - contains:
           path: spec.template.spec.initContainers[?(@.name == "init1")].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - notContains:
           path: spec.template.spec.initContainers[?(@.name != "init1")].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - exists:
           path: spec.template.metadata.annotations["checksum/configMap.config"]
   
@@ -107,12 +107,12 @@ tests:
           path: spec.template.spec.containers[*].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - notContains:
           path: spec.template.spec.initContainers[*].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - notExists:
           path: spec.template.metadata.annotations["checksum/configMap.config"]
 
@@ -141,12 +141,12 @@ tests:
           path: spec.template.spec.containers[*].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - notContains:
           path: spec.template.spec.initContainers[*].envFrom
           content:
             configMapRef:
-              name: some-subsystem-some-application-config
+              name: cicd-sample-unittests-config
       - notExists:
           path: spec.template.metadata.annotations["checksum/configMap.config"]
 

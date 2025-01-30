@@ -1,0 +1,25 @@
+cronjobs:
+  cleanup:
+    schedule: 0 6 * * *
+    containers:
+      main: 
+        image: 
+          registry: "registry.gitlab.com"
+          repository: "knst/cy/registry/cicd-docker-registry-cleaner"
+          version: "0.1.0"
+        spec:
+          args: 
+            - "tag" 
+            - "delete"
+            - "--registry"
+    initContainers:
+      "cleanup-init":
+        image: 
+          repository: cleanup-init
+          version: 0.0.0            
+    volumes:
+      volume2:
+        #spec:
+        #type: emptyDir
+        mounts: 
+          main: /some-data
