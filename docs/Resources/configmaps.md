@@ -1,26 +1,39 @@
 
 ## Definition
 
-``` yaml
-configMaps:
-  config1:
-    # defaults to application namespace based on convention
-    namespace: "my-namespace"
-    # defaults to empty dict
-    labels: 
-      extra-label: "label value"
-    # defaults to empty dict
-    annotations: 
-      extra-annotation: "annotation value"
-    data:
-      value1: "test"
-      value2: "123"
-  config2:
-    containers:
-      - applicationContainer
-    data:
-      value: "test"
-```
+
+=== "Values"
+
+    ``` yaml
+    --8<-- "snippets/values/configmaps.yaml"
+    ```
+
+=== "ConfigMap Manifests"
+
+    ``` yaml
+    --8<-- "snippets/manifests/ConfigMap/cicd-sample-docs-config-map-full-metadata.yml"
+    ```
+
+    ``` yaml
+    --8<-- "snippets/manifests/ConfigMap/cicd-sample-docs-config-map-with-containers.yml"
+    ```
+
+    ``` yaml
+    --8<-- "snippets/manifests/ConfigMap/cicd-sample-docs-config-map-without-containers.yml"
+    ```
+
+=== "Deployment Manifest"
+
+    ``` yaml
+    --8<-- "snippets/manifests/deployment/cicd-sample-docs.yml"
+    ```
+
+=== "CronJob Manifest"
+
+    ``` yaml
+    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    ```
+
 
 `namespace`
 
@@ -69,59 +82,4 @@ configMaps:
 
 - `configMapRef` is added to containers  with ids listed in `configmap.containers` (all if this field is not set)
 - annotation with checksum of configmap is added to workloads manifests if at least one container of has `configMapRef` added
-- configmap manifest is generated:
-
-    ``` yaml
-    ---
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: some-subsystem-some-application-some-instance-config1
-      namespace: my-namespace
-      labels:
-          app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instance
-          app.kubernetes.io/managed-by: helm
-          app.kubernetes.io/name: some-subsystem-some-application
-          app.kubernetes.io/part-of: some-subsystem
-          app.kubernetes.io/version: 1.0.0
-          exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instance
-          exordis/application-type: service
-          exordis/environment: test
-          exordis/product: Some Product
-          exordis/subsystem: some-subsystem
-          extra-label: label value
-          helm.sh/chart: cicd-subsystem-application-0.1.0
-      annotations:
-          extra-annotation: annotation value
-    data:
-      value1: test
-      value2: "123"
-    ---
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: some-subsystem-some-application-some-instance-config2
-      namespace: some-subsystem-test
-      labels:
-          app.kubernetes.io/component: some-subsystem-some-application
-          app.kubernetes.io/instance: some-instance
-          app.kubernetes.io/managed-by: helm
-          app.kubernetes.io/name: some-subsystem-some-application
-          app.kubernetes.io/part-of: some-subsystem
-          app.kubernetes.io/version: 1.0.0
-          exordis/application: some-subsystem-some-application
-          exordis/application-instance: some-instance
-          exordis/application-type: service
-          exordis/environment: test
-          exordis/product: Some Product
-          exordis/subsystem: some-subsystem
-          helm.sh/chart: cicd-subsystem-application-0.1.0
-      annotations:
-        {}
-    data:
-      value: test
-    ```
-
-
+- configmap manifest is generated

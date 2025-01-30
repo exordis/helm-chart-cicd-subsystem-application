@@ -48,6 +48,8 @@ spec:
                 - --registry
               envFrom:
                 - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+                - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-gitlab-token
@@ -71,6 +73,8 @@ spec:
           initContainers:
             - envFrom:
                 - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+                - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-gitlab-token
@@ -88,6 +92,8 @@ spec:
                   memory: 70Mi
               volumeMounts: null
             - envFrom:
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:

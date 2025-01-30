@@ -23,7 +23,7 @@ manifest should match snapshot:
         exordis/subsystem: cicd
         extra-label: label value
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: cicd-sample-docs-config1
+      name: cicd-sample-docs-config-map-full-metadata
       namespace: my-namespace
   2: |
     apiVersion: v1
@@ -46,9 +46,32 @@ manifest should match snapshot:
         exordis/product: Some Product
         exordis/subsystem: cicd
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: cicd-sample-docs-config2
+      name: cicd-sample-docs-config-map-with-containers
       namespace: cicd-test
   3: |
+    apiVersion: v1
+    data:
+      value: test
+    kind: ConfigMap
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-config-map-without-containers
+      namespace: cicd-test
+  4: |
     apiVersion: v1
     data:
       EXORDIS_APPLICATION: cicd-sample
@@ -77,7 +100,7 @@ manifest should match snapshot:
         helm.sh/chart: cicd-subsystem-application-0.1.0
       name: cicd-sample-docs-envs
       namespace: cicd-test
-  4: |
+  5: |
     apiVersion: batch/v1
     kind: CronJob
     metadata:
@@ -128,6 +151,8 @@ manifest should match snapshot:
                     - --registry
                   envFrom:
                     - configMapRef:
+                        name: cicd-sample-docs-config-map-without-containers
+                    - configMapRef:
                         name: cicd-sample-docs-envs
                     - secretRef:
                         name: cicd-sample-docs-gitlab-token
@@ -151,6 +176,8 @@ manifest should match snapshot:
               initContainers:
                 - envFrom:
                     - configMapRef:
+                        name: cicd-sample-docs-config-map-without-containers
+                    - configMapRef:
                         name: cicd-sample-docs-envs
                     - secretRef:
                         name: cicd-sample-docs-gitlab-token
@@ -168,6 +195,8 @@ manifest should match snapshot:
                       memory: 70Mi
                   volumeMounts: null
                 - envFrom:
+                    - configMapRef:
+                        name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
                     - secretRef:
@@ -206,7 +235,7 @@ manifest should match snapshot:
                   name: volume2
           ttlSecondsAfterFinished: 86400
       schedule: 0 6 * * *
-  5: |
+  6: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -244,7 +273,8 @@ manifest should match snapshot:
       template:
         metadata:
           annotations:
-            checksum/configMap.config2: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
+            checksum/configMap.config-map-with-containers: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
+            checksum/configMap.config-map-without-containers: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
             checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
             checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
             checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
@@ -266,7 +296,9 @@ manifest should match snapshot:
           containers:
             - envFrom:
                 - configMapRef:
-                    name: cicd-sample-docs-config2
+                    name: cicd-sample-docs-config-map-with-containers
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:
@@ -319,6 +351,8 @@ manifest should match snapshot:
                   name: volume1
             - envFrom:
                 - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+                - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-gitlab-token
@@ -342,6 +376,8 @@ manifest should match snapshot:
           initContainers:
             - envFrom:
                 - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+                - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-gitlab-token
@@ -359,6 +395,8 @@ manifest should match snapshot:
                   memory: 70Mi
               volumeMounts: null
             - envFrom:
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
                 - secretRef:
@@ -393,7 +431,7 @@ manifest should match snapshot:
             - emptyDir:
                 sizeLimit: 100Mi
               name: volume1
-  6: |
+  7: |
     apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
     metadata:
@@ -451,7 +489,7 @@ manifest should match snapshot:
               exordis/product: Some Product
               exordis/subsystem: cicd
               helm.sh/chart: cicd-subsystem-application-0.1.0
-  7: |
+  8: |
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
@@ -478,7 +516,7 @@ manifest should match snapshot:
       resources:
         requests:
           storage: 10Gi
-  8: |
+  9: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -503,7 +541,7 @@ manifest should match snapshot:
       namespace: my-namespace
     stringData:
       password: passw0rd
-  9: |
+  10: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -526,7 +564,7 @@ manifest should match snapshot:
       namespace: cicd-test
     stringData:
       password: passw0rd
-  10: |
+  11: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -549,7 +587,7 @@ manifest should match snapshot:
       namespace: cicd-test
     stringData:
       token: t0ken
-  11: |
+  12: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -592,7 +630,7 @@ manifest should match snapshot:
           exordis/application-instance: docs
           exordis/environment: test
           exordis/subsystem: cicd
-  12: |
+  13: |
     apiVersion: v1
     kind: Service
     metadata:

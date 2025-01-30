@@ -35,7 +35,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configMap.config2: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
+        checksum/configMap.config-map-with-containers: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
+        checksum/configMap.config-map-without-containers: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
         checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
         checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
         checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
@@ -57,7 +58,9 @@ spec:
       containers:
         - envFrom:
             - configMapRef:
-                name: cicd-sample-docs-config2
+                name: cicd-sample-docs-config-map-with-containers
+            - configMapRef:
+                name: cicd-sample-docs-config-map-without-containers
             - configMapRef:
                 name: cicd-sample-docs-envs
             - secretRef:
@@ -110,6 +113,8 @@ spec:
               name: volume1
         - envFrom:
             - configMapRef:
+                name: cicd-sample-docs-config-map-without-containers
+            - configMapRef:
                 name: cicd-sample-docs-envs
             - secretRef:
                 name: cicd-sample-docs-gitlab-token
@@ -133,6 +138,8 @@ spec:
       initContainers:
         - envFrom:
             - configMapRef:
+                name: cicd-sample-docs-config-map-without-containers
+            - configMapRef:
                 name: cicd-sample-docs-envs
             - secretRef:
                 name: cicd-sample-docs-gitlab-token
@@ -150,6 +157,8 @@ spec:
               memory: 70Mi
           volumeMounts: null
         - envFrom:
+            - configMapRef:
+                name: cicd-sample-docs-config-map-without-containers
             - configMapRef:
                 name: cicd-sample-docs-envs
             - secretRef:

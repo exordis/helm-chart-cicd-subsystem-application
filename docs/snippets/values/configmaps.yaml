@@ -1,18 +1,19 @@
 configMaps:
-  config1:
-    # defaults to application namespace based on convention
+  config-map-full-metadata:
+    # reference is not added to workloads as namespace differs
     namespace: "my-namespace"
-    # defaults to empty dict
     labels: 
       extra-label: "label value"
-    # defaults to empty dict
     annotations: 
       extra-annotation: "annotation value"
     data:
       value1: "test"
       value2: "123"
-  config2:
+  config-map-with-containers:
     containers:
       - applicationContainer
     data:
-      value: "test"
+      value: "test1"
+  config-map-without-containers:
+    data:
+      value: "test2"

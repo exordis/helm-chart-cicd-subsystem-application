@@ -1,15 +1,13 @@
 ## Definition
 
-``` yaml
-externalSecrets:
-  externalPassword:
-    containers:
-    spec: 
-      refreshInterval: 1m
-      target:
-        creationPolicy: Owner
-        deletionPolicy: Retain
-    targetSecretName: {{'{{'}} include "subsystem-application.naming.conventions.kind" (list $ $id "Secret"  ) | quote {{'}}'}}
-    key:
+=== "Values"
 
-```
+    ``` yaml
+    --8<-- "snippets/values/externalSecrets.yaml"
+    ```
+
+=== "Secret Manifests"
+
+    ``` yaml
+    --8<-- "snippets/manifests/ExternalSecret/cicd-sample-docs-gitlab-token.yml"
+    ```

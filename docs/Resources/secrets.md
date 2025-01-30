@@ -7,7 +7,7 @@
     --8<-- "snippets/values/secrets.yaml"
     ```
 
-=== "Secret Manifest"
+=== "Secret Manifests"
 
     ``` yaml
     --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-full-metadata.yml"
