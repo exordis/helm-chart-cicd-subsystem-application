@@ -28,7 +28,7 @@ manifest should match snapshot:
   2: |
     apiVersion: v1
     data:
-      value: test
+      value: test1
     kind: ConfigMap
     metadata:
       annotations: {}
@@ -51,7 +51,7 @@ manifest should match snapshot:
   3: |
     apiVersion: v1
     data:
-      value: test
+      value: test2
     kind: ConfigMap
     metadata:
       annotations: {}
@@ -273,8 +273,8 @@ manifest should match snapshot:
       template:
         metadata:
           annotations:
-            checksum/configMap.config-map-with-containers: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
-            checksum/configMap.config-map-without-containers: e996f2f14f1f85029d6039bcd3fc0302b9168bcc9dc0fadf23f658f191299d02
+            checksum/configMap.config-map-with-containers: 48b7e320feb03b105aa89ed415344c030af90d34a34c66f56146d9f0fd2da3e3
+            checksum/configMap.config-map-without-containers: 1dbfa263d171e565d412b904c69bdf60fc6bc8db2fcb31e13049242a8bbdecac
             checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
             checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
             checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
