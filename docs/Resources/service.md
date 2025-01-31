@@ -122,9 +122,7 @@ services:
 
 ## Validations
 
-https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-
-- [TODO] Workload container has port referenced in service 
+- Port referenced in service is not exposed by `applicationContainer` or any of `sidecars`
 
 ## Overrides
 

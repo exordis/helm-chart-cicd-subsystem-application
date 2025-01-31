@@ -69,8 +69,8 @@
 ## Validations
 
 - Secret `id` is unique with respect to [external secrets](external-secret.md) ids
-- Each item in `containers` references `applicationContainer` or existing `id` in `init-container` or `sidecars`
-- Each item in `containers` belongs to the same some-namespace as the secret
+- Each item in `containers` references existing container
+- Each item in `containers` references container from the same namespace as secret
 
 ## Overrides
 

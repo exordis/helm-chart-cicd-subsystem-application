@@ -2,6 +2,13 @@ envs:
   TEST: 123
   SUBSYSTEM: wrong-subsystem
 
+applicationContainer:
+  spec:
+    ports:
+      - containerPort: 80
+        protocol: TCP  
+        name: http  
+
 initContainers:
   migration:
     image:
@@ -9,6 +16,8 @@ initContainers:
       version: 1.0.0
     #spec:
     #  imagePullPolicy: Always
+
+
 
 sidecars:
   jsreport:

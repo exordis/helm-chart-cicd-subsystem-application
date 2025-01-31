@@ -8,6 +8,11 @@ values:
 tests:
   - it: Should generate simple service from minimum data in values
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
       services:
         minimum:
           ports:
@@ -38,6 +43,11 @@ tests:
 
   - it: Should generate port with explicitly provided values
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http      
       services:
         minimum:
           ports:
@@ -56,6 +66,11 @@ tests:
 
   - it: Should apply spec ignoring spec.ports and spec.selector if provided
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http        
       services:
         with-spec:
           spec: 
@@ -90,3 +105,24 @@ tests:
       - equal:
           path: spec.clusterIP
           value: None
+
+  - it: Should fail when referencing non-exposed container port
+    set:
+      sidecars:
+        metrics:
+          spec:
+            ports:
+              - containerPort: 80
+                name: http               
+      services:
+        svc:
+          ports:
+            http:
+            by-number:
+              targetPort: 80
+            api:
+              targetPort: http 
+            wrong:
+    asserts:
+      - failedTemplate:
+          errorPattern: service 'svc' port 'wrong' targetPort 'wrong' is not exposed by applicationContainer or any of sidecars

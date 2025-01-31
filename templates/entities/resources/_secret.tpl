@@ -17,7 +17,7 @@ name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Se
 
 {{- define "subsystem-application.entities.secret.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $secret := index . 2 -}}
-{{- include "subsystem-application.validation.container-refs" (list $ "Secret" $id $secret.containers ) -}}
+{{- include "subsystem-application.validation.container-refs" (list $ "Secret" $id $secret.containers $secret.namespace) -}}
 
 
 

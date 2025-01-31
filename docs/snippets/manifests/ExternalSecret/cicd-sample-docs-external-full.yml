@@ -1,7 +1,9 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  annotations: {}
+  annotations:
+    extra-annotation: annotation value
+    extra-secret-annotation: annotation value
   labels:
     app.kubernetes.io/component: cicd-sample
     app.kubernetes.io/instance: docs
@@ -15,32 +17,36 @@ metadata:
     exordis/environment: test
     exordis/product: Some Product
     exordis/subsystem: cicd
+    extra-label: label value
+    extra-secret-label: label value
     helm.sh/chart: cicd-subsystem-application-0.1.0
-  name: cicd-sample-docs-gitlab-token
+  name: cicd-sample-docs-external-full
   namespace: cicd-test
 spec:
   data:
     - remoteRef:
-        key: GITLAB_PYPI_REGISTRY_LOGIN
-      secretKey: login
+        key: SITE_LOGIN
+      secretKey: LOGIN
     - remoteRef:
-        key: GITLAB_PYPI_REGISTRY_PASSWORD
-      secretKey: password
+        key: SITE_PASSWORD
+      secretKey: PASSWORD
   refreshInterval: 1m
   secretStoreRef:
     kind: ClusterSecretStore
-    name: cicd-test
+    name: cicd-sample-docs-external-full
   target:
     creationPolicy: Owner
     deletionPolicy: Retain
-    name: cicd-sample-docs-gitlab-token
+    name: cicd-sample-docs-external-full
     template:
       data:
-        GITLAB_PYPI_REGISTRY_LOGIN: '{{ `{{ .login }}` }}'
-        GITLAB_PYPI_REGISTRY_PASSWORD: '{{ `{{ .password }}` }}'
-      engineVersion: v2
+        AUTH: '{{ `{{ .LOGIN }}:{{ .PASSWORD }}` }}'
+        LOGIN: '{{ .LOGIN }}'
+        PASSWORD: '{{ .PASSWORD }}'
       metadata:
-        annotations: null
+        annotations:
+          extra-annotation: annotation value
+          extra-secret-annotation: annotation value
         labels:
           app.kubernetes.io/component: cicd-sample
           app.kubernetes.io/instance: docs
@@ -54,4 +60,11 @@ spec:
           exordis/environment: test
           exordis/product: Some Product
           exordis/subsystem: cicd
+          extra-label: label value
+          extra-secret-label: label value
           helm.sh/chart: cicd-subsystem-application-0.1.0
+      templateFrom:
+        - configMap:
+            items:
+              - keys: config.yml
+            name: cicd-sample-docs-external-secret-template

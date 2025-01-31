@@ -117,8 +117,8 @@ Batch workload components are to be defined as part of corresponding workload.
 
 Standalone resources to be deployed.
 
-- [configmap](Resources/configmaps.md)
-- [secret](Resources/secrets.md)
+- [configmap](Resources/configmap.md)
+- [secret](Resources/secret.md)
 - [external-secret](Resources/external-secret.md)
 - [ingress](Resources/ingress.md)
 - [PVC](Resources/pvc.md)

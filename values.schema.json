@@ -148,7 +148,14 @@
         "type": "object",
         "patternProperties": {
           "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
-            "$ref": "#/definitions/externalSecret"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/externalSecret"
+              }
+            ]            
           }
         },
         "additionalProperties": false
@@ -307,20 +314,48 @@
       },
       "externalSecret": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
-          "key": {
-            "type": "string",
-            "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
-          },
-          "targetSecretName": {
-            "type": "string",
-            "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
-          },
           "containers": {
             "type": "array",
             "items": {
               "type": "string"
             }
+          },
+          "annotations": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "labels": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },           
+          "namespace": {
+            "type": "string"
+          },          
+          "keys": {
+            "type": "object",
+            "patternProperties": {
+              "^\\S+$": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "targetSecretName": {
+            "type": "string",
+            "pattern": "^[a-z]([-a-z0-9]*[a-z0-9])?$"
           },
           "spec": {
             "type": "object"

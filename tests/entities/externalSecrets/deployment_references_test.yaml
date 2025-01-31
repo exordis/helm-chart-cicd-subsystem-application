@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/ExternalSecrets - Deployment References
+templates:
+  - templates/deployment.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate secret reference in all deployment containers if secret.containers is not defined
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+      initContainers: 
+        init1: {}
+      externalSecrets:
+        password:
+          keys:
+            value:
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[*].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - contains:
+          path: spec.template.spec.initContainers[*].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+  
+
+  - it: Should generate secret reference only for containers listed by secret.containers if defined
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+        sidecar2: {}
+      initContainers: 
+        init1: {}
+        init2: {}
+      externalSecrets:
+        password:
+          keys:
+            value:
+          containers:
+            - sidecar1 
+            - init1 
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[?(@.name != "sidecar1")].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - contains:
+          path: spec.template.spec.containers[?(@.name == "sidecar1")].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - notContains:
+          path: spec.template.spec.initContainers[?(@.name != "init1")].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - contains:
+          path: spec.template.spec.initContainers[?(@.name == "init1")].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+
+  
+
+  
+  - it: Should not generate secret reference in main workload if secret.containers does not list any of its containers
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+      initContainers: 
+        init1: {}
+      cronjobs:
+        cleanup:
+          schedule: 0 6 * * *
+          containers:
+            main: 
+      externalSecrets:
+        password:
+          keys:
+            value:
+          containers: 
+            - cronjobs.cleanup.main
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[*].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - notContains:
+          path: spec.template.spec.initContainers[*].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - notExists:
+          path: spec.template.metadata.annotations["checksum/secret.password"]
+
+
+  - it: Should not generate secret reference in deployment from different namespace
+    set:
+      workload: deployment
+      sidecars: 
+        sidecar1: {}
+      initContainers: 
+        init1: {}
+      
+      externalSecrets:
+        password:
+          keys:
+            value:
+          namespace: other-namespace
+    documentSelector:
+      path: kind
+      value: Deployment
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[*].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - notContains:
+          path: spec.template.spec.initContainers[*].envFrom
+          content:
+            secretRef:
+              name: cicd-sample-unittests-password
+      - notExists:
+          path: spec.template.metadata.annotations["checksum/secret.password"]
+
+
+

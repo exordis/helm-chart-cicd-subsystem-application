@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e 
 
 # Define the default -f argument
 DEFAULT_FILE_ARG="-f 'tests/**/*-tests.yaml' -f 'tests/**/*-test.yaml' -f 'tests/**/*_test.yaml'"

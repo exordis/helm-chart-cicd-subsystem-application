@@ -51,7 +51,7 @@ spec:
     {{ end -}}
   {{- end }}
   {{- range $externalSecret := $.entities.externalSecrets -}}
-    {{- if or (has $containerRef $externalSecret.containers ) (eq  $externalSecret.containers nil ) }}
+    {{- if and (eq $namespace $externalSecret.namespace) (or (has $containerRef $externalSecret.containers ) (eq  $externalSecret.containers nil )) }}
     - secretRef:
         name: {{ $externalSecret.targetSecretName }}
     {{ end -}}

@@ -1,3 +1,6 @@
+---
+title: ConfigMap
+---
 
 ## Definition
 
@@ -69,8 +72,8 @@
 ## Validations
 
 - ConfigMap `id` is unique. `envs` id is reserved for [envs config map](../values.md#envs-config-map)
-- Each item in `containers` references `applicationContainer` or existing `id` in `init-container` or `sidecars`
-- Each item in `containers` belongs to the same some-namespace as the secret
+- Each item in `containers` references existing container
+- Each item in `containers` references container from the same namespace as configmap
 
 ## Overrides
 

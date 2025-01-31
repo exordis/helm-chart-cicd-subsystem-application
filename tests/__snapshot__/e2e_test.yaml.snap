@@ -101,6 +101,31 @@ manifest should match snapshot:
       name: cicd-sample-docs-envs
       namespace: cicd-test
   5: |
+    apiVersion: v1
+    data:
+      config.yml: |-
+        login: "{{ .LOGIN }}"
+        password: "{{ .PASSWORD }}"
+    kind: ConfigMap
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-external-secret-template
+      namespace: cicd-test
+  6: |
     apiVersion: batch/v1
     kind: CronJob
     metadata:
@@ -154,8 +179,10 @@ manifest should match snapshot:
                         name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
+                    - configMapRef:
+                        name: cicd-sample-docs-external-secret-template
                     - secretRef:
-                        name: cicd-sample-docs-gitlab-token
+                        name: cicd-sample-docs-external-full
                     - secretRef:
                         name: cicd-sample-docs-secret-with-containers
                     - secretRef:
@@ -179,8 +206,10 @@ manifest should match snapshot:
                         name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
+                    - configMapRef:
+                        name: cicd-sample-docs-external-secret-template
                     - secretRef:
-                        name: cicd-sample-docs-gitlab-token
+                        name: cicd-sample-docs-external-full
                     - secretRef:
                         name: cicd-sample-docs-secret-without-containers
                   image: registry.gitlab.com/cleanup-init:1.0.0
@@ -199,8 +228,10 @@ manifest should match snapshot:
                         name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
+                    - configMapRef:
+                        name: cicd-sample-docs-external-secret-template
                     - secretRef:
-                        name: cicd-sample-docs-gitlab-token
+                        name: cicd-sample-docs-external-full
                     - secretRef:
                         name: cicd-sample-docs-secret-without-containers
                   image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
@@ -235,7 +266,7 @@ manifest should match snapshot:
                   name: volume2
           ttlSecondsAfterFinished: 86400
       schedule: 0 6 * * *
-  6: |
+  7: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -276,6 +307,7 @@ manifest should match snapshot:
             checksum/configMap.config-map-with-containers: 48b7e320feb03b105aa89ed415344c030af90d34a34c66f56146d9f0fd2da3e3
             checksum/configMap.config-map-without-containers: 1dbfa263d171e565d412b904c69bdf60fc6bc8db2fcb31e13049242a8bbdecac
             checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
+            checksum/configMap.external-secret-template: f921d5d8c41b9909941321f0d31975eb7ca6d83cba279a6fa91b5f035c9c3f56
             checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
             checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
           labels:
@@ -301,8 +333,10 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-with-containers
                 - secretRef:
@@ -318,6 +352,10 @@ manifest should match snapshot:
                 periodSeconds: 10
                 timeoutSeconds: 10
               name: application
+              ports:
+                - containerPort: 80
+                  name: http
+                  protocol: TCP
               readinessProbe:
                 httpGet:
                   path: /healthcheck/ready
@@ -354,8 +392,10 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/jsreport:1.0.0
@@ -379,8 +419,10 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/my-default-image:1.0.0
@@ -399,8 +441,10 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
@@ -431,11 +475,13 @@ manifest should match snapshot:
             - emptyDir:
                 sizeLimit: 100Mi
               name: volume1
-  7: |
+  8: |
     apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
     metadata:
-      annotations: {}
+      annotations:
+        extra-annotation: annotation value
+        extra-secret-annotation: annotation value
       labels:
         app.kubernetes.io/component: cicd-sample
         app.kubernetes.io/instance: docs
@@ -449,32 +495,36 @@ manifest should match snapshot:
         exordis/environment: test
         exordis/product: Some Product
         exordis/subsystem: cicd
+        extra-label: label value
+        extra-secret-label: label value
         helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: cicd-sample-docs-gitlab-token
+      name: cicd-sample-docs-external-full
       namespace: cicd-test
     spec:
       data:
         - remoteRef:
-            key: GITLAB_PYPI_REGISTRY_LOGIN
-          secretKey: login
+            key: SITE_LOGIN
+          secretKey: LOGIN
         - remoteRef:
-            key: GITLAB_PYPI_REGISTRY_PASSWORD
-          secretKey: password
+            key: SITE_PASSWORD
+          secretKey: PASSWORD
       refreshInterval: 1m
       secretStoreRef:
         kind: ClusterSecretStore
-        name: cicd-test
+        name: cicd-sample-docs-external-full
       target:
         creationPolicy: Owner
         deletionPolicy: Retain
-        name: cicd-sample-docs-gitlab-token
+        name: cicd-sample-docs-external-full
         template:
           data:
-            GITLAB_PYPI_REGISTRY_LOGIN: '{{ `{{ .login }}` }}'
-            GITLAB_PYPI_REGISTRY_PASSWORD: '{{ `{{ .password }}` }}'
-          engineVersion: v2
+            AUTH: '{{ `{{ .LOGIN }}:{{ .PASSWORD }}` }}'
+            LOGIN: '{{ .LOGIN }}'
+            PASSWORD: '{{ .PASSWORD }}'
           metadata:
-            annotations: null
+            annotations:
+              extra-annotation: annotation value
+              extra-secret-annotation: annotation value
             labels:
               app.kubernetes.io/component: cicd-sample
               app.kubernetes.io/instance: docs
@@ -488,8 +538,15 @@ manifest should match snapshot:
               exordis/environment: test
               exordis/product: Some Product
               exordis/subsystem: cicd
+              extra-label: label value
+              extra-secret-label: label value
               helm.sh/chart: cicd-subsystem-application-0.1.0
-  8: |
+          templateFrom:
+            - configMap:
+                items:
+                  - keys: config.yml
+                name: cicd-sample-docs-external-secret-template
+  9: |
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
@@ -516,7 +573,7 @@ manifest should match snapshot:
       resources:
         requests:
           storage: 10Gi
-  9: |
+  10: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -541,7 +598,7 @@ manifest should match snapshot:
       namespace: my-namespace
     stringData:
       password: passw0rd
-  10: |
+  11: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -564,7 +621,7 @@ manifest should match snapshot:
       namespace: cicd-test
     stringData:
       password: passw0rd
-  11: |
+  12: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -587,7 +644,7 @@ manifest should match snapshot:
       namespace: cicd-test
     stringData:
       token: t0ken
-  12: |
+  13: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -630,7 +687,7 @@ manifest should match snapshot:
           exordis/application-instance: docs
           exordis/environment: test
           exordis/subsystem: cicd
-  13: |
+  14: |
     apiVersion: v1
     kind: Service
     metadata:

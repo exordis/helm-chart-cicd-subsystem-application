@@ -59,4 +59,18 @@ referencedSecrets:
       {{- end -}}
     {{- end }}
   {{- end }}
+
+referencedExternalSecrets:
+  {{- range $secret := $.entities.externalSecrets -}}
+    {{- if eq $deployment.namespace $secret.namespace -}}
+      {{- $referenceIsNeeded := false -}}
+      {{- range $container := concat ($deployment.containers | default dict | values) ($deployment.initContainers | default dict | values) -}}
+        {{- if or (not $secret.containers ) (has $container.id $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
+      {{- end -}}
+      {{- if $referenceIsNeeded }}
+  - {{ $secret.targetSecretName }}
+      {{- end -}}
+    {{- end }}
+  {{- end }}
+
 {{- end }}

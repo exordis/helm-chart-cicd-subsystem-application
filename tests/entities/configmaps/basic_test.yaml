@@ -70,4 +70,18 @@ tests:
             key: "value" 
     asserts:
       - failedTemplate:
-          errorPattern: "ConfigMap 'config' references undefined containers: 'missing'"
+          errorPattern: "ConfigMap 'config' references undefined container 'missing'"
+
+  - it: Should fail when referencing non container from other namespace
+    template: templates/configmaps.yaml
+    set:
+      configMaps:
+        config:
+          namespace: some-namespace
+          containers: 
+            - applicationContainer
+          data:
+            key: "value" 
+    asserts:
+      - failedTemplate:
+          errorPattern: ConfigMap 'config' references container 'applicationContainer' from namespace 'cicd-test' while belongs to 'some-namespace'          

@@ -1,0 +1,217 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/ExternalSecrets
+templates:
+  - templates/external-secrets.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate external secret from empty secret definition with defaults
+    set:
+      externalSecrets:
+        password:
+    asserts:
+      - containsDocument:
+          kind: ExternalSecret
+          apiVersion: external-secrets.io/v1beta1
+          name: cicd-sample-unittests-password
+          namespace: cicd-test
+      - equal:
+          path: spec.refreshInterval
+          value: 1m
+      - equal:
+          path: spec.secretStoreRef
+          value: 
+            kind: ClusterSecretStore
+            name: cicd-sample-unittests-password          
+      - isSubset:
+          path: spec.target
+          content: 
+            creationPolicy: Owner
+            deletionPolicy: Retain
+            name: cicd-sample-unittests-password
+
+  - it: Should generate proper ExternalSecret labels and annotations
+    set:
+      externalSecrets:
+        password:
+          labels: 
+            extra-label: "label value"
+            app.kubernetes.io/component: should-not-be-respected
+          annotations: 
+            extra-annotation: "annotation value"
+          keys:
+            password: password
+    asserts:
+      - isSubset:
+          path: metadata
+          content: 
+            annotations:
+              extra-annotation: "annotation value"
+            labels:
+              app.kubernetes.io/component: cicd-sample
+              app.kubernetes.io/instance: unittests
+              app.kubernetes.io/managed-by: helm
+              app.kubernetes.io/name: cicd-sample
+              app.kubernetes.io/part-of: cicd
+              app.kubernetes.io/version: 1.0.0
+              exordis/application: cicd-sample
+              exordis/application-instance: unittests
+              exordis/application-type: service
+              exordis/environment: test
+              exordis/product: Some Product
+              exordis/subsystem: cicd
+              helm.sh/chart: cicd-subsystem-application-0.1.0
+              extra-label: label value
+
+  - it: Should generate proper target Secret labels and annotations
+    set:
+      externalSecrets:
+        password:
+          labels: 
+            extra-label: "label value"
+            app.kubernetes.io/component: should-not-be-respected1
+          annotations: 
+            extra-annotation: "annotation value"
+          keys:
+            password: password
+          spec:
+            target:
+              template:
+                metadata:
+                  labels: 
+                    app.kubernetes.io/component: should-not-be-respected2
+                    extra-label: "label value override"
+                    extra-target-label: "label value"
+                  annotations: 
+                    extra-target-annotation: "annotation value"
+
+    asserts:
+      - isSubset:
+          path: spec.target.template.metadata
+          content: 
+            annotations:
+              extra-annotation: "annotation value"
+              extra-target-annotation: "annotation value"
+            labels:
+              app.kubernetes.io/component: cicd-sample
+              app.kubernetes.io/instance: unittests
+              app.kubernetes.io/managed-by: helm
+              app.kubernetes.io/name: cicd-sample
+              app.kubernetes.io/part-of: cicd
+              app.kubernetes.io/version: 1.0.0
+              exordis/application: cicd-sample
+              exordis/application-instance: unittests
+              exordis/application-type: service
+              exordis/environment: test
+              exordis/product: Some Product
+              exordis/subsystem: cicd
+              helm.sh/chart: cicd-subsystem-application-0.1.0
+              extra-label: label value override
+              extra-target-label: "label value"
+
+  - it: Should update external secret to include keys
+    set:
+      externalSecrets:
+        password:
+          spec:
+            data: 
+              - secretKey: username
+                remoteRef:
+                  key: database-credentials           
+          keys: 
+            DB_LOGIN: login
+            DB_PASSWORD: password
+            NAME:
+    asserts:
+      - equal:
+          path: spec.target.template.data
+          value: 
+            login: '{{ .login }}'
+            password: '{{ .password }}'          
+            NAME: '{{ .NAME }}'          
+      - equal:
+          path: spec.data
+          value: 
+            - remoteRef:
+                key: database-credentials
+              secretKey: username          
+            - remoteRef:
+                key: DB_LOGIN
+              secretKey: login
+            - remoteRef:
+                key: DB_PASSWORD
+              secretKey: password
+            - remoteRef:
+                key: NAME
+              secretKey: NAME
+
+  - it: Should generate secret with provided namespace 
+    set:
+      externalSecrets:
+        password:
+          namespace: some-namespace
+    documentSelector:
+      path: metadata.name
+      value: cicd-sample-unittests-password
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: some-namespace
+
+  - it: Should replace id in spec.data[].remoteRef with name if it matches id of configmap
+    set:
+      configMaps:
+        external-secret-template:
+          data:
+            config.yml: |
+              password: "{{ .password }}"
+      externalSecrets:
+        password:
+          spec:
+            target:
+              template:
+                templateFrom: 
+                  - configMap:
+                      name: external-secret-template 
+                      items:
+                        - keys: config.yml
+                  - configMap:
+                      name: non-application-config-map
+                      items:
+                        - keys: config.yml
+    asserts:
+      - equal:
+          path: spec.target.template.templateFrom
+          value: 
+            - configMap:
+                name: cicd-sample-unittests-external-secret-template
+                items:
+                  - keys: config.yml
+            - configMap:
+                name: non-application-config-map
+                items:
+                  - keys: config.yml
+        
+
+
+
+  - it: Should fail when referencing non existing container
+    set:
+      externalSecrets:
+        password:
+          containers: 
+            - missing
+    asserts:
+      - failedTemplate:
+          errorPattern: "ExternalSecret 'password' references undefined container 'missing'"
+
+  - it: Should fail when referencing non container from other namespace
+    set:
+      externalSecrets:
+        password:
+          namespace: some-namespace
+          containers: 
+            - applicationContainer
+    asserts:
+      - failedTemplate:
+          errorPattern: ExternalSecret 'password' references container 'applicationContainer' from namespace 'cicd-test' while belongs to 'some-namespace'          

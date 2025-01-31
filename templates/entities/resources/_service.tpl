@@ -1,3 +1,4 @@
+{{- /*https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports*/ -}}
 {{- define "subsystem-application.entities.service.collection" -}}services{{- end -}}
 {{- define "subsystem-application.entities.services.entity" -}}service{{- end -}}
 
@@ -34,6 +35,29 @@ spec:
 
 {{- define "subsystem-application.entities.service.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
+  {{- $wrong_ports := "" -}}
+  
+  {{- range $port := $service.spec.ports | default list  -}}
+    {{- $found := false -}}
+
+    {{- range $container := concat (list $.Values.applicationContainer) ($.Values.sidecars | default dict | values )  -}}
+      {{- range $containerPort := (dig "spec" "ports" list $container)   -}}
+        {{- $found = $found 
+                      | or ($port.targetPort | toString | eq ($containerPort.name | default "")  )
+                      | or ($port.targetPort | toString | eq ($containerPort.containerPort | default -1 | toString) )  -}}
+      {{- end }}
+    {{- end }}
+
+    {{- if not $found -}}
+      {{- $wrong_ports = printf "%s\n- service '%s' port '%s' targetPort '%s' is not exposed by applicationContainer or any of sidecars" $wrong_ports $service.id $port.name ($port.targetPort| toString )   -}}    
+    {{- end }}
+
+  {{- end }}
+
+  {{- if $wrong_ports | ne "" -}}
+    {{- $error := printf "\nVALIDATION ISSUES: %s" $wrong_ports -}}
+    {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+  {{- end }}
 {{- end }}
 
 

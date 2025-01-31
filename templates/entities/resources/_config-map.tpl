@@ -17,6 +17,6 @@ name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Co
 
 {{- define "subsystem-application.entities.config-map.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $configMap := index . 2 -}}
-{{- include "subsystem-application.validation.container-refs" (list $ "ConfigMap" $id $configMap.containers ) -}}
+{{- include "subsystem-application.validation.container-refs" (list $ "ConfigMap" $id $configMap.containers $configMap.namespace ) -}}
 
 {{- end }}

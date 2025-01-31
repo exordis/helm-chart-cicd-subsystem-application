@@ -8,8 +8,15 @@ values:
 tests:
   - it: Should not generate service monitor if no port has `monitorEndpoint`
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
+            - containerPort: 81
+              name: api
       services:
-        monitored: 
+        not-monitored: 
           monitor:
             spec:
               jobLabel: does-not-matter
@@ -23,6 +30,11 @@ tests:
 
   - it: Should generate service monitor from minimum data in values
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http        
       services:
         monitored: 
           ports:
@@ -49,6 +61,11 @@ tests:
 
   - it: Should apply service monitor endpoint extra fields
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http        
       services:
         monitored: 
           ports:
@@ -79,6 +96,11 @@ tests:
   
   - it: Should apply service monitor metadata
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http        
       services:
         monitored: 
           monitor:
@@ -110,6 +132,11 @@ tests:
 
   - it: Should apply service monitor spec ignoring namespaceSelector and selector
     set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http        
       services:
         monitored: 
           monitor:

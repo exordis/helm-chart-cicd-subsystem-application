@@ -1,12 +1,14 @@
 {{- define "subsystem-application.validation.container-refs" -}}
-{{- $ := index . 0 -}}{{- $referrer_type := index . 1 -}}{{- $referrer_id := index . 2 -}}{{- $containers := index . 3 -}}
+{{- $ := index . 0 -}}{{- $referrer_type := index . 1 -}}{{- $referrer_id := index . 2 -}}{{- $containers := index . 3 -}}{{- $namespace := index . 4 -}}
   {{- $wrong_references := "" -}}
+  {{- $wrong_namespaces := "" -}}
   {{- range $container := $containers | default list -}}
       {{- $parent_entity_collection := "" -}}
       {{- $parent_id := "" -}}
       {{- $container_id := "" -}}
 
       {{- $wrong_id := false -}}
+      {{- $wrong_namespace := false -}}
 
       {{- $parts := split "." $container -}}
       {{- if $parts | len | eq 1 | and ($.Values.workload | ne "none") -}}
@@ -39,24 +41,20 @@
             {{- $wrong_id = true -}}
           {{- end -}}
 
+          {{- if and (not $wrong_id) ( $parent.namespace | ne $namespace )  -}}
+            {{ $wrong_references = printf "%s\n- %s '%s' references container '%s' from namespace '%s' while belongs to '%s' " $wrong_references $referrer_type $referrer_id $container $parent.namespace $namespace -}}
+          {{- end -}}
         {{- end -}}
       {{- end -}}      
 
       {{- if $wrong_id -}}
-        {{- if $wrong_references | ne "" -}}
-          {{ $wrong_references = printf "%s, '%s'" $wrong_references $container  -}}
-        {{- else -}}
-          {{ $wrong_references = printf "'%s'" $container  -}}
-        {{- end -}}
+        {{- $wrong_references = printf "%s\n- %s '%s' references undefined container '%s'" $wrong_references $referrer_type $referrer_id $container  -}}
       {{- end -}}
-
-
   
   {{- end -}}
 
-  {{- if gt ($wrong_references | len) 0 -}}
-    {{- /* Container reference should have one part for main workload container and three part for others  */ -}}
-    {{- $error := printf "\nVALIDATION ISSUES:\n %s '%s' references undefined containers: %s" $referrer_type $referrer_id $wrong_references -}}
+  {{- if $wrong_references | ne "" -}}
+    {{- $error := printf "\nVALIDATION ISSUES: %s" $wrong_references -}}
     {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
   {{- end }}
 

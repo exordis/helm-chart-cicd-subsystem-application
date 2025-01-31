@@ -51,8 +51,10 @@ spec:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-with-containers
                 - secretRef:
@@ -76,8 +78,10 @@ spec:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/cleanup-init:1.0.0
@@ -96,8 +100,10 @@ spec:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
-                    name: cicd-sample-docs-gitlab-token
+                    name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
               image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
