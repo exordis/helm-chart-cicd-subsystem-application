@@ -114,6 +114,13 @@
 - No service monitor
 
 ``` yaml
+
+applicationContainer:
+  spec:
+    ports:
+      - containerPort: 8080
+        name: http  
+
 services:
   minimum: 
     ports:

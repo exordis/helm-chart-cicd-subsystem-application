@@ -179,8 +179,6 @@ manifest should match snapshot:
                         name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
-                    - configMapRef:
-                        name: cicd-sample-docs-external-secret-template
                     - secretRef:
                         name: cicd-sample-docs-external-full
                     - secretRef:
@@ -206,8 +204,6 @@ manifest should match snapshot:
                         name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
-                    - configMapRef:
-                        name: cicd-sample-docs-external-secret-template
                     - secretRef:
                         name: cicd-sample-docs-external-full
                     - secretRef:
@@ -228,8 +224,6 @@ manifest should match snapshot:
                         name: cicd-sample-docs-config-map-without-containers
                     - configMapRef:
                         name: cicd-sample-docs-envs
-                    - configMapRef:
-                        name: cicd-sample-docs-external-secret-template
                     - secretRef:
                         name: cicd-sample-docs-external-full
                     - secretRef:
@@ -333,8 +327,6 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
@@ -392,8 +384,6 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
@@ -419,8 +409,6 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
@@ -441,8 +429,6 @@ manifest should match snapshot:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
@@ -547,6 +533,191 @@ manifest should match snapshot:
                   - keys: config.yml
                 name: cicd-sample-docs-external-secret-template
   9: |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-full
+      namespace: cicd-test
+    spec:
+      rules:
+        - host: host1.local
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: api
+                path: /api
+                pathType: Prefix
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: metrics
+                path: /metrics
+                pathType: Exact
+        - host: host2.local
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: api
+                path: /api
+                pathType: Prefix
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: metrics
+                path: /metrics
+                pathType: Exact
+        - host: host3.local
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: api
+                path: /api
+                pathType: Prefix
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: metrics
+                path: /metrics
+                pathType: Exact
+        - host: example.com
+          http:
+            - path: /
+              pathType: Prefix
+        - host: example.local
+          http:
+            - path: /
+              pathType: Prefix
+        - host: host1.local
+          http:
+            - path: /default
+              pathType: Prefix
+        - host: host2.local
+          http:
+            - path: /default
+              pathType: Prefix
+      tls:
+        - hosts:
+            - host1.local
+            - host2.local
+            - host3.local
+            - example.com
+            - example.local
+            - host1.local
+            - host2.local
+          secretName: cicd-sample-docs-full-tls
+  10: |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-minimum
+      namespace: cicd-test
+    spec:
+      rules:
+        - host: host1.local
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: api
+                path: /api
+                pathType: Prefix
+              - backend:
+                  service:
+                    name: full
+                    port:
+                      name: metrics
+                path: /metrics
+                pathType: Prefix
+      tls:
+        - hosts:
+            - host1.local
+          secretName: cicd-sample-docs-minimum-tls
+  11: |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-pure-spec
+      namespace: cicd-test
+    spec:
+      defaultBackend:
+        service:
+          name: full
+          port:
+            name: api
+      rules:
+        - host: host1.k3s.local
+          http:
+            - path: /api/v3(/|$)(.*)
+              pathType: Prefix
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - host1.k3s.local
+          secretName: testsecret-tls
+  12: |
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
@@ -573,7 +744,7 @@ manifest should match snapshot:
       resources:
         requests:
           storage: 10Gi
-  10: |
+  13: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -598,7 +769,7 @@ manifest should match snapshot:
       namespace: my-namespace
     stringData:
       password: passw0rd
-  11: |
+  14: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -621,7 +792,7 @@ manifest should match snapshot:
       namespace: cicd-test
     stringData:
       password: passw0rd
-  12: |
+  15: |
     apiVersion: v1
     kind: Secret
     metadata:
@@ -644,7 +815,7 @@ manifest should match snapshot:
       namespace: cicd-test
     stringData:
       token: t0ken
-  13: |
+  16: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -687,7 +858,7 @@ manifest should match snapshot:
           exordis/application-instance: docs
           exordis/environment: test
           exordis/subsystem: cicd
-  14: |
+  17: |
     apiVersion: v1
     kind: Service
     metadata:

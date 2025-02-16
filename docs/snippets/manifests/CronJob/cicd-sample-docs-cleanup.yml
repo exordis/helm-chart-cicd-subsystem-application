@@ -51,8 +51,6 @@ spec:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
@@ -78,8 +76,6 @@ spec:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
@@ -100,8 +96,6 @@ spec:
                     name: cicd-sample-docs-config-map-without-containers
                 - configMapRef:
                     name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-external-secret-template
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:

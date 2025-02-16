@@ -15,6 +15,7 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
 {{- $_ := unset $service.spec "selector" -}}
 {{- $_ := set $service.spec "ports" list -}}
+{{- /*TODO: TBC - default ports to defined in applicationContainer */ -}}
 # Return entity overrides
 kind: Service
 name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Service"  ) | quote }} 
@@ -36,7 +37,7 @@ spec:
 {{- define "subsystem-application.entities.service.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
   {{- $wrong_ports := "" -}}
-  
+
   {{- range $port := $service.spec.ports | default list  -}}
     {{- $found := false -}}
 

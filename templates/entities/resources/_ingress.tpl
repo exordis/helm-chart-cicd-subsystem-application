@@ -4,16 +4,17 @@
 {{- define "subsystem-application.entities.ingress.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 {{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
-type: internal
-default_backend: {}
-useRegex: false
-proxyBuffering: true
-proxyBodySize: -1
-useTls: true
-annotations: []
-spec: {}
-paths: []
-tlsSecretName: {{ include "subsystem-application.naming.conventions.kind" (list $ (printf "%s-tls" $id) "Secret"  ) | quote }} 
+tls: 
+  enabled: true # generate cert for all hosts in spec if tls is not explicitly configured in spec
+  # TODO: have convention for secret name rather than hardcoding "-tls"
+  secretName: {{ include "subsystem-application.naming.conventions.kind" (list $ (printf "%s-tls" $id) "Secret"  ) | quote }} 
+hosts:
+  default: 
+    - default
+services: {}
+spec: 
+  rules: []
+
 {{- end -}}
 
 
@@ -24,71 +25,116 @@ name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "In
 {{- end -}}
 
 
+{{- define "subsystem-application.entities.ingress._service_mapping" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
+
+  {{- range $service_name, $service_mapping := $ingress.services -}}
+    {{- $service := get $.entities.services $service_name -}}
+    {{- $service_mapping = $service_mapping | default dict -}}
+{{ $service_name }}:
+  hosts: {{ $service_mapping.hosts | default (list "default") | toYaml | nindent 4 }}
+  ports:
+    {{- if $service_mapping.ports | default dict | len | eq  0 -}}    
+      {{- range $port_name := $service.ports | keys }}
+    {{$port_name}}:
+    - path: /{{ $port_name }}
+      pathType: "Prefix"
+      {{- end -}}
+    {{- else -}}
+      {{- range $port_name, $port_mappings := $service_mapping.ports  }}
+    {{$port_name}}:
+        {{- range $port_mapping := $port_mappings | default (list (dict "path" (printf "/%s" $port_name))) }}
+      - {{ $port_mapping | mustMergeOverwrite (dict "path" (printf "/%s" $port_name) "pathType" "Prefix") | toYaml | nindent 8  }}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- end -}}
+
+
+{{- define "subsystem-application.entities.ingress._service_rules" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
+rules:
+  {{- range $service_name, $service_mapping := $ingress.services }}
+    {{- range $host := $service_mapping.hosts }}
+  - host: {{ $host }}
+    http:
+      paths:
+      {{- range $port_name, $port_mappings := $service_mapping.ports -}}
+        {{- range $port_mapping := $port_mappings }}
+        - path: {{ $port_mapping | toYaml | nindent 10 }}
+          backend:
+            service:
+              name: {{$service_name}}
+              port:
+                name: {{$port_name}}     
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- define "subsystem-application.entities.ingress._expand_hosts" -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
+rules:
+  {{- range $rule := $ingress.spec.rules }}
+    {{- $host := $rule.host  | default "default" -}}
+    {{- range $host := dig $host (list $host) $ingress.hosts }}
+  - host: {{- set ($rule | deepCopy) "host" $host | toYaml | nindent 4 }}
+    {{- end -}}
+  {{- end -}}
+
+{{- end -}}
+
 
 
 {{- define "subsystem-application.entities.ingress.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
-
-  # Validate default backend references existing service
-  {{- if and (hasKey $ingress.default_backend "service") (hasKey $.entities.services $ingress.default_backend.service | not) ($ingress.default_backend.foreign | default false | not) -}}
-    {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' default backend references missing service '%s'. Either explicitly mark backend with `foreign: true` or define service '%s' in services" $id $ingress.default_backend.service $ingress.default_backend.service -}}
-    {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
-  {{- end -}}
-
-  # Validate all backend fields reference existing services
-  {{- range $path := $ingress.paths  -}}
-    {{- if and (hasKey $path "backend") (hasKey $.entities.services $path.backend.service | not) ($path.backend.foreign | default false | not  ) -}}
-      {{- $error := printf "\nVALIDATION ISSUES:\n Ingress '%s' path '%s' backend references missing service '%s'.  Either explicitly mark backend with `foreign: true` or define service '%s' in services" $id $path.path $path.backend.service $path.backend.service -}}
-      {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
-    {{- end -}}
-  {{- end -}}
-
-  # Use default backend where not provided explicitly 
-  # TODO: check https://kubernetes.io/docs/concepts/services-networking/ingress/#types-of-ingress
-  {{- if $ingress.default_backend -}}
-    {{- range $path := $ingress.paths -}}
-      {{- $_ := set $path "backend" ($path.backend | default $ingress.default_backend) -}}
-    {{- end -}}
-  {{- end -}}
-
-# Return entity overrides
-annotations:
-  {{- if $ingress.useTls }}
-  {{ if $.Values.certManagerClusterIssuer }}cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}{{ end }}
-  kubernetes.io/tls-acme: 'true'
-  nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  {{- end }}
-  {{ if $ingress.useRegex }}nginx.ingress.kubernetes.io/use-regex: {{ $ingress.useRegex | quote }}{{ end }}
-  {{ if $ingress.rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: "{{$ingress.rewriteTarget}}"{{ end }}
-  {{ if ge ($ingress.proxyBodySize | int) 0 }}nginx.ingress.kubernetes.io/proxy-body-size: "{{$ingress.proxyBodySize}}"{{ end }}
-  {{ if not $ingress.proxyBuffering }}nginx.ingress.kubernetes.io/proxy-buffering: "off"{{ end }}
-spec:
-  ingressClassName: "{{  (ternary "nginx-public" "nginx" ($ingress.type | eq "public")) }}"
-  rules:
-    {{- range $host := $ingress.hosts }}
-    - host: {{$host}}
-      http:
-        paths:
-      {{- range $path := $ingress.paths }}
-          - backend:
-              service:
-                {{/* if service is missing from $.entities.services and backend is not marked as foreign, validation fails above */}}
-                name:  {{ (dig $path.backend.service (dict "name" $path.backend.service) $.entities.services ).name}}
-                port:
-                  number: {{$path.backend.port}}
-            path: {{$path.path}}
-            pathType: {{$path.pathType | quote }}      
+  {{- /* Validation*/ -}}
+  {{- $errors := "" -}}
+  {{- range $service_name, $service_mapping := $ingress.services -}}
+    {{- if hasKey $.entities.services $service_name | not -}}
+      {{- $errors = printf "%s\n- Ingress '%s' references undefined service '%s'" $errors $id $service_name -}}
+    {{- else -}}
+      {{- range $port_name := ($service_mapping | default dict ).ports | default dict | keys -}}
+        {{- $service := get $.entities.services $service_name -}}
+        {{- if hasKey $service.ports $port_name | not -}}
+          {{- $errors = printf "%s\n- Ingress '%s' references undefined service '%s' port '%s'" $errors $id $service_name $port_name -}}
+        {{- end -}}
       {{- end -}}
-    {{- end }}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $errors | ne "" -}}
+    {{- $error := printf "\nVALIDATION ISSUES: %s" $errors -}}
+    {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+  {{- end }}  
+
+  {{- /* Defaults and generation */ -}}
+  {{- $_ := set $ingress "services" (include "subsystem-application.entities.ingress._service_mapping" (list $ $id $ingress ) | fromYaml)  -}}
+  {{- $service_rules := include "subsystem-application.entities.ingress._service_rules" (list $ $id $ingress ) | fromYaml -}}  
+  {{- $_ := set $ingress.spec "rules" ($ingress.spec.rules | default list | concat ($service_rules.rules | default list) ) -}}
+  {{- $_ := set $ingress.spec "rules" ( (include "subsystem-application.entities.ingress._expand_hosts" (list $ $id $ingress ) | fromYaml).rules | default list) -}}
+  
+  {{- /* Return entity overrides */ -}}
+  {{- if $ingress.spec.rules | len | ne 0 | and $ingress.tls.enabled -}}
+  # TODO: need a better way to do it 
+annotations:
+  nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    {{- if not $ingress.spec.tls }}
+spec:
   tls:
-    - hosts:
-      {{- range $host := $ingress.hosts }}
-        - {{ $host }}
+    - secretName: {{ $ingress.tls.secretName }}   
+      hosts: 
+      {{- range $rule := $ingress.spec.rules }}
+        - {{ $rule.host }}
       {{- end }}
-      secretName: {{ $ingress.tlsSecretName }}    
+    {{- end }}
+  {{- end }}
 
-{{- end }}
+{{- /*include "sdk.engine.log.fail-with-log" (list $ ($ingress.spec.rules| toYaml))*/ -}}  
 
-
-
+{{- end -}}
 

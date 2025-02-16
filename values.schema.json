@@ -429,6 +429,9 @@
         }
       },
       "ingress": {
+        "type": "object"
+      },
+      "ingress_old": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

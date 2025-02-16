@@ -35,17 +35,6 @@ volumes:
       applicationContainer: /some-data
       jsreport: /some-another-data-but-same-as-for-applicationContainer
 
-pvcs:
-  mypvc:
-    size: 10Gi
-    mounts: 
-      applicationContainer: /pvc-data
-    spec: 
-      resources:
-        requests:
-          storage: 100Gi
-
-
 dataFolders:
   content:
     "templates":

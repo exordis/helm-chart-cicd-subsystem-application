@@ -1,0 +1,63 @@
+
+ingresses:
+  minimum:
+    services:
+      full:
+        hosts:
+          - host1.local
+
+  full:
+    tls:
+      enabled: true # generate certificate for all hosts in spec if tls is not explicitly provided with spec
+      secret:  "my-tls-secret" # tls secret name override
+    hosts:  # host lists to avoid copy paste in spec
+      default: # default hosts list used if `hosts` is not set for service in `.services` or `spec` has rule without `host` defined
+        - host1.local
+        - host2.local
+      example:
+        - example.local
+    services: # list of application services to generate rules for
+      full:
+        hosts: 
+          - default 
+          - host3.local
+        ports:
+          api:
+            - path: /api
+          metrics:
+            - path: /metrics
+              pathType: Exact     
+    spec: 
+      rules:
+        - host: example.com
+          http:
+            - path: /
+              pathType: "Prefix"
+        - host: example
+          http:
+            - path: /
+              pathType: "Prefix"
+        - http:
+            - path: /default
+              pathType: "Prefix"
+
+
+  pure-spec:
+    spec:
+      defaultBackend:
+        service:
+          name: full
+          port:
+            name: api 
+      tls:
+        - hosts:
+            - host1.k3s.local
+          secretName: testsecret-tls            
+      rules:
+        - host: "host1.k3s.local"
+          http:
+            - path: /api/v3(/|$)(.*)
+              pathType: Prefix
+            - path: /
+              pathType: Prefix       
+

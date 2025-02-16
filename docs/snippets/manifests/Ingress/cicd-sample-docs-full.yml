@@ -1,0 +1,100 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 1.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs-full
+  namespace: cicd-test
+spec:
+  rules:
+    - host: host1.local
+      http:
+        paths:
+          - backend:
+              service:
+                name: full
+                port:
+                  name: api
+            path: /api
+            pathType: Prefix
+          - backend:
+              service:
+                name: full
+                port:
+                  name: metrics
+            path: /metrics
+            pathType: Exact
+    - host: host2.local
+      http:
+        paths:
+          - backend:
+              service:
+                name: full
+                port:
+                  name: api
+            path: /api
+            pathType: Prefix
+          - backend:
+              service:
+                name: full
+                port:
+                  name: metrics
+            path: /metrics
+            pathType: Exact
+    - host: host3.local
+      http:
+        paths:
+          - backend:
+              service:
+                name: full
+                port:
+                  name: api
+            path: /api
+            pathType: Prefix
+          - backend:
+              service:
+                name: full
+                port:
+                  name: metrics
+            path: /metrics
+            pathType: Exact
+    - host: example.com
+      http:
+        - path: /
+          pathType: Prefix
+    - host: example.local
+      http:
+        - path: /
+          pathType: Prefix
+    - host: host1.local
+      http:
+        - path: /default
+          pathType: Prefix
+    - host: host2.local
+      http:
+        - path: /default
+          pathType: Prefix
+  tls:
+    - hosts:
+        - host1.local
+        - host2.local
+        - host3.local
+        - example.com
+        - example.local
+        - host1.local
+        - host2.local
+      secretName: cicd-sample-docs-full-tls

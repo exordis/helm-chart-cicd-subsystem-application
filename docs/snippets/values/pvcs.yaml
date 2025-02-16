@@ -1,0 +1,9 @@
+pvcs:
+  mypvc:
+    size: 10Gi
+    mounts: 
+      applicationContainer: /pvc-data
+    spec: 
+      resources:
+        requests:
+          storage: 100Gi
