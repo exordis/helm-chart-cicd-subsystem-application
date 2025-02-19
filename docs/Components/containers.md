@@ -94,7 +94,8 @@
 
 ## Validations
 
-None
+- Container `id` is unique with respect to `application` container, init containers and sidecars in scope of same workload
+
 
 ## Overrides
 
