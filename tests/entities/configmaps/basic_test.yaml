@@ -79,9 +79,9 @@ tests:
         config:
           namespace: some-namespace
           containers: 
-            - applicationContainer
+            - application
           data:
             key: "value" 
     asserts:
       - failedTemplate:
-          errorPattern: ConfigMap 'config' references container 'applicationContainer' from namespace 'cicd-test' while belongs to 'some-namespace'          
+          errorPattern: ConfigMap 'config' references container 'application' from namespace 'cicd-test' while belongs to 'some-namespace'          

@@ -175,74 +175,74 @@ manifest should match snapshot:
                     - delete
                     - --registry
                   envFrom:
-                    - configMapRef:
-                        name: cicd-sample-docs-config-map-without-containers
-                    - configMapRef:
-                        name: cicd-sample-docs-envs
                     - secretRef:
                         name: cicd-sample-docs-external-full
                     - secretRef:
-                        name: cicd-sample-docs-secret-with-containers
-                    - secretRef:
                         name: cicd-sample-docs-secret-without-containers
+                    - secretRef:
+                        name: cicd-sample-docs-secret-with-containers
+                    - configMapRef:
+                        name: cicd-sample-docs-envs
+                    - configMapRef:
+                        name: cicd-sample-docs-config-map-without-containers
                   image: registry.gitlab.com/knst/cy/registry/cicd-docker-registry-cleaner:0.1.0
                   imagePullPolicy: IfNotPresent
                   name: main
                   resources:
                     limits:
                       cpu: 200m
-                      memory: 1024Mi
+                      memory: 256Mi
                     requests:
-                      cpu: 2m
-                      memory: 70Mi
+                      cpu: 50m
+                      memory: 64Mi
                   volumeMounts:
                     - mountPath: /some-data
                       name: volume2
               initContainers:
                 - envFrom:
-                    - configMapRef:
-                        name: cicd-sample-docs-config-map-without-containers
-                    - configMapRef:
-                        name: cicd-sample-docs-envs
                     - secretRef:
                         name: cicd-sample-docs-external-full
                     - secretRef:
                         name: cicd-sample-docs-secret-without-containers
+                    - configMapRef:
+                        name: cicd-sample-docs-envs
+                    - configMapRef:
+                        name: cicd-sample-docs-config-map-without-containers
                   image: registry.gitlab.com/cleanup-init:1.0.0
                   imagePullPolicy: IfNotPresent
                   name: cleanup-init
                   resources:
                     limits:
                       cpu: 200m
-                      memory: 1024Mi
+                      memory: 256Mi
                     requests:
-                      cpu: 2m
-                      memory: 70Mi
-                  volumeMounts: null
+                      cpu: 50m
+                      memory: 64Mi
+                  volumeMounts: []
                 - envFrom:
-                    - configMapRef:
-                        name: cicd-sample-docs-config-map-without-containers
-                    - configMapRef:
-                        name: cicd-sample-docs-envs
                     - secretRef:
                         name: cicd-sample-docs-external-full
                     - secretRef:
                         name: cicd-sample-docs-secret-without-containers
+                    - configMapRef:
+                        name: cicd-sample-docs-envs
+                    - configMapRef:
+                        name: cicd-sample-docs-config-map-without-containers
                   image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
                   imagePullPolicy: Always
                   name: templates
                   resources:
                     limits:
                       cpu: 200m
-                      memory: 1024Mi
+                      memory: 256Mi
                     requests:
-                      cpu: 2m
-                      memory: 70Mi
+                      cpu: 50m
+                      memory: 64Mi
                   volumeMounts:
-                    - mountPath: /data/templates/generated
-                      name: templates-data-templates-generated
                     - mountPath: /data/templates/original
                       name: templates-data-templates-original
+                    - mountPath: /data/templates/generated
+                      name: templates-data-templates-generated
               restartPolicy: Never
               serviceAccountName: default
               volumes:
@@ -321,18 +321,18 @@ manifest should match snapshot:
         spec:
           containers:
             - envFrom:
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-with-containers
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
-                    name: cicd-sample-docs-secret-with-containers
-                - secretRef:
                     name: cicd-sample-docs-secret-without-containers
+                - secretRef:
+                    name: cicd-sample-docs-secret-with-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-with-containers
               image: registry.gitlab.com/cicd-unittests:1.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
@@ -358,10 +358,10 @@ manifest should match snapshot:
               resources:
                 limits:
                   cpu: 200m
-                  memory: 1024Mi
+                  memory: 256Mi
                 requests:
-                  cpu: 2m
-                  memory: 70Mi
+                  cpu: 50m
+                  memory: 64Mi
               startupProbe:
                 failureThreshold: 20
                 httpGet:
@@ -371,83 +371,83 @@ manifest should match snapshot:
                 periodSeconds: 10
                 timeoutSeconds: 10
               volumeMounts:
-                - mountPath: /pvc-data
-                  name: mypvc
-                - mountPath: /data/templates/generated
-                  name: templates-data-templates-generated
-                - mountPath: /data/templates/original
-                  name: templates-data-templates-original
                 - mountPath: /some-data
                   name: volume1
+                - mountPath: /data/templates/original
+                  name: templates-data-templates-original
+                - mountPath: /data/templates/generated
+                  name: templates-data-templates-generated
+                - mountPath: /pvc-data
+                  name: mypvc
             - envFrom:
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
-              image: registry.gitlab.com/jsreport:1.0.0
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: docker.io/jsreport/jsreport:4.7.0
               imagePullPolicy: IfNotPresent
               name: jsreport
               resources:
                 limits:
                   cpu: 200m
-                  memory: 1024Mi
+                  memory: 256Mi
                 requests:
-                  cpu: 2m
-                  memory: 70Mi
+                  cpu: 50m
+                  memory: 64Mi
               volumeMounts:
+                - mountPath: /some-another-data-but-same-as-for-application
+                  name: volume1
                 - mountPath: /jsreport
                   name: templates-data-templates-generated
-                - mountPath: /some-another-data-but-same-as-for-applicationContainer
-                  name: volume1
           initContainers:
             - envFrom:
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
-              image: registry.gitlab.com/my-default-image:1.0.0
-              imagePullPolicy: IfNotPresent
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: registry.gitlab.com/my-migration-image:1.0.0
+              imagePullPolicy: Always
               name: migration
               resources:
                 limits:
                   cpu: 200m
-                  memory: 1024Mi
+                  memory: 256Mi
                 requests:
-                  cpu: 2m
-                  memory: 70Mi
-              volumeMounts: null
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts: []
             - envFrom:
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
                 - secretRef:
                     name: cicd-sample-docs-external-full
                 - secretRef:
                     name: cicd-sample-docs-secret-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
               image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
               imagePullPolicy: Always
               name: templates
               resources:
                 limits:
                   cpu: 200m
-                  memory: 1024Mi
+                  memory: 256Mi
                 requests:
-                  cpu: 2m
-                  memory: 70Mi
+                  cpu: 50m
+                  memory: 64Mi
               volumeMounts:
-                - mountPath: /data/templates/generated
-                  name: templates-data-templates-generated
                 - mountPath: /data/templates/original
                   name: templates-data-templates-original
+                - mountPath: /data/templates/generated
+                  name: templates-data-templates-generated
           volumes:
             - name: mypvc
               persistentVolumeClaim:

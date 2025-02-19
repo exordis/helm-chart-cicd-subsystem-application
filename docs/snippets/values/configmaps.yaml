@@ -11,7 +11,7 @@ configMaps:
       value2: "123"
   config-map-with-containers:
     containers:
-      - applicationContainer
+      - application
     data:
       value: "test1"
   config-map-without-containers:

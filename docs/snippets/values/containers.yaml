@@ -1,0 +1,22 @@
+
+applicationContainer:
+  spec:
+    ports:
+      - containerPort: 80
+        protocol: TCP  
+        name: http  
+
+initContainers:
+  migration:
+    image:
+      repository: my-migration-image
+      version: 1.0.0
+    spec:
+      imagePullPolicy: Always
+
+sidecars:
+  jsreport:
+    image:
+      registry: docker.io
+      repository: jsreport/jsreport
+      version: 4.7.0

@@ -13,6 +13,7 @@ values:
   - "../docs/snippets/values/externalSecrets.yaml"
   - "../docs/snippets/values/ingresses.yaml"
   - "../docs/snippets/values/pvcs.yaml"
+  - "../docs/snippets/values/containers.yaml"
 tests:
   - it: manifest should match snapshot
     asserts:

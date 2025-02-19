@@ -125,4 +125,4 @@ tests:
             wrong:
     asserts:
       - failedTemplate:
-          errorPattern: service 'svc' port 'wrong' targetPort 'wrong' is not exposed by applicationContainer or any of sidecars
+          errorPattern: service 'svc' port 'wrong' targetPort 'wrong' is not exposed by 'application' container or any of sidecars

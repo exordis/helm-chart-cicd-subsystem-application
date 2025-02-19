@@ -2,38 +2,14 @@ envs:
   TEST: 123
   SUBSYSTEM: wrong-subsystem
 
-applicationContainer:
-  spec:
-    ports:
-      - containerPort: 80
-        protocol: TCP  
-        name: http  
-
-initContainers:
-  migration:
-    image:
-      repository: my-default-image
-      version: 1.0.0
-    #spec:
-    #  imagePullPolicy: Always
-
-
-
-sidecars:
-  jsreport:
-    image:
-      repository: jsreport
-      version: 1.0.0
-    #spec:
-
 #TODO: replace with dict name->spec
 volumes:
   volume1:
     #spec:
     #type: emptyDir
     mounts: 
-      applicationContainer: /some-data
-      jsreport: /some-another-data-but-same-as-for-applicationContainer
+      application: /some-data
+      jsreport: /some-another-data-but-same-as-for-application
 
 dataFolders:
   content:
@@ -46,7 +22,7 @@ dataFolders:
         repository: "software-development/subsystems/some-subsystem/data-content-templates"
       sizeLimit: 200Mi
       mounts: #shouldn't be empty
-        applicationContainer:
+        application:
           "/data/templates/original": null #use key by default or /data/templates/original
           "/data/templates/generated": /data/templates/generated
         jsreport:

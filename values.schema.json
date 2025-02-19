@@ -67,7 +67,14 @@
         ]
       },
       "applicationContainer": {
-        "$ref": "#/definitions/container"
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "$ref": "#/definitions/container"
+          }
+        ]
       },
       "replicas": {
         "type": "integer"
@@ -98,7 +105,14 @@
         "type": "object",
         "patternProperties": {
           "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
-            "$ref": "#/definitions/container"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/container"
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -176,15 +190,24 @@
         },
         "additionalProperties": false
       },
+
       "sidecars": {
         "type": "object",
         "patternProperties": {
           "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
-            "$ref": "#/definitions/container"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/container"
+              }
+            ]
           }
         },
         "additionalProperties": false
       },
+      
       "volumes": {
         "type": "object",
         "patternProperties": {

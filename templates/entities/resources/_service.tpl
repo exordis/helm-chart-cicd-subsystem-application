@@ -50,7 +50,7 @@ spec:
     {{- end }}
 
     {{- if not $found -}}
-      {{- $wrong_ports = printf "%s\n- service '%s' port '%s' targetPort '%s' is not exposed by applicationContainer or any of sidecars" $wrong_ports $service.id $port.name ($port.targetPort| toString )   -}}    
+      {{- $wrong_ports = printf "%s\n- service '%s' port '%s' targetPort '%s' is not exposed by 'application' container or any of sidecars" $wrong_ports $service.id $port.name ($port.targetPort| toString )   -}}    
     {{- end }}
 
   {{- end }}

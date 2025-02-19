@@ -5,7 +5,7 @@
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 
 {{- $data:=  include "subsystem-application.entities.container-base.defaults" .  | fromYaml -}}
-{{- if $id | eq "applicationContainer" }}
+{{- if $id | eq "application" }}
   {{- $_:= mustMergeOverwrite $data.spec (include "subsystem-application.entities.applicationContainer.spec.defaults" . | fromYaml ) -}}
 {{- end -}} 
 
@@ -21,7 +21,7 @@
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 
 {{- $data:= include "subsystem-application.entities.container-base.create" . | fromYaml -}}
-{{- $_:= set $data "sidecar" ($id | eq "applicationContainer" | not) -}}
+{{- $_:= set $data "sidecar" ($id | eq "application" | not) -}}
 {{ $data | toYaml| nindent 2}}
 {{- end -}}
 
