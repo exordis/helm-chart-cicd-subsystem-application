@@ -14,6 +14,7 @@ values:
   - "../docs/snippets/values/ingresses.yaml"
   - "../docs/snippets/values/pvcs.yaml"
   - "../docs/snippets/values/containers.yaml"
+  - "../docs/snippets/values/volumes.yaml"
 tests:
   - it: manifest should match snapshot
     asserts:
