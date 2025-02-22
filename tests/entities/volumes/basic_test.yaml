@@ -1,0 +1,353 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/Containers
+templates:
+  - templates/deployment.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate simple volume from minimum data in values
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      volumes:
+        volume-defaults:
+          mounts:
+            application: /data
+
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-defaults")]
+          value:
+            name: volume-defaults
+            emptyDir:
+              sizeLimit: 100Mi
+      - contains:
+          path: spec.template.spec.containers[?(@.name=="application")].volumeMounts
+          content:
+            name: volume-defaults    
+            mountPath: /data
+          
+
+  - it: Should generate volume with respect to spec
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      volumes:
+        volume-spec:
+          spec:
+            emptyDir:
+              sizeLimit: 200Mi
+              medium: Memory
+
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-spec")]
+          value:
+            name: volume-spec
+            emptyDir:
+              sizeLimit: 200Mi
+              medium: Memory
+
+
+
+
+  - it: Should generate volume configmap volume spec
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      configMaps: 
+        config:
+          data:
+            test: "123"
+
+      volumes:
+        volume-config-map:
+          configMap: config
+          mounts:
+            application: /config          
+
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-config-map")]
+          value:
+            name: volume-config-map
+            configMap:
+              name: cicd-sample-unittests-config
+
+
+  - it: Should generate volume configmap volume spec
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      configMaps: 
+        config:
+          data:
+            service: "autostart: true"
+
+      volumes:
+        volume-config-map:
+          configMap: config
+          mounts:
+            application: /config          
+          spec:
+            configMap:
+              items:
+                - key: service
+                  path: config.conf    
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-config-map")]
+          value:
+            name: volume-config-map
+            configMap:
+              name: cicd-sample-unittests-config
+              items:
+                - key: service
+                  path: config.conf  
+
+
+  - it: Should generate volume secret spec
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      secrets: 
+        config:
+          stringData:
+            service: "autostart: true"
+
+      volumes:
+        volume-secret:
+          secret: config
+          mounts:
+            application: /config          
+          spec:
+            secret:
+              items:
+                - key: service
+                  path: config.conf    
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-secret")]
+          value:
+            name: volume-secret
+            secret:
+              secretName: cicd-sample-unittests-config
+              items:
+                - key: service
+                  path: config.conf                    
+
+
+
+
+
+  - it: Should generate volume secret spec for externalSecret
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      externalSecrets:
+        config:
+
+      volumes:
+        volume-secret:
+          secret: config
+          mounts:
+            application: /config          
+          spec:
+            secret:
+              items:
+                - key: service
+                  path: config.conf    
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-secret")]
+          value:
+            name: volume-secret
+            secret:
+              secretName: cicd-sample-unittests-config
+              items:
+                - key: service
+                  path: config.conf                                      
+
+  - it: Should generate volume pvc spec
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      pvcs:
+        mypvc:
+      volumes:
+        volume-pvc:
+          pvc: mypvc
+          mounts:
+            application: /data
+          spec:
+            persistentVolumeClaim:
+              readOnly: true
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-pvc")]
+          value:
+            name: volume-pvc
+            persistentVolumeClaim:
+              claimName: cicd-sample-unittests-mypvc
+              readOnly: true
+
+
+
+  - it: Should generate volume projected spec
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+
+      configMaps: 
+        config:
+          data:
+            test: "123"
+      secrets: 
+        config-secret:
+          stringData:
+            service: "autostart: true"
+      volumes:
+        volume-projected:
+          configMap: config
+          secret: config-secret
+          spec:
+            projected:
+              sources:
+                - configMap:        
+                - secret:        
+          
+
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-projected")]
+          value:
+            name: volume-projected
+            projected:
+              sources:
+                - configMap:        
+                    name: cicd-sample-unittests-config
+                - secret:             
+                    name: cicd-sample-unittests-config-secret
+         
+
+
+  - it: Should fail if secret namespace does not match workload namespace
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+
+      secrets: 
+        config:
+          namespace: wrong
+      volumes:
+        volume-secret:
+          secret: config
+    asserts:
+      - failedTemplate:
+          errorPattern: Volume 'volume-secret' references Secret 'config' which does not belong to same namespace as deployment 'workload'
+
+  - it: Should fail if external secret namespace does not match workload namespace
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+
+      externalSecrets: 
+        config:
+          namespace: wrong
+      volumes:
+        volume-secret:
+          secret: config
+    asserts:
+      - failedTemplate:
+          errorPattern: Volume 'volume-secret' references ExternalSecret 'config' which does not belong to same namespace as deployment 'workload'
+
+  - it: Should fail if configmap namespace does not match workload namespace
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+
+      configMaps: 
+        config:
+          namespace: wrong
+      volumes:
+        volume-configmap:
+          configMap: config
+    asserts:
+      - failedTemplate:
+          errorPattern: Volume 'volume-configmap' references ConfigMap 'config' which does not belong to same namespace as deployment 'workload'
+
+
+  - it: Should fail if pvc namespace does not match workload namespace
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+
+      pvcs: 
+        mypvc:
+          namespace: wrong
+      volumes:
+        volume-pvc:
+          pvc: mypvc
+    asserts:
+      - failedTemplate:
+          errorPattern: Volume 'volume-pvc' references PVC 'mypvc' which does not belong to same namespace as deployment 'workload'         

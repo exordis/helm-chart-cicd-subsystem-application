@@ -30,7 +30,6 @@ spec:
             {{- end }}
           volumes:
             {{- range .volumes }}
-            - name: {{ .name }}
-              {{ .type }}: {{ .spec | toYaml | nindent 16 }}
+            - {{ .spec | toYaml | nindent 14 }}
             {{- end }}                
 {{- end -}}

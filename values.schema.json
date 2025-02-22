@@ -212,7 +212,15 @@
         "type": "object",
         "patternProperties": {
           "^[a-z]([-a-z0-9]*[a-z0-9])?$": {
-            "$ref": "#/definitions/volume"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/volume"
+              }
+            ]            
+            
           }
         },
         "additionalProperties": false
@@ -236,7 +244,14 @@
       "pvcs": {
         "type": "object",
         "additionalProperties": {
-          "$ref": "#/definitions/pvc"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/pvc"
+            }
+          ]           
         }
       },
       "cronjobs": {
@@ -439,9 +454,24 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "size": {
-            "type": "string",
-            "pattern": "^[1-9][0-9]*(\\.[0-9]+)?(E|P|T|G|M|k|Ei|Pi|Ti|Gi|Mi|Ki)$"
+          "annotations": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "labels": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "namespace": {
+            "type": "string"
           },
           "spec": {
             "type": "object"
@@ -531,18 +561,18 @@
         "type": "object",
         "required": [],
         "properties": {
-          "name": {
+          "configMap": {
             "type": "string"
           },
-          "type": {
-            "type": "string",
-            "enum": [
-              "emptyDir"
-            ]
+          "secret": {
+            "type": "string"
+          },
+          "pvc": {
+            "type": "string"
           },
           "spec": {
             "type": "object"
-          },
+          },          
           "mounts": {
             "$ref": "#/definitions/nonEmptyMounts"
           }

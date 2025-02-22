@@ -4,9 +4,9 @@
     {{- include "sdk.engine.create-entity" (list $ "pvc" $id $pvc) -}}
     {{- /*add volume if pvc has mounts defined */ -}}
     {{- range $workload := concat ($.entities.deployments | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
-      {{- if $pvc.mounts -}}
-        {{- $volume := (dict "type" "persistentVolumeClaim" "pvc" $id "mounts" $pvc.mounts)   -}}
-        {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume $workload "volumes") -}}
+      {{- if ($pvc| default dict).mounts -}}
+        {{- $volume := (dict "pvc" $id "mounts" ($pvc.mounts | default dict))   -}}
+        {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume $workload) -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

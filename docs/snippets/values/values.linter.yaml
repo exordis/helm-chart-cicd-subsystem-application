@@ -2,15 +2,6 @@ envs:
   TEST: 123
   SUBSYSTEM: wrong-subsystem
 
-#TODO: replace with dict name->spec
-volumes:
-  volume1:
-    #spec:
-    #type: emptyDir
-    mounts: 
-      application: /some-data
-      jsreport: /some-another-data-but-same-as-for-application
-
 dataFolders:
   content:
     "templates":

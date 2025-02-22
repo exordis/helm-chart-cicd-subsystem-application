@@ -110,9 +110,9 @@
 
 ## Manifests Generation 
 
-- `spec.envFrom`  is with references to application defined [ConfigMaps](../Resources/external-secrets.md) if config map is in the same namespace
-- `spec.envFrom`  is with references to application defined [Secrets](../Resources/secrets.md) if secret is in the same namespace
-- `spec.envFrom`  is with references to application defined [External Secrets](../Resources/secrets.md) if secret is in the same namespace
+- `spec.envFrom`  is with references to application defined [ConfigMaps](../Resources/external-secret.md) if config map is in the same namespace
+- `spec.envFrom`  is with references to application defined [Secrets](../Resources/secret.md) if secret is in the same namespace
+- `spec.envFrom`  is with references to application defined [External Secrets](../Resources/external-secret.md) if secret is in the same namespace
 - `spec.volumeMounts`  is extended as per [Volume](./volumes.md)
 - Application container spec is added to [workload](../values.md#workload) manifest `containers` if  [workload](../values.md#workload) is not set to `none`
 - Sidecar container specs are added to [workload](../values.md#workload) manifest `containers` if  [workload](../values.md#workload) is not set to `none`

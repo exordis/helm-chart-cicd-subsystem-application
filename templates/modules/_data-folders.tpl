@@ -5,10 +5,10 @@
 {{- $name := index . 0 }}{{- $initContainer := index . 1 }}{{- $dataFolder := index . 2 }}{{- $init_container_path := index . 3 }}
 name: {{ $name }}
 spec:
-  {{- if $dataFolder.sizeLimit }}
-  sizeLimit: {{ $dataFolder.sizeLimit }}
-  {{- end }}
-type: emptyDir
+  emptyDir:
+    {{- if $dataFolder.sizeLimit }}
+    sizeLimit: {{ $dataFolder.sizeLimit }}
+    {{- end }}
 mounts: 
   {{$initContainer}}: {{$init_container_path }}
 {{- range $container, $mounts := $dataFolder.mounts -}}
@@ -35,7 +35,7 @@ mounts:
 
         {{- /* add data folder init container to .initContainers:  */ -}}
         {{- $initContainer := (dict "name" $folderName "image" ($dataFolder.image| default dict) "spec" $dataFolder.spec  ) -}}
-        {{- include "sdk.engine.create-entity" (list $ "init-container" $folderName $initContainer $workload "initContainers") -}}
+        {{- include "sdk.engine.create-entity" (list $ "init-container" $folderName $initContainer $workload) -}}
 
         {{- /* build list of init container paths and create volumes:  */ -}}
         {{ $init_container_paths := list }}
@@ -45,7 +45,7 @@ mounts:
               {{- $init_container_paths = append $init_container_paths $init_container_path -}}
               {{- $id :=  printf "%s%s" $folderName (regexReplaceAll "[^0-9a-z]" (lower $init_container_path) "-") -}}
               {{- $volume:= include "subsystem-application.modules.data-folders.create_volume" (list $id $folderName $dataFolder $init_container_path) | fromYaml -}}
-              {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume $workload "volumes")  -}}
+              {{- include "sdk.engine.create-entity" (list $ "volume" $id $volume $workload)  -}}
             {{- end -}}
           {{- end -}}    
         {{- end -}}    

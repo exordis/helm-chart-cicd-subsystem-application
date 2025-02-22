@@ -108,9 +108,9 @@ Main workload components are to be defined on root level of values and not deplo
 
 Batch workload components are to be defined as part of corresponding workload. 
 
-- [application container](./Components/containers.md#application-container)
-- [init containers](Components/containers.md#init-containers)
-- [sidecars](Components/containers.md#sidecars)
+- [application container](./Components/containers.md)
+- [init containers](Components/containers.md)
+- [sidecars](Components/containers.md)
 - [volumes](Components/volumes.md)
 
 #### Resources
