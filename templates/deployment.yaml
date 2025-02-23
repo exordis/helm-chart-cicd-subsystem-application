@@ -5,13 +5,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 2}}
 spec:
-  replicas: {{ $.Values.replicas }}
-  revisionHistoryLimit: {{ $.Values.deployment.revisionHistoryLimit | default 2}}
-  selector:
-    matchLabels:
-      {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
-  strategy: 
-    {{- $.Values.deployment.strategy | toYaml | nindent 4}}
+  {{ .spec | toYaml | nindent 2 }}
   template:
     metadata:
       labels:
@@ -34,7 +28,7 @@ spec:
         {{- end }}
       volumes:
         {{- range .volumes }}
-        - {{ .spec | toYaml | nindent 10 }}
+        - {{ .spec | toYaml | nindent 10 | trim }}
         {{- end }}
 {{- end }}
 

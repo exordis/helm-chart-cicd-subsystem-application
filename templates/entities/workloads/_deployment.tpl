@@ -11,9 +11,7 @@ TODO:
 namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
 annotations: {}
 labels: {}
-
-
-spec: 
+spec:  
   revisionHistoryLimit: 2
 containers: {}
 initContainers: {}
@@ -24,9 +22,16 @@ volumes: {}
 
 {{- define "subsystem-application.entities.deployment.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $deployment := index . 2 -}}
+{{- $_ := unset $deployment.spec "selector" -}}
+{{- $_ := unset $deployment.spec "template" -}}
 kind: Deployment
 name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) | quote }} 
 workloadType: main
+spec:
+  replicas: {{ $.Values.replicas }}
+  selector:
+    matchLabels:
+      {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
 subcollections:
   - containers
   - initContainers

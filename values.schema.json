@@ -665,7 +665,7 @@
       "deployment": {
         "type": "object",
         "properties": {
-          "strategy": {
+          "spec": {
             "type": "object"
           }
         },

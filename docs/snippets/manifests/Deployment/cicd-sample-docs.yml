@@ -20,7 +20,7 @@ metadata:
   namespace: cicd-test
 spec:
   replicas: 3
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       exordis/application: cicd-sample
@@ -110,10 +110,6 @@ spec:
           volumeMounts:
             - mountPath: /some-data
               name: volume1
-            - mountPath: /data/templates/original
-              name: templates-data-templates-original
-            - mountPath: /data/templates/generated
-              name: templates-data-templates-generated
             - mountPath: /pvc-data
               name: mypvc
         - envFrom:
@@ -138,8 +134,6 @@ spec:
           volumeMounts:
             - mountPath: /some-another-data-but-same-as-for-application
               name: volume1
-            - mountPath: /jsreport
-              name: templates-data-templates-generated
       initContainers:
         - envFrom:
             - secretRef:
@@ -161,40 +155,10 @@ spec:
               cpu: 50m
               memory: 64Mi
           volumeMounts: []
-        - envFrom:
-            - secretRef:
-                name: cicd-sample-docs-external-full
-            - secretRef:
-                name: cicd-sample-docs-secret-without-containers
-            - configMapRef:
-                name: cicd-sample-docs-envs
-            - configMapRef:
-                name: cicd-sample-docs-config-map-without-containers
-          image: registry.gitlab.com/software-development/subsystems/some-subsystem/data-content-templates:1.24.0-dev.5
-          imagePullPolicy: Always
-          name: templates
-          resources:
-            limits:
-              cpu: 200m
-              memory: 256Mi
-            requests:
-              cpu: 50m
-              memory: 64Mi
-          volumeMounts:
-            - mountPath: /data/templates/original
-              name: templates-data-templates-original
-            - mountPath: /data/templates/generated
-              name: templates-data-templates-generated
       volumes:
         - name: mypvc
           persistentVolumeClaim:
             claimName: cicd-sample-docs-mypvc
-        - emptyDir:
-            sizeLimit: 200Mi
-          name: templates-data-templates-generated
-        - emptyDir:
-            sizeLimit: 200Mi
-          name: templates-data-templates-original
         - emptyDir:
             sizeLimit: 100Mi
           name: volume1

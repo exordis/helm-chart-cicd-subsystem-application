@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/Deployment
+templates:
+  - templates/deployment.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate deployment from minimum data in values
+    set: {}
+    asserts:
+      - containsDocument:
+          kind: Deployment
+          apiVersion: apps/v1
+          name: cicd-sample-unittests
+          namespace: cicd-test
+
+  - it: Should not generate deployment if workload is none
+    set: 
+      workload: none
+    asserts:
+      - hasDocuments:
+          count: 0
+                  
+
+  - it: Should override replicas
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
+      deployment:
+        spec:
+          replicas: 4
+      replicas: 1
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1

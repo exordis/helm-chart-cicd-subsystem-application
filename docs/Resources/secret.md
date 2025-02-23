@@ -81,6 +81,7 @@
 
 ## Manifests Generation 
 
+- [common annotations](../common metadata.md) are added to metadata
 - `secretRef` is added to containers with ids listed in `secret.containers` (all if this field is not set)
 - annotation with checksum of configmap is added to workloads manifests if at least one container of has `secretRef` added
 - secret manifest is generated each secret

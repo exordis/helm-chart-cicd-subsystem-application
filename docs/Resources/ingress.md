@@ -143,12 +143,11 @@ ingresses:
 
 ## Manifests Generation 
 
-Service manifest is generated for each service.
+Ingress manifest is generated for each ingress.
 
-`spec` is generated:
-
-  - `spec` value is extended with rules generated from `services`
-  -  Resulting `spec` is processed with expansion of `spec.rules[].host` based on lists provided with `hosts` e.g. if some rule has host `myhosts` and `hosts.myhosts` is defined, the rule would be repeated for each value in `hosts.myhosts` as `host`
+- [common annotations](../common metadata.md) are added to metadata
+- `spec` value is extended with rules generated from `services`
+-  Resulting `spec` is processed with expansion of `spec.rules[].host` based on lists provided with `hosts` e.g. if some rule has host `myhosts` and `hosts.myhosts` is defined, the rule would be repeated for each value in `hosts.myhosts` as `host`
 
 if `spec.tls` is not explicitly provided and `tls` is set to `true`, it is generated:
 

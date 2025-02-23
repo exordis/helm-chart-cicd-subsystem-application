@@ -149,15 +149,19 @@ services:
 
 Service manifest is generated for each service. 
 
-If `Values.workload` is `none` service will be generated with selector matching no pods 
+- [common annotations](../common metadata.md) are added to metadata
+
+
+!!! Note
+
+    If `Values.workload` is `none` service will be generated with selector matching no pods 
 
 ### Service Monitor
 
-Service monitor is generated if service defines at least one port with `monitorEndpoint` (may be null)
-
-Service monitor `id` is considered to be equal to service `id`
-
-Service monitor is generated with [naming conventions](../naming conventions.md) 
+- [common annotations](../common metadata.md) are added to metadata
+- Service monitor is generated if service defines at least one port with `monitorEndpoint` (may be null)
+- Service monitor `id` is considered to be equal to service `id`
+- Service monitor is generated with [naming conventions](../naming conventions.md) 
 
 
  

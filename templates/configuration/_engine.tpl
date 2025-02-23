@@ -5,7 +5,7 @@ modules:
   - networking
   - cronjobs
   - storage
-  - data-folders
+  # - data-folders
 entities:
   configMaps: {}
   externalSecrets: {}

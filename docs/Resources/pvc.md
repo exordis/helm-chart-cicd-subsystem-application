@@ -62,7 +62,7 @@ title: PVC
 
 ## Manifests Generation 
 
-
+- [common annotations](../common metadata.md) are added to metadata
 - Persistent Volume Claim manifest is generated for each pvc.
 - Volumes are added to  parent workload of containers referenced on `mounts`.
 - Volume mounts are added to containers referenced on `mounts`.
