@@ -127,5 +127,6 @@ externalSecrets:
 
 ### Manifest Generation
 
+- [common annotations](../common metadata.md) are added to metadata
 - `ExternalSecret` manifest is generated for each defined external secret. 
 - `secretRef` is added for target secret to containers with ids listed in `.containers` (all if this field is not set)

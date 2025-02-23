@@ -38,7 +38,7 @@
 
 `spec`    
 
-:   Deployment kubernetes manifests `spec` field value. (`spec.template`, `spec.replicas` `spec.selector` are ignored, see overrides and manifest generation bellow)
+:   Deployment kubernetes manifests `spec` field value. (`spec.replicas`, `spec.selector`, `spec.template.spec.containers`, `spec.template.spec.initContainers`, `spec.template.spec.volumes`  are ignored, see overrides and manifest generation bellow)
 
     **default:** 
     
@@ -71,7 +71,9 @@ None
 
 ## Manifests Generation 
 
-- [common annotations](../common metadata.md) are added to metadata
+- [common annotations](../common metadata.md) are added to `metadata` and `spec.template.metadata` 
 - Annotations with checksums for [Secrets](../Resources/secret.md), [External Secrets](../Resources/external-secret.md) and [Config Maps](../Resources/configmap.md) are generated. (see corresponding articles) 
 - `spec.selector` is generated to match application pods 
-- `spec.template` is generated  from [Containers](../Components/containers.md) and [Volumes](../Components/volumes.md)
+- `spec.template.spec.containers` is generated  from [Containers](../Components/containers.md)
+- `spec.template.spec.initContainers` is generated  from [Containers](../Components/containers.md)
+- `spec.template.spec.volumes` is generated  from [Volumes](../Components/volumes.md)

@@ -37,3 +37,26 @@ tests:
       - equal:
           path: spec.replicas
           value: 1
+
+  - it: Should preserve pod template non-overridable values
+    set:
+      deployment:
+        spec:
+          template:
+            metadata:
+              labels:
+                custom-label: "custom label"
+              annotations:
+                custom-annotation: "custom annotation"
+            spec:
+              terminationGracePeriodSeconds: 60
+    asserts:
+      - equal:
+          path: spec.template.spec.terminationGracePeriodSeconds
+          value: 60
+      - equal:
+          path: spec.template.metadata.labels.custom-label
+          value: "custom label"
+      - equal:
+          path: spec.template.metadata.annotations.custom-annotation
+          value: "custom annotation"

@@ -83,6 +83,7 @@ title: ConfigMap
 
 ## Manifest Generation 
 
+- [common annotations](../common metadata.md) are added to metadata
 - `configMapRef` is added to containers  with ids listed in `configmap.containers` (all if this field is not set)
 - annotation with checksum of configmap is added to workloads manifests if at least one container of has `configMapRef` added
 - configmap manifest is generated

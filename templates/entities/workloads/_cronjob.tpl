@@ -4,14 +4,20 @@
 
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-concurrencyPolicy: "Forbid"
 namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
-serviceAccountName: default
-schedule: "0 0 31 2 *"
-failedJobsHistoryLimit: 1
-ttlSecondsAfterFinished: 86400
-restartPolicy: "Never"
-spec: {}
+spec: 
+  schedule: "0 0 31 2 *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          serviceAccountName: default
+          restartPolicy: "Never"
+
+
 containers: {}
 initContainers: {}
 volumes: {}
@@ -33,5 +39,5 @@ subcollections:
 
 {{- define "subsystem-application.entities.cronjob.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
-
+{{ include "subsystem-application.entities.workloads.helpers.references" (list $ $cronjob) }}
 {{- end }}

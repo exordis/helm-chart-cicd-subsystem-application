@@ -23,7 +23,9 @@ volumes: {}
 {{- define "subsystem-application.entities.deployment.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $deployment := index . 2 -}}
 {{- $_ := unset $deployment.spec "selector" -}}
-{{- $_ := unset $deployment.spec "template" -}}
+{{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "containers" -}}
+{{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "initContainers" -}}
+{{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "volumes" -}}
 kind: Deployment
 name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) | quote }} 
 workloadType: main
@@ -40,42 +42,5 @@ subcollections:
 
 {{- define "subsystem-application.entities.deployment.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $deployment := index . 2 -}}
-referencedConfigMaps:
-  {{- range $configMap := $.entities.configMaps -}}
-    {{- if eq $deployment.namespace $configMap.namespace -}}
-      {{- $referenceIsNeeded := false -}}
-      {{- range $container := concat ($deployment.containers | default dict | values) ($deployment.initContainers | default dict | values) -}}
-        {{- if or (not $configMap.containers ) (has $container.id $configMap.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
-      {{- end -}}
-      {{- if $referenceIsNeeded }}
-  - {{ $configMap.id }}
-      {{- end -}}
-    {{- end }}
-  {{- end }}
-referencedSecrets:
-  {{- range $secret := $.entities.secrets -}}
-    {{- if eq $deployment.namespace $secret.namespace -}}
-      {{- $referenceIsNeeded := false -}}
-      {{- range $container := concat ($deployment.containers | default dict | values) ($deployment.initContainers | default dict | values) -}}
-        {{- if or (not $secret.containers ) (has $container.id $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
-      {{- end -}}
-      {{- if $referenceIsNeeded }}
-  - {{ $secret.id }}
-      {{- end -}}
-    {{- end }}
-  {{- end }}
-
-referencedExternalSecrets:
-  {{- range $secret := $.entities.externalSecrets -}}
-    {{- if eq $deployment.namespace $secret.namespace -}}
-      {{- $referenceIsNeeded := false -}}
-      {{- range $container := concat ($deployment.containers | default dict | values) ($deployment.initContainers | default dict | values) -}}
-        {{- if or (not $secret.containers ) (has $container.id $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
-      {{- end -}}
-      {{- if $referenceIsNeeded }}
-  - {{ $secret.targetSecretName }}
-      {{- end -}}
-    {{- end }}
-  {{- end }}
-
+{{ include "subsystem-application.entities.workloads.helpers.references" (list $ $deployment) }}
 {{- end }}

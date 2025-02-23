@@ -1,6 +1,15 @@
 cronjobs:
   cleanup:
-    schedule: 0 6 * * *
+    spec:
+      schedule: 0 6 * * *
+      jobTemplate:
+        spec:
+          template:
+            metadata:
+              labels:
+                custom-label: "custom label"
+              annotations:
+                custom-annotation: "custom annotation"
     containers:
       main: 
         image: 
