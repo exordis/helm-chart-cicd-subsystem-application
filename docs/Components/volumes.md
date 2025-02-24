@@ -5,7 +5,7 @@
 
     ``` yaml
     --8<-- "snippets/values/volumes.yaml"
-    --8<-- "snippets/values/cronjobs.yaml"
+    --8<-- "snippets/values/CronJob.yaml"
     ```
 
 

@@ -6,7 +6,7 @@
 
     ``` yaml
     --8<-- "snippets/values/workload-common.yaml"
-    --8<-- "snippets/values/cronjobs.yaml"
+    --8<-- "snippets/values/CronJob.yaml"
     ```
 
 === "Cronjob Manifest"
