@@ -1,0 +1,12 @@
+global:
+  product: Some Product
+  subsystem: cicd
+  environment: qa
+application: application-chart-tests
+version: 1.0.0
+tests:
+  template: |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name:  {{ include "subsystem-application.naming.conventions.kind" (list $ $.Values.tests.data.id $.Values.tests.data.kind ) | quote }}           

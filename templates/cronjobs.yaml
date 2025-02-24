@@ -3,29 +3,28 @@
 ---
 apiVersion: batch/v1
 kind: CronJob
-metadata:
-  name: {{ .name }}
-  namespace: {{ .namespace }}
-  labels:
-    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
-  annotations:
-    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
+metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 2}}
 spec:
-  schedule: {{ .schedule | quote}}
-  concurrencyPolicy: "{{ .concurrencyPolicy }}"
-  failedJobsHistoryLimit: {{ .failedJobsHistoryLimit}}
-  jobTemplate:
-    spec:
-      ttlSecondsAfterFinished: {{ .ttlSecondsAfterFinished }}
+  {{- /* store spec and metadata from template and parent keys*/ -}}
+  {{- $jobTemplate := .spec.jobTemplate | default dict  -}}
+  {{- $jobTemplate_spec := $jobTemplate.spec | default dict  -}}
+  {{- $template_spec := dig "template" "spec" dict $jobTemplate_spec  -}}
+  {{- $template_metadata := dig "template" "metadata" dict $jobTemplate_spec  -}}
+  {{- /* unset keys to be output last*/ -}}
+  {{- $_ := unset .spec "jobTemplate"  -}}
+  {{- $_ := unset $jobTemplate "spec"  -}}
+  {{- $_ := unset $jobTemplate_spec "template"  -}}
+  {{- /* extend template metadata with common metadata*/ -}}
+  {{- $_ := set $template_metadata "labels" (mustMergeOverwrite ($template_metadata.labels | default dict) (include "subsystem-application.metadata.common-labels" $ | fromYaml) ) -}}
+  {{ .spec | toYaml | nindent 2 }}
+  jobTemplate: 
+    {{ if $jobTemplate}}{{ $jobTemplate | toYaml | nindent 4 }}{{ end }}
+    spec: 
+      {{ if $jobTemplate_spec}}{{ $jobTemplate_spec | toYaml | nindent 6 }}{{ end }}
       template:
         metadata:
-          labels:
-            {{- include "subsystem-application.metadata.common-labels" $ | nindent 12 }}
-          annotations:
-            {{- include "subsystem-application.metadata.common-annotations" $ | nindent 12 }}      
+          {{ $template_metadata | toYaml | nindent 10 }}
         spec: 
-          serviceAccountName: {{ .serviceAccountName | quote}}
-          restartPolicy: {{ .restartPolicy }}
           containers: 
             {{- range .containers }}
             - {{  .spec | toYaml |  nindent 14 | trim }}
@@ -36,7 +35,7 @@ spec:
             {{- end }}
           volumes:
             {{- range .volumes }}
-            - name: {{ .name }}
-              {{ .type }}: {{ .spec | toYaml | nindent 16 }}
-            {{- end }}                
+            - {{ .spec | toYaml | nindent 14 }}
+            {{ end }}                
+          {{ if $template_spec}}{{ $template_spec | toYaml | nindent 10 }}{{ end }}
 {{- end -}}

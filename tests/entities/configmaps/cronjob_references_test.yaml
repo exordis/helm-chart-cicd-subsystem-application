@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/ConfigMaps - CronJob References
+templates:
+  - templates/cronjobs.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate configmap reference in cronjob when referenced in secret.containers
+    template: templates/cronjobs.yaml
+    set:
+      cronjobs:
+        cleanup:
+          schedule: 0 6 * * *
+          containers:
+            main: 
+            secondary: 
+      configMaps:
+        config:
+          containers: 
+            - cronjobs.cleanup.main
+          data:
+            value: "1"
+    documentSelector:
+      path: kind
+      value: CronJob
+    asserts:
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[?(@.name == "main")].envFrom
+          content:
+            configMapRef:
+              name: cicd-sample-unittests-config
+      - notContains:
+          path: spec.jobTemplate.spec.template.spec.initContainers[?(@.name == "secondary")].envFrom
+          content:
+            configMapRef:
+              name: cicd-sample-unittests-config

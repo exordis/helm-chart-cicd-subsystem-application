@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/ConfigMap - Envs 
+templates:
+  - templates/configmaps.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate envs configMap with values provided in config
+    set:
+      envs:
+        ENV_VAR1: "value1" 
+        ENV_VAR2: "value2" 
+    asserts:
+      - equal:
+          path: data.ENV_VAR1
+          value: value1
+      - equal:
+          path: data.ENV_VAR2
+          value: value2
+      - equal:
+          path: data.EXORDIS_PRODUCT
+          value: Some Product
+      - equal:
+          path: data.EXORDIS_SUBSYSTEM
+          value: cicd
+      - equal:
+          path: data.EXORDIS_APPLICATION
+          value: cicd-sample
+      - equal:
+          path: data.EXORDIS_INSTANCE
+          value: "unittests"
+      - equal:
+          path: data.EXORDIS_ENVIRONMENT
+          value: test          
+      - equal:
+          path: metadata.namespace
+          value: cicd-test          
+    documentSelector:
+      path: metadata.name
+      value: cicd-sample-unittests-envs
+  
+  - it: Should generate envs configMap with no values provided in config
+    set: {}
+    asserts:
+      - equal:
+          path: data.EXORDIS_PRODUCT
+          value: Some Product
+      - equal:
+          path: data.EXORDIS_SUBSYSTEM
+          value: cicd
+      - equal:
+          path: data.EXORDIS_APPLICATION
+          value: cicd-sample
+      - equal:
+          path: data.EXORDIS_INSTANCE
+          value: "unittests"
+      - equal:
+          path: data.EXORDIS_ENVIRONMENT
+          value: test
+    documentSelector:
+      path: metadata.name
+      value: cicd-sample-unittests-envs

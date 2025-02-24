@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service-annotation: full service definition
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 1.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+    service-label: full service definition
+  name: cicd-sample-docs-full
+  namespace: cicd-test
+spec:
+  ports:
+    - name: api
+      port: 8080
+      protocol: TCP
+      targetPort: http
+    - name: metrics
+      port: 81
+      protocol: TCP
+      targetPort: 80
+  selector:
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-workload: "true"
+    exordis/environment: test
+    exordis/subsystem: cicd
+  sessionAffinity: None
+  type: LoadBalancer

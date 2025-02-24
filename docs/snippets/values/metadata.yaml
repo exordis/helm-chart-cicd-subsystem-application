@@ -1,0 +1,8 @@
+global: 
+  product: Some Product
+  subsystem: cicd
+  environment: test
+
+application: sample
+applicationType: service
+instance: docs

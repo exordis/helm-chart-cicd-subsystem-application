@@ -1,0 +1,81 @@
+suite: Naming Conventions
+templates:
+  - templates/tests-injected.yaml
+tests:
+  - it: Should render name
+    values:
+      - values.metadata.yaml  
+    set:
+      global:
+        naming:
+          kinds:
+            Secret: "secret-{{.subsystem}}-{{.application}}-{{.id}}"
+      tests:
+        data:
+          id: password
+          kind: Secret
+    asserts:
+      - equal:
+          path: metadata.name
+          value: secret-cicd-application-chart-tests-password
+
+  - it: Should lower all values, trim non alpha-numeric characters and replace all sequences of non alpha-numeric characters in eh middle of the name with '-'
+    values:
+      - values.metadata.yaml  
+    set:
+      global:
+        naming:
+          kinds:
+            Secret: "#$%%${{.subsystem}}____{{.application}}*&^*&^{{.id}}%^^&%&^%^&"
+      tests:
+        data:
+          id: SECRET_PASSWORD___
+          kind: Secret
+    asserts:
+      - equal:
+          path: metadata.name
+          value: cicd-application-chart-tests-secret-password
+          
+  - it: Should fail if generated name is too long
+    values:
+      - values.metadata.yaml  
+    set:
+      global:
+        naming:
+          kinds:
+            Secret: "{{.subsystem}}-{{.application}}-{{.id}}-very-long-postfix-exceeding-kubernetes-64-chars-limit"
+      tests:
+        data:
+          id: password
+          kind: Secret
+    asserts:
+      - failedTemplate:
+          errorPattern: name 'cicd-application-chart-tests-password-very-long-postfix-exceeding-kubernetes-64-chars-limit' length is longer than 63 symbols
+
+
+
+  - it: Should use default naming if not provided with global.naming
+    values:
+      - values.metadata.yaml  
+    set:
+      tests:
+        data:
+          id: config
+          kind: ConfigMap
+    asserts:
+      - equal:
+          path: metadata.name
+          value: cicd-application-chart-tests-config
+
+  - it: Should use default naming kind is unknown
+    values:
+      - values.metadata.yaml  
+    set:
+      tests:
+        data:
+          id: config
+          kind: Unknown
+    asserts:
+      - equal:
+          path: metadata.name
+          value: cicd-application-chart-tests-config

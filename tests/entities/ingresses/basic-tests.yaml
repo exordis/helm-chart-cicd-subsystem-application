@@ -1,0 +1,211 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/Ingresses
+templates:
+  - templates/ingresses.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate simple ingress from minimum data in values
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
+      services:
+        minimum:
+          ports:
+            http:
+      ingresses:
+        minimum:
+          services:
+            minimum:
+              hosts:
+                - host1.local             
+    asserts:
+      - containsDocument:
+          kind: Ingress
+          apiVersion: networking.k8s.io/v1
+          name: cicd-sample-unittests-minimum
+          namespace: cicd-test
+      - equal:
+          path: spec
+          value: 
+            rules:
+              - host: host1.local
+                http:
+                  paths:
+                    - backend:
+                        service:
+                          name: minimum
+                          port:
+                            name: http
+                      path: /http
+                      pathType: "Prefix"
+            tls:
+              - hosts:
+                  - host1.local
+                secretName: cicd-sample-unittests-minimum-tls                      
+
+
+  - it: Should generate service with explicitly provided values
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http      
+      services:
+        minimum:
+          ports:
+            api:
+              port: 8080
+              targetPort: http
+              protocol: UDP
+      ingresses:
+        minimum:
+          services:
+            minimum:
+              hosts:
+                - host1.local  
+              ports:
+                api:
+                  - path: /v2
+                    pathType: Exact
+    asserts:
+      - equal:
+          path: spec.rules
+          value:
+            - host: host1.local
+              http:
+                paths:
+                  - backend:
+                      service:
+                        name: minimum
+                        port:
+                          name: api
+                    path: /v2
+                    pathType: "Exact"             
+
+
+
+  - it: Should expand hosts in service rules
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http      
+      services:
+        minimum:
+          ports:
+            http:
+      ingresses:
+        minimum:
+          hosts:
+            myhosts:
+              - host1.local  
+              - host2.local  
+          services:
+            minimum:
+              hosts:
+                - myhosts       
+    asserts:
+      - equal:
+          path: spec.rules
+          value:
+            - host: host1.local
+              http:
+                paths:
+                  - backend:
+                      service:
+                        name: minimum
+                        port:
+                          name: http
+                    path: /http
+                    pathType: "Prefix"             
+            - host: host2.local
+              http:
+                paths:
+                  - backend:
+                      service:
+                        name: minimum
+                        port:
+                          name: http
+                    path: /http
+                    pathType: "Prefix"             
+
+  - it: Should expand hosts in spec.rules
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http      
+      ingresses:
+        minimum:
+          hosts:
+            myhosts:
+              - host1.local  
+              - host2.local  
+          spec:
+            rules:
+              - host: "myhosts"
+                http:
+                  - path: /api/v3(/|$)(.*)
+                    pathType: Prefix
+                  - path: /
+                    pathType: Prefix           
+    asserts:
+      - equal:
+          path: spec.rules
+          value:
+            - host: "host1.local"
+              http:
+                - path: /api/v3(/|$)(.*)
+                  pathType: Prefix
+                - path: /
+                  pathType: Prefix             
+            - host: "host2.local"
+              http:
+                - path: /api/v3(/|$)(.*)
+                  pathType: Prefix
+                - path: /
+                  pathType: Prefix             
+
+  
+  - it: Should fail when referencing undefined service
+    set:
+      ingresses:
+        minimum:
+          services:
+            unknown:
+              hosts:
+                - host1.local  
+    asserts:
+      - failedTemplate:
+          errorPattern: Ingress 'minimum' references undefined service 'unknown'
+
+  - it: Should fail when referencing undefined service port
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
+      services:
+        api:
+          ports:
+            http:    
+      ingresses:
+        minimum:
+          services:
+            api:
+              hosts:
+                - host1.local  
+              ports:
+                http:
+                unknown:
+    asserts:
+      - failedTemplate:
+          errorPattern: Ingress 'minimum' references undefined service 'api' port 'unknown'

@@ -1,0 +1,130 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+
+suite: Entities/Services
+templates:
+  - templates/services.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate simple service from minimum data in values
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
+      services:
+        minimum:
+          ports:
+            http:
+    asserts:
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: cicd-sample-unittests-minimum
+          namespace: cicd-test
+      - lengthEqual:
+          path: spec.ports
+          count: 1          
+      - contains:
+          path: spec.ports
+          content: 
+            name: http
+            port: 80
+            protocol: TCP
+            targetPort: http          
+      - equal:
+          path: spec.selector
+          value: 
+            exordis/application: cicd-sample
+            exordis/application-instance: unittests
+            exordis/environment: test
+            exordis/subsystem: cicd
+            exordis/application-workload: "true"
+
+  - it: Should generate port with explicitly provided values
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http      
+      services:
+        minimum:
+          ports:
+            api:
+              port: 8080
+              targetPort: http
+              protocol: UDP
+    asserts:
+      - contains:
+          path: spec.ports
+          content: 
+            name: api
+            port: 8080
+            protocol: UDP
+            targetPort: http               
+
+  - it: Should apply spec ignoring spec.ports and spec.selector if provided
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http        
+      services:
+        with-spec:
+          spec: 
+            clusterIP: None
+            selector:
+              app.kubernetes.io/name: MyApp          
+            ports:
+              - name: name-of-service-port
+                protocol: TCP
+                port: 80
+                targetPort: http-web-svc            
+          ports:
+            http:
+    asserts:
+      - lengthEqual:
+          path: spec.ports
+          count: 1          
+      - contains:
+          path: spec.ports
+          content: 
+            name: http
+            port: 80
+            protocol: TCP
+            targetPort: http  
+      - equal:
+          path: spec.selector
+          value: 
+            exordis/application: cicd-sample
+            exordis/application-instance: unittests
+            exordis/environment: test
+            exordis/subsystem: cicd  
+            exordis/application-workload: "true"  
+      - equal:
+          path: spec.clusterIP
+          value: None
+
+  - it: Should fail when referencing non-exposed container port
+    set:
+      sidecars:
+        metrics:
+          spec:
+            ports:
+              - containerPort: 80
+                name: http               
+      services:
+        svc:
+          ports:
+            http:
+            by-number:
+              targetPort: 80
+            api:
+              targetPort: http 
+            wrong:
+    asserts:
+      - failedTemplate:
+          errorPattern: service 'svc' port 'wrong' targetPort 'wrong' is not exposed by 'application' container or any of sidecars

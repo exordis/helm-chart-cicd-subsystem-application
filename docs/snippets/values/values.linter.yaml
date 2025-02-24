@@ -1,0 +1,25 @@
+envs: 
+  TEST: 123
+  SUBSYSTEM: wrong-subsystem
+
+dataFolders:
+  content:
+    "templates":
+      spec:
+        imagePullPolicy: Always
+      image:
+        # registry: "templates"
+        version: 1.24.0-dev.5
+        repository: "software-development/subsystems/some-subsystem/data-content-templates"
+      sizeLimit: 200Mi
+      mounts: #shouldn't be empty
+        application:
+          "/data/templates/original": null #use key by default or /data/templates/original
+          "/data/templates/generated": /data/templates/generated
+        jsreport:
+          "/data/templates/generated": /jsreport
+        
+
+
+
+        

@@ -3,25 +3,7 @@
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
-metadata:
-  name: {{ .name }}
-  namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem  $.Values.global.environment) }}
-  labels:
-    {{- include "subsystem-application.metadata.common-labels" $ | nindent 4 }}
-  annotations:
-    {{- include "subsystem-application.metadata.common-annotations" $ | nindent 4 }}
-    {{- if .useTls }}
-    {{ if $.Values.certManagerClusterIssuer }}cert-manager.io/cluster-issuer: {{ $.Values.certManagerClusterIssuer }}{{ end }}
-    kubernetes.io/tls-acme: 'true'
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    {{- end }}
-    {{ if .useRegex }}nginx.ingress.kubernetes.io/use-regex: {{ .useRegex | quote }}{{ end }}
-    {{ if .rewriteTarget }}nginx.ingress.kubernetes.io/rewrite-target: "{{.rewriteTarget}}"{{ end }}
-    {{ if ge (.proxyBodySize | int) 0 }}nginx.ingress.kubernetes.io/proxy-body-size: "{{.proxyBodySize}}"{{ end }}
-    {{ if not .proxyBuffering }}nginx.ingress.kubernetes.io/proxy-buffering: off{{ end }}
-    {{- range $key,$value:=.annotations }}
-    {{ $key }}: "{{$value}}"
-    {{- end }}
+metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 2}}
 spec:
   {{- .spec | toYaml | nindent 2  }}
 {{- end -}}

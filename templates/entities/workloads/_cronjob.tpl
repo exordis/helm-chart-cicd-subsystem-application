@@ -4,22 +4,32 @@
 
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-concurrencyPolicy: "Forbid"
-namespace: {{ include "sdk.naming.subsystem.namespace" (list $.Values.global.subsystem $.Values.global.environment) | quote}}
-serviceAccountName: default
-schedule: "0 0 31 2 *"
-failedJobsHistoryLimit: 1
-ttlSecondsAfterFinished: 86400
-restartPolicy: "Never"
-spec: {}
+namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
+spec: 
+  schedule: "0 0 31 2 *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          serviceAccountName: default
+          restartPolicy: "Never"
+
+
 containers: {}
 initContainers: {}
 volumes: {}
+labels: {}
+annotations: {}
 {{ end -}}
 
 {{- define "subsystem-application.entities.cronjob.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
-name: {{ include "sdk.naming.application.cronjob" (list $.Values.global.subsystem $.Values.application $.Values.instanceName $id)  }}
+kind: CronJob
+name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "CronJob"  ) | quote }} 
+workloadType: batch
 subcollections:
   - containers
   - initContainers
@@ -29,5 +39,5 @@ subcollections:
 
 {{- define "subsystem-application.entities.cronjob.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
-
+{{ include "subsystem-application.entities.workloads.helpers.references" (list $ $cronjob) }}
 {{- end }}

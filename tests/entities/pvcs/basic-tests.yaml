@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/PVC
+templates:
+  - templates/pvcs.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate simple pvc from minimum data in values
+    set:
+      pvcs:
+        mypvc:
+    asserts:
+      - containsDocument:
+          kind: PersistentVolumeClaim
+          apiVersion: v1
+          name: cicd-sample-unittests-mypvc
+          namespace: cicd-test
+      - equal:
+          path: spec
+          value: 
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi          
+ 

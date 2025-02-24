@@ -5,9 +5,11 @@ tests:
   - it: should work
     set:
       global.product: Some Product
-      global.subsystem: some-subsystem
+      global.subsystem: cicd
       global.environment: test
-      application: some-application
+      application: sample
+      instance: unittests
+      version: 1.0.0
     asserts:
       - equalRaw:
-          value: "deployed application some-subsystem-some-application of subsystem Some Product/some-subsystem to environment test"
+          value: "deployed application cicd-sample of subsystem Some Product/cicd to environment test"

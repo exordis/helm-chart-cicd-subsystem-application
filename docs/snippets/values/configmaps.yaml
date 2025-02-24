@@ -1,0 +1,19 @@
+configMaps:
+  config-map-full-metadata:
+    # reference is not added to workloads as namespace differs
+    namespace: "my-namespace"
+    labels: 
+      extra-label: "label value"
+    annotations: 
+      extra-annotation: "annotation value"
+    data:
+      value1: "test"
+      value2: "123"
+  config-map-with-containers:
+    containers:
+      - application
+    data:
+      value: "test1"
+  config-map-without-containers:
+    data:
+      value: "test2"

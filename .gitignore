@@ -6,3 +6,4 @@ templates/temporary.yaml
 tmp/
 charts/
 *.tgz
+.vscode/

@@ -1,0 +1,15 @@
+deployment:
+  spec:
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template: 
+      metadata:
+        labels:
+          custom-label: "custom label"
+        annotations:
+          custom-annotation: "custom annotation"
+      spec:
+        terminationGracePeriodSeconds: 60

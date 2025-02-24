@@ -1,0 +1,34 @@
+cronjobs:
+  cleanup:
+    spec:
+      schedule: 0 6 * * *
+      jobTemplate:
+        spec:
+          template:
+            metadata:
+              labels:
+                custom-label: "custom label"
+              annotations:
+                custom-annotation: "custom annotation"
+    # cronjob containers
+    containers:
+      main: 
+        spec:
+          args: 
+            - "tag" 
+            - "delete"
+            - "--registry"
+    # cronjob init containers
+    initContainers:
+      "cleanup-init":
+        image: 
+          repository: cicd-sample/cleanup-init
+          version: 1.0.0     
+    # cronjob volumes
+    volumes:
+      volume2:
+        spec:
+          emptyDir:
+            sizeLimit: 300Mi            
+        mounts: 
+          main: /some-data

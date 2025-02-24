@@ -1,5 +1,0 @@
-global:
-  product: Some Product
-  subsystem: some-subsystem
-  environment: test
-application: some-application

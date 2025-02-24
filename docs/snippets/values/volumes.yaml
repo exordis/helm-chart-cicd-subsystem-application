@@ -1,0 +1,7 @@
+# application workload volumes
+volumes:
+  volume1:
+    mounts: 
+      application: /some-data
+      jsreport: /some-another-data-but-same-as-for-application
+  

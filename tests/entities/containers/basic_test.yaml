@@ -1,0 +1,174 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/Containers
+templates:
+  - templates/deployment.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate simple containers from minimum data in values
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      sidecars:
+        mysidecar:
+      initContainers:
+        myinit:
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.containers
+          count: 2
+      # application container
+      - isSubset:
+          path: spec.template.spec.containers[?(@.name=="application")]
+          content:
+            image: registry.gitlab.com/cicd-unittests:1.0.0
+            imagePullPolicy: IfNotPresent
+            envFrom:
+              - configMapRef:
+                  name: cicd-sample-unittests-envs            
+            resources:
+              limits:
+                cpu: 200m
+                memory: 256Mi
+              requests:
+                cpu: 50m
+                memory: 64Mi
+      - exists:
+          path: spec.template.spec.containers[?(@.name=="application")].livenessProbe
+      - exists:
+          path: spec.template.spec.containers[?(@.name=="application")].readinessProbe
+      - exists:
+          path: spec.template.spec.containers[?(@.name=="application")].startupProbe
+
+      # sidecar container
+      - isSubset:
+          path: spec.template.spec.containers[?(@.name=="mysidecar")]
+          content:
+            image: registry.gitlab.com/cicd-unittests:1.0.0
+            imagePullPolicy: IfNotPresent
+            envFrom:
+              - configMapRef:
+                  name: cicd-sample-unittests-envs            
+            resources:
+              limits:
+                cpu: 200m
+                memory: 256Mi
+              requests:
+                cpu: 50m
+                memory: 64Mi
+      - notExists:
+          path: spec.template.spec.containers[?(@.name=="mysidecar")].livenessProbe
+      - notExists:
+          path: spec.template.spec.containers[?(@.name=="mysidecar")].readinessProbe
+      - notExists:
+          path: spec.template.spec.containers[?(@.name=="mysidecar")].startupProbe
+
+
+
+      - lengthEqual:
+          path: spec.template.spec.initContainers
+          count: 1
+      - isSubset:
+          path: spec.template.spec.initContainers[0]
+          content:
+            name: myinit
+
+
+  - it: Should generate image for containers with explicitly provided values
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      sidecars:
+        mysidecar:
+          image:
+            version: 3.21.3
+            registry: docker.io
+            repository: alpine
+    asserts:
+      - isSubset:
+          path: spec.template.spec.containers[?(@.name=="mysidecar")]
+          content:
+            image: "docker.io/alpine:3.21.3"
+
+  - it: Should respect explicitly provided  spec 
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      sidecars:
+        mysidecar:
+          spec:
+            args: 
+              - "ls" 
+              - "/"
+            ports:
+              - containerPort: 80
+                protocol: TCP  
+                name: http                
+    asserts:
+      - isSubset:
+          path: spec.template.spec.containers[?(@.name=="mysidecar")]
+          content:
+            args: 
+              - "ls" 
+              - "/"
+            ports:
+              - containerPort: 80
+                protocol: TCP  
+                name: http                
+
+
+  - it: Should fail for sidecar has 'application' name
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      sidecars:
+        application: 
+    asserts:
+      - failedTemplate:
+          errorPattern: Can not register container with id 'application'. deployment workload.containers  collection already has entity with the same id registered.
+
+  - it: Should fail for initContainer has 'application' name
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      initContainers:
+        application: 
+    asserts:
+      - failedTemplate:
+          errorPattern: Can not register container with id 'application'. deployment workload.initContainers  collection already has entity with the same id registered       
+
+  - it: Should fail for sidecar and  initContainer have same names
+    template: templates/deployment.yaml
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      sidecars:
+        mycontainer: 
+      initContainers:
+        mycontainer: 
+    asserts:
+      - failedTemplate:
+          errorPattern: Can not register init-container with id 'mycontainer'. deployment workload.containers  collection already has entity with the same id registered. 

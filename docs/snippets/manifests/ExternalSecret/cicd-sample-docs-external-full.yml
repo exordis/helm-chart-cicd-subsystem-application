@@ -1,0 +1,70 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    extra-annotation: annotation value
+    extra-secret-annotation: annotation value
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 1.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    extra-label: label value
+    extra-secret-label: label value
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs-external-full
+  namespace: cicd-test
+spec:
+  data:
+    - remoteRef:
+        key: SITE_LOGIN
+      secretKey: LOGIN
+    - remoteRef:
+        key: SITE_PASSWORD
+      secretKey: PASSWORD
+  refreshInterval: 1m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: cicd-sample-docs-external-full
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: cicd-sample-docs-external-full
+    template:
+      data:
+        AUTH: '{{ `{{ .LOGIN }}:{{ .PASSWORD }}` }}'
+        LOGIN: '{{ .LOGIN }}'
+        PASSWORD: '{{ .PASSWORD }}'
+      metadata:
+        annotations:
+          extra-annotation: annotation value
+          extra-secret-annotation: annotation value
+        labels:
+          app.kubernetes.io/component: cicd-sample
+          app.kubernetes.io/instance: docs
+          app.kubernetes.io/managed-by: helm
+          app.kubernetes.io/name: cicd-sample
+          app.kubernetes.io/part-of: cicd
+          app.kubernetes.io/version: 1.0.0
+          exordis/application: cicd-sample
+          exordis/application-instance: docs
+          exordis/application-type: service
+          exordis/environment: test
+          exordis/product: Some Product
+          exordis/subsystem: cicd
+          extra-label: label value
+          extra-secret-label: label value
+          helm.sh/chart: cicd-subsystem-application-0.1.0
+      templateFrom:
+        - configMap:
+            items:
+              - keys: config.yml
+            name: cicd-sample-docs-external-secret-template

@@ -1,0 +1,5 @@
+replicas: 3
+version: 1.0.0
+registry: registry.gitlab.com
+repository: cicd-unittests
+workload: deployment

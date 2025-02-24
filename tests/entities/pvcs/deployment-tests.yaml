@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/PVC
+templates:
+  - templates/deployment.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should handle mounts
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      pvcs:
+        mypvc:
+          mounts:
+            application: /data       
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="mypvc")]
+          value:
+            name: mypvc
+            persistentVolumeClaim:
+              claimName: cicd-sample-unittests-mypvc
+      - equal:
+          path: spec.template.spec.containers[?(@.name=="application")].volumeMounts
+          value:
+            - mountPath: /data
+              name: mypvc

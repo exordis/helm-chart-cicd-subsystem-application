@@ -1,0 +1,4 @@
+{{- if ($.Values.tests| default dict).template | default "" | ne "" -}}
+---
+{{  tpl $.Values.tests.template $ }}
+{{- end -}}

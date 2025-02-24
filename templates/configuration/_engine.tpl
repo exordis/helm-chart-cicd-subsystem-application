@@ -5,7 +5,7 @@ modules:
   - networking
   - cronjobs
   - storage
-  - data-folders
+  # - data-folders
 entities:
   configMaps: {}
   externalSecrets: {}
@@ -18,6 +18,7 @@ entities:
   deployments: {}
 shared_ids:
   - ["initContainers", "containers"]
+  - ["secrets", "externalSecrets"]
 logging: true
 values_defaults_template: "subsystem-application.configuration.defaults.values"
 {{- end -}}

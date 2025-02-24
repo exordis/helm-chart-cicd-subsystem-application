@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations: {}
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 1.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs-mypvc
+  namespace: cicd-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
