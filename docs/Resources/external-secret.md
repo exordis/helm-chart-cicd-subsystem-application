@@ -18,7 +18,7 @@ title: External Secret
 === "Deployment Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/Deployment/cicd-sample-docs.yml"
     ```
 
 === "CronJob Manifest"
