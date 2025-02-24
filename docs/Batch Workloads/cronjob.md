@@ -6,13 +6,13 @@
 
     ``` yaml
     --8<-- "snippets/values/workload-common.yaml"
-    --8<-- "snippets/values/CronJob.yaml"
+    --8<-- "snippets/values/cronjobs.yaml"
     ```
 
 === "Cronjob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/cronjob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 

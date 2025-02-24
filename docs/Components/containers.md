@@ -8,7 +8,7 @@
 
     --8<-- "snippets/values/containers.yaml"
 
-    --8<-- "snippets/values/CronJob.yaml"
+    --8<-- "snippets/values/cronjobs.yaml"
     ```
 
 

@@ -6,7 +6,7 @@ values:
   - "../docs/snippets/values/metadata.yaml"
   - "../docs/snippets/values/workload-common.yaml"
   - "../docs/snippets/values/configmaps.yaml"
-  - "../docs/snippets/values/CronJob.yaml"
+  - "../docs/snippets/values/cronjobs.yaml"
   - "../docs/snippets/values/deployment.yaml"
   - "../docs/snippets/values/secrets.yaml"
   - "../docs/snippets/values/services.yaml"
