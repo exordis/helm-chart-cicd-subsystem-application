@@ -6,4 +6,6 @@ kind: ConfigMap
 metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 2}}
 data:
   {{- .data  | toYaml | nindent 2 }}
+binaryData:  
+  {{- .binaryData  | toYaml | nindent 2 }}
 {{- end -}}

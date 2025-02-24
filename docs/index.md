@@ -104,13 +104,11 @@ Entities are of following types
 
 Components of workloads. 
 
-Main workload components are to be defined on root level of values and not deployed if skipped if `workload` value is set to `none`. This ensures that main workload is only one and lets change type of main workload without significant changes in `values`
+Application workload components are to be defined on root level of values. If `workload` value is set to `none`, such components are ignored. This ensures that application workload is only one and lets change type of application workload without significant changes in `values`
 
 Batch workload components are to be defined as part of corresponding workload. 
 
-- [application container](./Components/containers.md)
-- [init containers](Components/containers.md)
-- [sidecars](Components/containers.md)
+- [components](Components/containers.md)
 - [volumes](Components/volumes.md)
 
 #### Resources
@@ -137,8 +135,3 @@ Batch workloads to be deployed.
 
 - [CronJob](Batch Workloads/cronjob.md)
 
-#### Patterns
-
-Synthetics entities representing deployment patterns. Translated to creation and linking of components and resources. 
-
-- [Data Folder](Patterns/data-folder.md)

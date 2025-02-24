@@ -3,3 +3,5 @@ envs
 microservice
 sharding
 lifecycle
+pvc
+templating

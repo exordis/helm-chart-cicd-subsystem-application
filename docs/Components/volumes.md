@@ -5,6 +5,7 @@
 
     ``` yaml
     --8<-- "snippets/values/volumes.yaml"
+    --8<-- "snippets/values/cronjobs.yaml"
     ```
 
 
@@ -12,6 +13,12 @@
 
     ``` yaml
     --8<-- "snippets/manifests/deployment/cicd-sample-docs.yml"
+    ```
+
+=== "CronJob Manifest"
+
+    ``` yaml
+    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 
@@ -72,4 +79,4 @@ emptyDir:
 
 ## Manifests Generation 
 
-- Volume is added to [workload](../values.md#workload) manifest `volumes` and volume spec is added to  `spec.volumeMounts` of main workload , if  [workload](../values.md#workload) is not set to `none`
+- Volume is added to [workload](../index.md#workload) manifest `volumes` and volume spec is added to  `spec.volumeMounts` of main workload , if  [workload](../index.md#workload) is not set to `none`

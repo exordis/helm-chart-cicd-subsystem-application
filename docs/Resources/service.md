@@ -35,7 +35,7 @@
 
 `annotations`
 
-:   list of annotations to add to service in addition to [common annotations](../common metadata.md)
+:   list of annotations to add to service in addition to [common labels](../common metadata.md)
 
     **default:** empty dict
 
@@ -81,11 +81,11 @@
 
     `annotations` 
     
-    : annotations to add to service monitor  in addition to [common annotations](../common metadata.md).  
+    : annotations to add to service monitor  in addition to [common labels](../common metadata.md).  
         **default:** empty dict
     
     `labels`  
-    : labels to add to service monitor in addition to [common annotations](../common metadata.md).  
+    : labels to add to service monitor in addition to [common labels](../common metadata.md).  
         **default:** empty dict
 
 
@@ -149,7 +149,7 @@ services:
 
 Service manifest is generated for each service. 
 
-- [common annotations](../common metadata.md) are added to metadata
+- [common labels](../common metadata.md) are added to metadata
 
 
 !!! Note
@@ -158,7 +158,7 @@ Service manifest is generated for each service.
 
 ### Service Monitor
 
-- [common annotations](../common metadata.md) are added to metadata
+- [common labels](../common metadata.md) are added to metadata
 - Service monitor is generated if service defines at least one port with `monitorEndpoint` (may be null)
 - Service monitor `id` is considered to be equal to service `id`
 - Service monitor is generated with [naming conventions](../naming conventions.md) 

@@ -37,9 +37,9 @@ spec:
     matchNames:
       - {{ $service.namespace | quote }}  
   selector:
-      matchLabels: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}
-
-{{- /* include "sdk.engine.log.fail-with-log" (list $ ($monitor | toYaml) ) */ -}}
+      matchLabels: 
+        {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}
+        "exordis/application-workload": "true"
 
 {{- end -}}
 

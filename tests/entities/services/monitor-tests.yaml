@@ -165,6 +165,7 @@ tests:
               exordis/application-instance: unittests
               exordis/environment: test
               exordis/subsystem: cicd         
+              exordis/application-workload: "true"   
       - equal:
           path: spec.namespaceSelector
           value:

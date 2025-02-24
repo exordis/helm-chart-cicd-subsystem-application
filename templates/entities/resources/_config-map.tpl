@@ -5,6 +5,7 @@
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 {{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
 data: {}
+binaryData: {}
 {{- end -}}
 
 {{- define "subsystem-application.entities.config-map.create" -}}

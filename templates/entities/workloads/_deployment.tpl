@@ -26,14 +26,19 @@ volumes: {}
 {{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "containers" -}}
 {{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "initContainers" -}}
 {{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "volumes" -}}
+{{- $name := include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) }} 
 kind: Deployment
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) | quote }} 
+name: {{ $name | quote }} 
 workloadType: main
+metadata:
+  labels:
+    exordis/application-workload: "true"
 spec:
   replicas: {{ $.Values.replicas }}
   selector:
     matchLabels:
       {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}
+      exordis/application-workload: "true"
 subcollections:
   - containers
   - initContainers

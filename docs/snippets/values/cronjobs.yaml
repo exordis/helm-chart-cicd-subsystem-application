@@ -10,25 +10,25 @@ cronjobs:
                 custom-label: "custom label"
               annotations:
                 custom-annotation: "custom annotation"
+    # cronjob containers
     containers:
       main: 
-        image: 
-          registry: "registry.gitlab.com"
-          repository: "knst/cy/registry/cicd-docker-registry-cleaner"
-          version: "0.1.0"
         spec:
           args: 
             - "tag" 
             - "delete"
             - "--registry"
+    # cronjob init containers
     initContainers:
       "cleanup-init":
         image: 
-          repository: cleanup-init
-          version: 1.0.0            
+          repository: cicd-sample/cleanup-init
+          version: 1.0.0     
+    # cronjob volumes
     volumes:
       volume2:
-        #spec:
-        #type: emptyDir
+        spec:
+          emptyDir:
+            sizeLimit: 300Mi            
         mounts: 
           main: /some-data

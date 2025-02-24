@@ -48,7 +48,7 @@
 
 `annotations`
 
-:   list of annotations to add to secret in addition to [common annotations](../common metadata.md)
+:   list of annotations to add to secret in addition to [common labels](../common metadata.md)
 
     **default:** empty dict
 
@@ -60,11 +60,25 @@
 
     **default:** nil (add `secretRef` to all containers)
 
+`type`
+
+:   `type` to be added to secret manifest
+
+    **default:** Opaque
+
+`data`
+
+:   `data` to be added to secret manifest
+
+    **default:** empty dict
+
 `stringData`
 
 :   `stringData` to be added to secret manifest
 
     **default:** empty dict
+
+
 
 ## Validations
 
@@ -81,7 +95,7 @@
 
 ## Manifests Generation 
 
-- [common annotations](../common metadata.md) are added to metadata
+- [common labels](../common metadata.md) are added to metadata
 - `secretRef` is added to containers with ids listed in `secret.containers` (all if this field is not set)
 - annotation with checksum of configmap is added to workloads manifests if at least one container of has `secretRef` added
 - secret manifest is generated each secret

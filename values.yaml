@@ -24,7 +24,7 @@ global:
       ServiceMonitor:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
       Service:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
     components:
-      Container: '{{ .id | eq "applicationContainer" | ternary "application" .id }}'
-      Volume: "{{.id}}"
+      Container: '{{ .id }}'
+      Volume: "{{ .id }}"
     metadata:
       application-canonical-name: "{{.subsystem}}-{{.application}}"

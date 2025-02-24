@@ -1,4 +1,5 @@
 
+# application container in application workload
 applicationContainer:
   spec:
     ports:
@@ -6,6 +7,7 @@ applicationContainer:
         protocol: TCP  
         name: http  
 
+# application workload init containers
 initContainers:
   migration:
     image:
@@ -14,6 +16,7 @@ initContainers:
     spec:
       imagePullPolicy: Always
 
+# application workload init sidecars
 sidecars:
   jsreport:
     image:

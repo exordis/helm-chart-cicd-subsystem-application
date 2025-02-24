@@ -20,7 +20,9 @@ spec:
 kind: Service
 name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Service"  ) | quote }} 
 spec:
-  selector: {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
+  selector: 
+    {{- include "subsystem-application.metadata.selector-labels" $ | nindent 4 }}
+    "exordis/application-workload": "true"
   ports:
     {{- range $name, $port := $service.ports -}}
     {{- $port = $port | default dict }}

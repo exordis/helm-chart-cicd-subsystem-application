@@ -40,6 +40,7 @@ tests:
             exordis/application-instance: unittests
             exordis/environment: test
             exordis/subsystem: cicd
+            exordis/application-workload: "true"
 
   - it: Should generate port with explicitly provided values
     set:
@@ -101,7 +102,8 @@ tests:
             exordis/application: cicd-sample
             exordis/application-instance: unittests
             exordis/environment: test
-            exordis/subsystem: cicd    
+            exordis/subsystem: cicd  
+            exordis/application-workload: "true"  
       - equal:
           path: spec.clusterIP
           value: None

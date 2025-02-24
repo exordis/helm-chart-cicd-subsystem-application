@@ -42,7 +42,7 @@ title: External Secret
 
 `annotations`
 
-:   list of annotations to add to external secret and target secret in addition to [common annotations](../common metadata.md)
+:   list of annotations to add to external secret and target secret in addition to [common labels](../common metadata.md)
 
     **default:** empty dict
 
@@ -127,6 +127,6 @@ externalSecrets:
 
 ### Manifest Generation
 
-- [common annotations](../common metadata.md) are added to metadata
+- [common labels](../common metadata.md) are added to metadata
 - `ExternalSecret` manifest is generated for each defined external secret. 
 - `secretRef` is added for target secret to containers with ids listed in `.containers` (all if this field is not set)

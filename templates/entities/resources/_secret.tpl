@@ -6,6 +6,8 @@
 {{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
 containers:
 stringData: {}
+data: {}
+type: "Opaque"
 {{- end -}}
 
 {{- define "subsystem-application.entities.secret.create" -}}

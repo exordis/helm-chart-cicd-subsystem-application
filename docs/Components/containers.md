@@ -5,8 +5,12 @@
 
     ``` yaml
     --8<-- "snippets/values/workload-common.yaml"
+
     --8<-- "snippets/values/containers.yaml"
+
+    --8<-- "snippets/values/cronjobs.yaml"
     ```
+
 
 
 === "Deployment Manifest"
@@ -114,6 +118,6 @@
 - `spec.envFrom`  is with references to application defined [Secrets](../Resources/secret.md) if secret is in the same namespace
 - `spec.envFrom`  is with references to application defined [External Secrets](../Resources/external-secret.md) if secret is in the same namespace
 - `spec.volumeMounts`  is extended as per [Volume](./volumes.md)
-- Application container spec is added to [workload](../values.md#workload) manifest `containers` if  [workload](../values.md#workload) is not set to `none`
-- Sidecar container specs are added to [workload](../values.md#workload) manifest `containers` if  [workload](../values.md#workload) is not set to `none`
-- Init containers specs is added to [workload](../values.md#workload) manifest `initContainers` if  [workload](../values.md#workload) is not set to `none`
+- Application container spec is added to [workload](../index.md#workload) manifest `containers` if  [workload](../index.md#workload) is not set to `none`
+- Sidecar container specs are added to [workload](../index.md#workload) manifest `containers` if  [workload](../index.md#workload) is not set to `none`
+- Init containers specs is added to [workload](../index.md#workload) manifest `initContainers` if  [workload](../index.md#workload) is not set to `none`
