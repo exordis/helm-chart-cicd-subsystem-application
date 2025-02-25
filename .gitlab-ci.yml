@@ -1,5 +1,4 @@
 include:
   - project: $GITLAB_CICD_TEMPLATES_PROJECT_PATH
     ref: master
-    file: 'helm-chart.yml'
-     
+    file: 'helm-chart.yml'     
