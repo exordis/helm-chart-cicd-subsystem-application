@@ -30,3 +30,20 @@ tests:
           value:
             - mountPath: /data
               name: mypvc
+
+  - it: Should fail if references undefined container
+    set:
+      workload: deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      pvcs:
+        mypvc:
+          mounts:
+            unknown: /data  
+            cronjobs.cleanup.unknown: /data
+    asserts:
+      - failedTemplate:
+          errorPattern: pvc 'mypvc' references undefined container 'unknown'          
+      - failedTemplate:
+          errorPattern: pvc 'mypvc' references undefined container 'cronjobs.cleanup.unknown'          

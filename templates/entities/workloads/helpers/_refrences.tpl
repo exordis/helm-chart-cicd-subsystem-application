@@ -1,20 +1,13 @@
 {{- define "subsystem-application.entities.workloads.helpers.references" -}}
 {{- $ := index . 0 -}}{{- $workload := index . 1 -}}
 
-{{- $ref_template := "%s" -}}
-{{- if ne $workload.workloadType "main" -}}
-  {{- $templates_prefix :=  (include "sdk.engine._templates_prefix" $) | toYaml -}}
-  {{- $workload_collection := printf (printf "%s.entities.%%s.collection" $templates_prefix) $workload.entity_type  -}}        
-  {{- $ref_template = printf "%s.%s.%%s" $workload.id $workload_collection -}}
-{{- end -}}
 
 referencedConfigMaps:
   {{- range $configMap := $.entities.configMaps -}}
     {{- if eq $workload.namespace $configMap.namespace -}}
       {{- $referenceIsNeeded := false -}}
       {{- range $container := concat ($workload.containers | default dict | values) ($workload.initContainers | default dict | values) -}}
-        {{- $ref := printf $ref_template $container.id -}}
-        {{- if or (not $configMap.containers ) (has $ref $configMap.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
+        {{- if or (not $configMap.containers ) (has $container.ref $configMap.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
       {{- end -}}
       {{- if $referenceIsNeeded }}
   - {{ $configMap.id }}
@@ -26,8 +19,7 @@ referencedSecrets:
     {{- if eq $workload.namespace $secret.namespace -}}
       {{- $referenceIsNeeded := false -}}
       {{- range $container := concat ($workload.containers | default dict | values) ($workload.initContainers | default dict | values) -}}
-        {{- $ref := printf $ref_template $container.id -}}
-        {{- if or (not $secret.containers ) (has $ref $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
+        {{- if or (not $secret.containers ) (has $container.ref $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
       {{- end -}}
       {{- if $referenceIsNeeded }}
   - {{ $secret.id }}
@@ -40,8 +32,7 @@ referencedExternalSecrets:
     {{- if eq $workload.namespace $secret.namespace -}}
       {{- $referenceIsNeeded := false -}}
       {{- range $container := concat ($workload.containers | default dict | values) ($workload.initContainers | default dict | values) -}}
-        {{- $ref := printf $ref_template $container.id -}}
-        {{- if or (not $secret.containers ) (has $ref $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
+        {{- if or (not $secret.containers ) (has $container.ref $secret.containers ) }}{{- $referenceIsNeeded = true -}}{{- end -}}
       {{- end -}}
       {{- if $referenceIsNeeded }}
   - {{ $secret.targetSecretName }}

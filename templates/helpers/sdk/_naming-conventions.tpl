@@ -59,7 +59,7 @@
 {{- $_ :=  set $args "instance"        ( $.Values.instance           | default "" ) -}}
 {{- $_ :=  set $args "name"            ( $name                       | default "" ) -}}
 
-{{- $template := dig "naming" "metadata" $name "fallback-{{.subsystem}}-{{.application}}-{{.instance}}" $.Values.global  -}}
+{{- $template := dig "naming" "metadata" $name "fallback-{{.subsystem}}-{{.application}}-{{.instance}}-{{.name}}" $.Values.global  -}}
 {{- $name := tpl $template $args -}}
 {{- $name := regexReplaceAll "-+"  $name "-" -}} 
 {{- $name := regexReplaceAll "^-+|-+$" $name "" -}} 

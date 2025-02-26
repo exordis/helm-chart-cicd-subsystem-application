@@ -25,6 +25,25 @@ name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Pe
 
 {{- define "subsystem-application.entities.pvc.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
+    {{- $wrong_references := "" -}}
+
+    {{- $known_containers := list -}}
+    {{- range $workload := concat ($.entities.deployments | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
+      {{- range $container := $workload.containers | values | concat ($workload.initContainers | values)  -}}
+        {{- $known_containers = $known_containers | concat (list $container.ref)  -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- range $mount_ref := $pvc.mounts | keys -}}
+      {{- if  $known_containers | has $mount_ref | not -}}
+        {{- $wrong_references = printf "%s\n- pvc '%s' references undefined container '%s'" $wrong_references $id $mount_ref  -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if $wrong_references | ne "" -}}
+      {{- $error := printf "\nVALIDATION ISSUES: %s" $wrong_references -}}
+      {{- include "sdk.engine.log.fail-with-log" (list $ $error) -}}
+    {{- end }}
 
 {{- end -}}
 

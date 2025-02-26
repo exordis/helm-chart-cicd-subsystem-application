@@ -20,35 +20,6 @@
 {{- end -}}
 
 
-{{- define "subsystem-application.modules.external-secrets._owerrides" -}}
-  {{- $:=  index . 0 -}}
-  {{- $externalSecret:=  index . 1 -}}
-secretStoreRef:
-  name: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "ClusterSecretStore"  ) | quote }} 
-  kind: ClusterSecretStore
-target:
-  name: {{ $externalSecret.targetSecretName }}    
-  template:
-    metadata:
-      labels:
-        {{- include "subsystem-application.metadata.common-labels" $ | nindent 8 }}
-      annotations:
-        {{- include "subsystem-application.metadata.common-annotations" $ | nindent 8 }}
-
-{{- end -}}
-
-
-{{- define "subsystem-application.modules.external-secrets._default_binding" -}}
-{{- $:=  index . 0 -}}
-{{- $externalSecret:=  index . 1 -}}
-data:
-  - secretKey: {{ $externalSecret.key }}
-    remoteRef:
-      key: {{ $externalSecret.key }}
-{{- end -}}
-
-
-
 {{- define "subsystem-application.modules.configuration.process" -}}
   
 {{- end -}}

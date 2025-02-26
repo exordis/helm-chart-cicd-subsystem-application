@@ -29,7 +29,7 @@ volumes: {}
 {{- $name := include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) }} 
 kind: Deployment
 name: {{ $name | quote }} 
-workloadType: main
+workloadType: application
 metadata:
   labels:
     exordis/application-workload: "true"

@@ -27,38 +27,39 @@ image:
 kind: Container
 name: {{ include "subsystem-application.naming.conventions.component" (list $ $id "Container"  $parent.id $parent.kind  ) | quote }}
 
+{{- if $parent.workloadType | eq "application" }}
+ref: {{ $id }}
+{{- else -}}
+  {{- $templates_prefix :=  (include "sdk.engine._templates_prefix" $) | toYaml -}}
+  {{- $parent_collection := include (printf (printf "%s.entities.%%s.collection" $templates_prefix) $parent.entity_type) $  }}    
+ref: {{ printf "%s.%s.%s" $parent_collection $parent.id $id }}
+{{- end }}
+
 {{- end -}}
 
 
 {{- define "subsystem-application.entities.container-base.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $container := index . 2 -}}
-
+ 
   {{- $namespace := $container.parent.namespace -}}
-  {{- $containerRef := $container.id -}}
-
-  {{- if $container.parent.workloadType | eq "batch" -}}
-    {{- $templates_prefix :=  (include "sdk.engine._templates_prefix" $) | toYaml -}}
-    {{- $parent_collection_name := include  (printf (printf "%s.entities.%%s.collection" $templates_prefix) $container.parent.entity_type) $ -}}
-    {{- $containerRef = printf "%s.%s.%s" $parent_collection_name $container.parent.id $container.id -}}
-  {{- end -}}
 
   {{- /* add config maps refs*/ -}}
   {{- range $configMap := $.entities.configMaps -}}
-    {{- if and (eq $namespace $configMap.namespace) (or (eq $configMap.containers nil ) (has $containerRef $configMap.containers )) -}}
+    {{- if and (eq $namespace $configMap.namespace) (or (eq $configMap.containers nil ) (has $container.ref $configMap.containers )) -}}
       {{- $_ := set $container.spec "envFrom" ($container.spec.envFrom | concat (list (dict "configMapRef" (dict "name" $configMap.name))))  -}}
     {{- end -}}
   {{- end -}}
 
   {{- /* add secrets refs*/ -}}
   {{- range $secret := $.entities.secrets -}}
-    {{- if and (eq $namespace $secret.namespace) (or (eq $secret.containers nil  ) (has $containerRef $secret.containers )) }}
+    {{- if and (eq $namespace $secret.namespace) (or (eq $secret.containers nil  ) (has $container.ref $secret.containers )) }}
       {{- $_ := set $container.spec "envFrom" ($container.spec.envFrom | concat (list (dict "secretRef" (dict "name"  $secret.name))))  -}}
     {{ end -}}
   {{- end }}
 
   {{- /* add external secrets refs*/ -}}
   {{- range $externalSecret := $.entities.externalSecrets -}}
-    {{- if and (eq $namespace $externalSecret.namespace) (or (has $containerRef $externalSecret.containers ) (eq  $externalSecret.containers nil )) }}
+    {{- if and (eq $namespace $externalSecret.namespace) (or (has $container.ref $externalSecret.containers ) (eq  $externalSecret.containers nil )) }}
       {{- $_ := set $container.spec "envFrom" ($container.spec.envFrom | concat (list (dict "secretRef" (dict "name" $externalSecret.targetSecretName))))  -}}
     {{- end -}}
   {{- end -}}
@@ -71,6 +72,8 @@ name: {{ include "subsystem-application.naming.conventions.component" (list $ $i
       {{- end -}}
     {{- end -}}
   {{- end -}}
+
+
 
 
 spec:

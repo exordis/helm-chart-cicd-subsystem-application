@@ -229,9 +229,6 @@ manifest should match snapshot:
               restartPolicy: Never
               serviceAccountName: default
               volumes:
-                - name: mypvc
-                  persistentVolumeClaim:
-                    claimName: cicd-sample-docs-mypvc
                 - emptyDir:
                     sizeLimit: 300Mi
                   name: volume2
