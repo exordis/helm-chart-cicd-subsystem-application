@@ -31,7 +31,7 @@ name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "In
   {{- range $service_name, $service_mapping := $ingress.services -}}
     {{- $service := get $.entities.services $service_name -}}
     {{- $service_mapping = $service_mapping | default dict -}}
-{{ $service_name }}:
+{{ $service.name }}:
   hosts: {{ $service_mapping.hosts | default (list "default") | toYaml | nindent 4 }}
   ports:
     {{- if $service_mapping.ports | default dict | len | eq  0 -}}    

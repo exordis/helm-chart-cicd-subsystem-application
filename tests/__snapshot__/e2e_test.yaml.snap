@@ -506,14 +506,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: api
                 path: /api
                 pathType: Prefix
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: metrics
                 path: /metrics
@@ -523,14 +523,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: api
                 path: /api
                 pathType: Prefix
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: metrics
                 path: /metrics
@@ -540,14 +540,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: api
                 path: /api
                 pathType: Prefix
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: metrics
                 path: /metrics
@@ -607,14 +607,14 @@ manifest should match snapshot:
             paths:
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: api
                 path: /api
                 pathType: Prefix
               - backend:
                   service:
-                    name: full
+                    name: cicd-sample-docs-full
                     port:
                       name: metrics
                 path: /metrics

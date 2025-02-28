@@ -37,7 +37,7 @@ tests:
                   paths:
                     - backend:
                         service:
-                          name: minimum
+                          name: cicd-sample-unittests-minimum
                           port:
                             name: http
                       path: /http
@@ -81,7 +81,7 @@ tests:
                 paths:
                   - backend:
                       service:
-                        name: minimum
+                        name: cicd-sample-unittests-minimum
                         port:
                           name: api
                     path: /v2
@@ -119,7 +119,7 @@ tests:
                 paths:
                   - backend:
                       service:
-                        name: minimum
+                        name: cicd-sample-unittests-minimum
                         port:
                           name: http
                     path: /http
@@ -129,7 +129,7 @@ tests:
                 paths:
                   - backend:
                       service:
-                        name: minimum
+                        name: cicd-sample-unittests-minimum
                         port:
                           name: http
                     path: /http
