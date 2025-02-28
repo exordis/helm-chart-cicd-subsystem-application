@@ -482,6 +482,7 @@ manifest should match snapshot:
     kind: Ingress
     metadata:
       annotations:
+        kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       labels:
         app.kubernetes.io/component: cicd-sample
@@ -583,6 +584,7 @@ manifest should match snapshot:
     kind: Ingress
     metadata:
       annotations:
+        kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       labels:
         app.kubernetes.io/component: cicd-sample
@@ -628,6 +630,7 @@ manifest should match snapshot:
     kind: Ingress
     metadata:
       annotations:
+        kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       labels:
         app.kubernetes.io/component: cicd-sample

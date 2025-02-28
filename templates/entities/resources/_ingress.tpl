@@ -122,6 +122,7 @@ rules:
   {{- if $ingress.spec.rules | len | ne 0 | and $ingress.tls.enabled -}}
   # TODO: need a better way to do it 
 annotations:
+  kubernetes.io/tls-acme: "true"
   nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     {{- if not $ingress.spec.tls }}
 spec:
