@@ -397,6 +397,7 @@ manifest should match snapshot:
                   cpu: 50m
                   memory: 64Mi
               volumeMounts: []
+          serviceAccountName: cicd-test-sample-docs-workload
           terminationGracePeriodSeconds: 60
           volumes:
             - name: mypvc
@@ -766,6 +767,56 @@ manifest should match snapshot:
       token: t0ken
     type: Opaque
   16: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-workload
+      namespace: cicd-test
+  17: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs-workload
+      namespace: cicd-test
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: application
+    subjects:
+      - kind: ServiceAccount
+        name: cicd-sample-docs-workload
+        namespace: cicd-test
+  18: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -809,7 +860,7 @@ manifest should match snapshot:
           exordis/application-workload: "true"
           exordis/environment: test
           exordis/subsystem: cicd
-  17: |
+  19: |
     apiVersion: v1
     kind: Service
     metadata:

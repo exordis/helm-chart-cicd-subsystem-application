@@ -14,6 +14,8 @@ global:
     kinds:
       Namespace:              "{{.subsystem}}-{{.environment}}-{{.id}}" 
       ClusterSecretStore:     "{{.subsystem}}-{{.environment}}-{{.id}}" 
+      ClusterRole:            "{{.subsystem}}-{{.environment}}-{{.application}}-{{.instance}}-{{.id}}"
+      ServiceAccount:         "{{.subsystem}}-{{.environment}}-{{.application}}-{{.instance}}-{{.id}}"
       Deployment:             "{{.subsystem}}-{{.application}}-{{.instance}}"
       CronJob:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
       ConfigMap:              "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"

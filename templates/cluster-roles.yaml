@@ -1,0 +1,10 @@
+{{- include "sdk.engine.init" $ -}}
+{{- range $.entities.clusterRoles }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ . true) | nindent 2}}
+rules:
+{{ .rules | toYaml | indent 2 }}
+
+{{- end -}}

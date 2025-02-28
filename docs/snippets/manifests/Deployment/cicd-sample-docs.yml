@@ -160,6 +160,7 @@ spec:
               cpu: 50m
               memory: 64Mi
           volumeMounts: []
+      serviceAccountName: cicd-test-sample-docs-workload
       terminationGracePeriodSeconds: 60
       volumes:
         - name: mypvc

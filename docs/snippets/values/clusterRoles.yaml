@@ -1,0 +1,12 @@
+clusterRoles:
+  application:
+    rules:
+      - apiGroups:
+          - ''
+        resources:
+          - namespaces
+          - pods
+          - nodes
+        verbs:
+          - get
+          - list    

@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/ClusterRole
+templates:
+  - templates/cluster-roles.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate simple cluster roles from minimum data in values
+    set:
+      clusterRoles:
+        application:
+          rules:
+            - apiGroups:
+                - ''
+              resources:
+                - namespaces
+                - pods
+                - nodes
+              verbs:
+                - get
+                - list        
+    asserts:
+      - containsDocument:
+          kind: ClusterRole
+          apiVersion: rbac.authorization.k8s.io/v1
+          name: cicd-test-sample-unittests-application
+      - equal:
+          path: rules
+          value: 
+            - apiGroups:
+                - ''
+              resources:
+                - namespaces
+                - pods
+                - nodes
+              verbs:
+                - get
+                - list   

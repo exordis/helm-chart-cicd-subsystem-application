@@ -39,5 +39,6 @@ spec:
       {{ if $template_spec}}{{ $template_spec | toYaml | nindent 6 }}{{ end }}
     metadata:
       {{ $template_metadata | toYaml | nindent 6 }}
+    
 {{- end }}
 

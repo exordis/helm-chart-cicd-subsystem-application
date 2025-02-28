@@ -26,6 +26,9 @@
       "registry": {
         "type": "string"
       },
+      "clusterRole": {
+        "type": "string"
+      },
       "workload": {
         "type": "string",
         "enum": [
@@ -250,6 +253,19 @@
             },
             {
               "$ref": "#/definitions/pvc"
+            }
+          ]           
+        }
+      },
+      "clusterRoles": {
+        "type": "object",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/clusterRole"
             }
           ]           
         }
@@ -497,6 +513,31 @@
           },
           "mounts": {
             "$ref": "#/definitions/mounts"
+          }
+        }
+      },
+      "clusterRole": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "annotations": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "labels": {
+            "type": "object",
+            "patternProperties": {
+              "^.+$": {
+                "type": "string"
+              }
+            }
+          },          
+          "rules": {
+            "type": "array"
           }
         }
       },

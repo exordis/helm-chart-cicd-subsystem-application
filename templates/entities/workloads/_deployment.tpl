@@ -35,6 +35,10 @@ labels:
 spec:
   replicas: {{ $.Values.replicas }}
   template:
+{{- if $.Values.clusterRole | default "" | ne "" }}  
+    spec:
+      serviceAccountName: "{{ include "subsystem-application.naming.conventions.kind" (list $ $id "ServiceAccount"  ) }}"
+{{- end }}      
     metadata:
       labels:
         exordis/application-workload: "true"

@@ -5,6 +5,7 @@ modules:
   - networking
   - cronjobs
   - storage
+  - security
   # - data-folders
 entities:
   configMaps: {}
@@ -16,6 +17,8 @@ entities:
   pvcs: {}
   cronjobs: {}
   deployments: {}
+  clusterRoles: {}
+  serviceAccounts: {}
 shared_ids:
   - ["initContainers", "containers"]
   - ["secrets", "externalSecrets"]
