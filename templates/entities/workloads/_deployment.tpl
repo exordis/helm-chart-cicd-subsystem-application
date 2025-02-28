@@ -30,11 +30,14 @@ volumes: {}
 kind: Deployment
 name: {{ $name | quote }} 
 workloadType: application
-metadata:
-  labels:
-    exordis/application-workload: "true"
+labels:
+  exordis/application-workload: "true"
 spec:
   replicas: {{ $.Values.replicas }}
+  template:
+    metadata:
+      labels:
+        exordis/application-workload: "true"
   selector:
     matchLabels:
       {{- (include "subsystem-application.metadata.selector-labels" $) | nindent 6 }}

@@ -60,3 +60,18 @@ tests:
       - equal:
           path: spec.template.metadata.annotations.custom-annotation
           value: "custom annotation"
+
+
+  - it: Should have label exordis/application-workload on deployment and template
+    set:
+      deployment: {}
+    asserts:
+      - isSubset:
+          path: metadata.labels
+          content:
+            exordis/application-workload: "true"
+      - isSubset:
+          path: spec.template.metadata.labels
+          content:
+            exordis/application-workload: "true"
+      
