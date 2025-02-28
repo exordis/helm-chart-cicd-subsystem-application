@@ -68,6 +68,9 @@ title: External Secret
     
     **default:**:
     ``` yaml
+    secretStoreRef:
+        name: [subsystem name]-[environment]
+        kind: ClusterSecretStore    
     refreshInterval: 1m
     target:
       creationPolicy: Owner
