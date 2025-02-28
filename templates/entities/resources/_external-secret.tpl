@@ -3,9 +3,13 @@
 
 {{- define "subsystem-application.entities.external-secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
+{{- /*TODO: Better default ClusterSecretStore name resolution. For now just relay on convention*/ -}}
 {{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
 containers:
-spec: 
+spec:
+  secretStoreRef:
+    name: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "ClusterSecretStore"  ) | quote }}
+    kind: ClusterSecretStore
   refreshInterval: 1m
   target:
     creationPolicy: Owner
@@ -38,11 +42,8 @@ targetSecretName: {{ include "subsystem-application.naming.conventions.kind" (li
   {{- end -}}
 {{- end -}}
 
-
+{{- /*TODO: Better ClusterSecretStore name resolution. For now just relay on convention*/ -}}
 spec:
-  secretStoreRef:
-    name: {{ $externalSecret.name | quote }} 
-    kind: ClusterSecretStore
   target:
     name: {{ $externalSecret.targetSecretName }}    
     template:

@@ -22,7 +22,7 @@ tests:
           path: spec.secretStoreRef
           value: 
             kind: ClusterSecretStore
-            name: cicd-sample-unittests-password          
+            name: cicd-test         
       - isSubset:
           path: spec.target
           content: 

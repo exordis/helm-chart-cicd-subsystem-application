@@ -13,7 +13,7 @@ global:
   naming:
     kinds:
       Namespace:              "{{.subsystem}}-{{.environment}}-{{.id}}" 
-      ClusterSecretStore:     "{{.subsystem}}-{{.environment}}-{{.id}}" 
+      ClusterSecretStore:     "{{.subsystem}}-{{.environment}}" 
       ClusterRole:            "{{.subsystem}}-{{.environment}}-{{.application}}-{{.instance}}-{{.id}}"
       ServiceAccount:         "{{.subsystem}}-{{.environment}}-{{.application}}-{{.instance}}-{{.id}}"
       Deployment:             "{{.subsystem}}-{{.application}}-{{.instance}}"

@@ -442,7 +442,7 @@ manifest should match snapshot:
       refreshInterval: 1m
       secretStoreRef:
         kind: ClusterSecretStore
-        name: cicd-sample-docs-external-full
+        name: cicd-test
       target:
         creationPolicy: Owner
         deletionPolicy: Retain
