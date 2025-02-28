@@ -1,3 +1,6 @@
+variables:
+  DOCS_DOCKER_ARG_DOCS_DIRECTORY: "cicd/helm-charts"
+  DOCS_DOCKER_ARG_DOCS_TITLE: "Subsystem Application"
 include:
   - project: $GITLAB_CICD_TEMPLATES_PROJECT_PATH
     ref: master
