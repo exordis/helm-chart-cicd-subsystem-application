@@ -734,7 +734,7 @@
       "mounts": {
         "type": "object",
         "patternProperties": {
-          "^[a-zA-Z0-9.]+$": {
+          "^[a-zA-Z0-9.-]+$": {
             "$ref": "#/definitions/absolutePath"
           }
         },
