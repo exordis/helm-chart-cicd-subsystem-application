@@ -1,5 +1,5 @@
 variables:
-  DOCS_DOCKER_ARG_DOCS_DIRECTORY: "cicd/Continuous Delivery/Helm Charts"
+  DOCS_DOCKER_ARG_DOCS_DIRECTORY: "/cicd/Continuous Delivery/Helm Charts"
   DOCS_DOCKER_ARG_DOCS_TITLE: "Subsystem Application"
 include:
   - project: $GITLAB_CICD_TEMPLATES_PROJECT_PATH
