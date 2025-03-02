@@ -135,3 +135,164 @@ Batch workloads to be deployed.
 
 - [CronJob](Batch Workloads/cronjob.md)
 
+### Real world sample
+
+#### It Tools
+
+Deployment of [it tools](https://github.com/CorentinTh/it-tools) - set of IT tools like IPv4 address converter and Base64 string encoder/decoder.
+
+``` yaml
+global:
+  environment: prod
+  product: cicd
+  subsystem: samples
+
+application: it-tools
+
+registry: docker.io
+repository: corentinth/it-tools
+replicas: 1
+version: 2024.10.22-7ca5933
+
+
+applicationContainer:
+  spec:
+    livenessProbe:
+      httpGet:
+        path: /favicon.ico
+        port: 80
+    ports:
+      - containerPort: 80
+        name: http
+        protocol: TCP
+    readinessProbe:
+      httpGet:
+        path: /favicon.ico
+        port: 80
+    startupProbe:
+      httpGet:
+        path: /favicon.ico
+        port: 80
+
+ingresses:
+  ui:
+    services:
+      ui:
+        hosts:
+          - it-tools.local
+        ports:
+          http:
+            - path: /
+services:
+  ui:
+    ports:
+      http: {}
+```
+
+#### Homepage
+
+Deployment of [Homepage](https://gethomepage.dev/) dashboard
+
+
+``` yaml
+global:
+  environment: prod
+  product: cicd
+  subsystem: samples
+application: homepage
+
+registry: ghcr.io
+replicas: 1
+repository: gethomepage/homepage
+version: v0.10.9
+
+envs:
+  HOMEPAGE_VAR_UNIFI_PASSWORD: "passw0rd"
+  HOMEPAGE_VAR_UNIFI_USERNAME: "homepage"
+
+configMaps:
+  config:
+    containers: []
+    data:
+      bookmarks.yaml: '{}'
+      docker.yaml: '{}'
+      kubernetes.yaml: '{}'
+      services.yaml: '{}'
+      settings.yaml: '{}'
+      widgets.yaml: |
+        - unifi_console:
+            password: '{{HOMEPAGE_VAR_UNIFI_PASSWORD}}'
+            url: https://unifi.local
+            username: '{{HOMEPAGE_VAR_UNIFI_USERNAME}}' 
+
+applicationContainer:
+  spec:
+    ports:
+      - containerPort: 3000
+        name: http
+        protocol: TCP
+    livenessProbe:
+      failureThreshold: 3
+      periodSeconds: 10
+      successThreshold: 1
+      tcpSocket:
+        port: 3000
+      timeoutSeconds: 1
+    readinessProbe:
+      failureThreshold: 3
+      periodSeconds: 10
+      successThreshold: 1
+      tcpSocket:
+        port: 3000
+      timeoutSeconds: 1
+    startupProbe:
+      failureThreshold: 30
+      periodSeconds: 5
+      successThreshold: 1
+      tcpSocket:
+        port: 3000
+      timeoutSeconds: 1
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+
+initContainers:
+  copy-config:
+    image:
+      registry: docker.io
+      repository: alpine
+      version: 3.21.3
+    spec:
+      command:
+        - sh
+        - '-c'
+        - |
+          cp -Lr /config-ro/* /config/
+
+volumes:
+  config:
+    mounts:
+      application: /app/config
+      copy-config: /config
+  config-ro:
+    configMap: config
+    mounts:
+      copy-config: /config-ro
+  logs:
+    mounts:
+      application: /app/config/logs          
+
+services:
+  ui:
+    ports:
+      http: {}
+
+ingresses:
+  ui:
+    services:
+      ui:
+        hosts:
+          - homepage.local
+        ports:
+          http:
+            - path: /
+```

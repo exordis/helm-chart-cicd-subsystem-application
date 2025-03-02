@@ -315,25 +315,24 @@ manifest should match snapshot:
               image: registry.gitlab.com/cicd-unittests:1.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
-                failureThreshold: 5
-                httpGet:
-                  path: /healthcheck/live
-                  port: 8080
-                initialDelaySeconds: 10
+                failureThreshold: 30
                 periodSeconds: 10
-                timeoutSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 80
+                timeoutSeconds: 1
               name: application
               ports:
                 - containerPort: 80
                   name: http
                   protocol: TCP
               readinessProbe:
-                httpGet:
-                  path: /healthcheck/ready
-                  port: 8080
-                initialDelaySeconds: 10
+                failureThreshold: 30
                 periodSeconds: 10
-                timeoutSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 80
+                timeoutSeconds: 1
               resources:
                 limits:
                   cpu: 200m
@@ -342,13 +341,12 @@ manifest should match snapshot:
                   cpu: 50m
                   memory: 64Mi
               startupProbe:
-                failureThreshold: 20
-                httpGet:
-                  path: /healthcheck/live
-                  port: 8080
-                initialDelaySeconds: 10
-                periodSeconds: 10
-                timeoutSeconds: 10
+                failureThreshold: 30
+                periodSeconds: 5
+                successThreshold: 1
+                tcpSocket:
+                  port: 80
+                timeoutSeconds: 1
               volumeMounts:
                 - mountPath: /some-data
                   name: volume1

@@ -71,29 +71,30 @@
 
     ``` yaml
     startupProbe:
-      failureThreshold: 20
-      httpGet:
-        path: /healthcheck/live
-        port: 8080
-      initialDelaySeconds: 10
-      periodSeconds: 10
-      timeoutSeconds: 10
+      failureThreshold: 30
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 1
+      tcpSocket:
+        port: 80 # first exposed TCP port
     livenessProbe:
-      failureThreshold: 5
-      httpGet:
-        path: /healthcheck/live
-        port: 8080
-      initialDelaySeconds: 10
+      failureThreshold: 30
       periodSeconds: 10
-      timeoutSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+      tcpSocket:
+        port: 80 # first exposed TCP port
     readinessProbe:
-      httpGet:
-        path: /healthcheck/ready
-        port: 8080
-      initialDelaySeconds: 10
+      failureThreshold: 30
       periodSeconds: 10
-      timeoutSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1    
+      tcpSocket:
+        port: 80 # first exposed TCP port
     ```
+
+    `tcpSocket` is added only if container has exposed ports with protocol `TCP` (otherwise default default probe is generated without probe type and has no effect) , actual port number is populated as number of first exposed port. 
+     
 
 
 ## Validations

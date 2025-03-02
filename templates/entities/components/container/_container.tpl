@@ -32,19 +32,21 @@
 {{- include "subsystem-application.entities.container-base.process" . -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $container := index . 2 -}}
 
-{{- if $id | eq "application" -}}
-  {{- if or (dig "spec" "startupProbe" "tcpSocket" dict $container | len | eq 1) (dig "spec" "startupProbe" "exec" dict $container | len | eq 1) -}}
-    {{- $_ := unset $container.spec.startupProbe "httpGet" -}}      
+  {{- if $id | eq "application" -}}
+    {{- range $probe:= list "startupProbe" "livenessProbe" "readinessProbe"  -}}
+      {{- if and (dig "spec" $probe "tcpSocket" dict $container | len | eq 0) (dig "spec" $probe "exec" dict $container | len | eq 0)  (dig "spec" $probe "httpGet" dict $container | len | eq 0) -}}
+        {{- $found := false -}}
+        {{- range $port := $container.spec.ports | default list -}}
+          {{- if $port.protocol | default "TCP" | eq "TCP" | and (not $found) }}
+            {{- $found = true }}
+  {{$probe}}:           
+    tcpSocket:
+      port: {{$port.containerPort }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
   {{- end -}}
-
-  {{- if or (dig "spec" "livenessProbe" "tcpSocket" dict $container | len | eq 1) (dig "spec" "livenessProbe" "exec" dict $container | len | eq 1) -}}
-    {{- $_ := unset $container.spec.livenessProbe "httpGet" -}}      
-  {{- end -}}
-
-  {{- if or (dig "spec" "readinessProbe" "tcpSocket" dict $container | len | eq 1) (dig "spec" "readinessProbe" "exec" dict $container | len | eq 1) -}}
-    {{- $_ := unset $container.spec.readinessProbe "httpGet" -}}      
-  {{- end -}}
-{{- end -}}
 
 
 {{- end }}
@@ -53,26 +55,18 @@
 
 {{- define "subsystem-application.entities.applicationContainer.spec.defaults" -}}
 startupProbe:
-  failureThreshold: 20
-  httpGet:
-    path: /healthcheck/live
-    port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  timeoutSeconds: 10
+  failureThreshold: 30
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 1
 livenessProbe:
-  failureThreshold: 5
-  httpGet:
-    path: /healthcheck/live
-    port: 8080
-  initialDelaySeconds: 10
+  failureThreshold: 30
   periodSeconds: 10
-  timeoutSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
 readinessProbe:
-  httpGet:
-    path: /healthcheck/ready
-    port: 8080
-  initialDelaySeconds: 10
+  failureThreshold: 30
   periodSeconds: 10
-  timeoutSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
 {{- end -}}
