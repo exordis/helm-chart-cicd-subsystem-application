@@ -17,7 +17,7 @@ envs:
   HOMEPAGE_VAR_UNIFI_USERNAME: "homepage"
 
 clusterRoles:
-  # role for homepage to for discovery
+  # cluster role for homepage to allow k8s discovery
   homepage:
     rules:
       - apiGroups: [""]
