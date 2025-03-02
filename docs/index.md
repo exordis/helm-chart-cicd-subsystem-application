@@ -102,16 +102,7 @@ The remaining part of values is definition of entities that are translated to ku
 
 Entities are of following types
 
-#### Workload components
 
-Components of workloads. 
-
-Application workload components are to be defined on root level of values. If `workload` value is set to `none`, such components are ignored. This ensures that application workload is only one and lets change type of application workload without significant changes in `values`
-
-Batch workload components are to be defined as part of corresponding workload. 
-
-- [components](Components/containers.md)
-- [volumes](Components/volumes.md)
 
 #### Resources
 
@@ -124,18 +115,33 @@ Standalone resources to be deployed.
 - [PVC](Resources/pvc.md)
 - [service](Resources/service.md)
 
+#### Workload components
+
+Components of workloads. 
+
+Application workload components are to be defined on root level of values. If `workload` value is set to `none`, such components are ignored. This ensures that application workload is only one and lets change type of application workload without significant changes in `values`
+
+Batch workload components are to be defined as part of corresponding workload. 
+
+- [components](Components/containers.md)
+- [volumes](Components/volumes.md)
+
 #### Workloads
 
-Tuning of main workload based on its type.
+
+##### Application Workloads 
+
+Tuning of workload based on its type.
 
 - [Deployment](Workloads/deployment.md)
 
 
-#### Batch Workloads
+##### Batch Workloads
 
 Batch workloads to be deployed.
 
 - [CronJob](Batch Workloads/cronjob.md)
+
 
 ### Real world sample
 
