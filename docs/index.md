@@ -143,7 +143,7 @@ Batch workloads to be deployed.
 - [CronJob](Batch Workloads/cronjob.md)
 
 
-### Real world sample
+### Real world samples
 
 #### It Tools
 
