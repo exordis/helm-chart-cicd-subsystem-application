@@ -1,0 +1,33 @@
+global:
+  environment: prod
+  product: cicd
+  subsystem: samples
+
+application: it-tools
+
+registry: docker.io
+repository: corentinth/it-tools
+replicas: 1
+version: 2024.10.22-7ca5933
+
+
+applicationContainer:
+  spec:
+    ports:
+      - containerPort: 80
+        name: http
+        protocol: TCP
+    
+ingresses:
+  ui:
+    services:
+      ui:
+        hosts:
+          - it-tools.local
+        ports:
+          http:
+            - path: /
+services:
+  ui:
+    ports:
+      http: {}

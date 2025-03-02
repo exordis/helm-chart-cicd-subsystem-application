@@ -55,7 +55,7 @@ title: PVC
 
 ## Overrides
 
-`spec.name`
+`metadata.name`
 
 :   `name` is generated from id by [convention](../naming conventions.md)
  

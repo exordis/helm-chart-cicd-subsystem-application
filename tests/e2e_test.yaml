@@ -15,6 +15,7 @@ values:
   - "../docs/snippets/values/pvcs.yaml"
   - "../docs/snippets/values/containers.yaml"
   - "../docs/snippets/values/volumes.yaml"
+  - "../docs/snippets/values/clusterRoles.yaml"
 tests:
   - it: manifest should match snapshot
     asserts:

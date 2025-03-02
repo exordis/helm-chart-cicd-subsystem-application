@@ -1,5 +1,5 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: ClusterRole
 metadata:
   annotations: {}
   labels:
@@ -16,13 +16,14 @@ metadata:
     exordis/product: Some Product
     exordis/subsystem: cicd
     helm.sh/chart: cicd-subsystem-application-0.1.0
-  name: cicd-sample-docs-workload
-  namespace: cicd-test
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
   name: cicd-test-sample-docs-application
-subjects:
-  - kind: ServiceAccount
-    name: cicd-sample-docs-workload
-    namespace: cicd-test
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - pods
+      - nodes
+    verbs:
+      - get
+      - list

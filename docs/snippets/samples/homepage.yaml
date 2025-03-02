@@ -1,0 +1,100 @@
+global:
+  environment: prod
+  product: cicd
+  subsystem: samples
+application: homepage
+
+registry: ghcr.io
+repository: gethomepage/homepage
+version: v0.10.9
+
+replicas: 1
+clusterRole: homepage
+
+envs:
+  # env vars to be used in homepage config  
+  HOMEPAGE_VAR_UNIFI_PASSWORD: "passw0rd"
+  HOMEPAGE_VAR_UNIFI_USERNAME: "homepage"
+
+clusterRoles:
+  # role for homepage to for discovery
+  homepage:
+    rules:
+      - apiGroups: [""]
+        resources: ["nodes", "pods","namespaces"]  
+        verbs: ["get", "list"]
+      - apiGroups: ["networking.k8s.io"]
+        resources: ["ingresses"]
+        verbs: ["get", "list"]
+      - apiGroups: ["metrics.k8s.io"]
+        resources: ["pods", "nodes"]
+        verbs: ["get", "list"]
+
+
+configMaps:
+  # homepage config
+  config:
+    containers: []
+    data:
+      bookmarks.yaml: '{}'
+      docker.yaml: '{}'
+      kubernetes.yaml: |
+        mode: cluster      
+      services.yaml: '{}'
+      settings.yaml: '{}'
+      widgets.yaml: |
+        - unifi_console:
+            url: https://unifi.local
+            password: '{{HOMEPAGE_VAR_UNIFI_PASSWORD}}'
+            username: '{{HOMEPAGE_VAR_UNIFI_USERNAME}}' 
+
+
+applicationContainer:
+  spec:
+    ports:
+      - containerPort: 3000
+        name: http
+        protocol: TCP
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+
+initContainers:
+  # copies config files loaded with configmap to homepage /app/config directory
+  copy-config:
+    image:
+      registry: docker.io
+      repository: alpine
+      version: 3.21.3
+    spec:
+      command:
+        - sh
+        - '-c'
+        - |
+          cp -Lr /config-ro/* /config/
+
+volumes:
+  # homepage /app/config directory
+  config:
+    mounts:
+      application: /app/config
+      copy-config: /config
+  # config files content
+  config-ro:
+    configMap: config
+    mounts:
+      copy-config: /config-ro
+
+services:
+  ui:
+    ports:
+      http: {}
+
+ingresses:
+  ui:
+    services:
+      ui:
+        hosts:
+          - homepage.local
+        ports:
+          http:
+            - path: /
