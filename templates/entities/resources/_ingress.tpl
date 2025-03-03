@@ -120,7 +120,14 @@ rules:
   
   {{- /* Return entity overrides */ -}}
   {{- if $ingress.spec.rules | len | ne 0 | and $ingress.tls.enabled -}}
-  # TODO: need a better way to do it 
+
+    {{- /* Hosts for tls */ -}}
+    {{- $hosts := list -}}
+    {{- range $rule := $ingress.spec.rules -}}
+      {{- $hosts = append $hosts $rule.host -}}
+    {{- end -}}
+    {{- $hosts = ($hosts | uniq) }}
+# TODO: need a better way to do it 
 annotations:
   kubernetes.io/tls-acme: "true"
   nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -129,8 +136,8 @@ spec:
   tls:
     - secretName: {{ $ingress.tls.secretName }}   
       hosts: 
-      {{- range $rule := $ingress.spec.rules }}
-        - {{ $rule.host }}
+      {{- range $host := $hosts }}
+        - {{ $host }}
       {{- end }}
     {{- end }}
   {{- end }}

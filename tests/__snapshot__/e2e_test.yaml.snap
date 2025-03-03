@@ -604,8 +604,6 @@ manifest should match snapshot:
             - host3.local
             - example.com
             - example.local
-            - host1.local
-            - host2.local
           secretName: cicd-sample-docs-full-tls
   11: |
     apiVersion: networking.k8s.io/v1

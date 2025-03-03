@@ -96,6 +96,4 @@ spec:
         - host3.local
         - example.com
         - example.local
-        - host1.local
-        - host2.local
       secretName: cicd-sample-docs-full-tls
