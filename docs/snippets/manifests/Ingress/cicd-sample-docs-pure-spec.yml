@@ -29,10 +29,11 @@ spec:
   rules:
     - host: host1.k3s.local
       http:
-        - path: /api/v3(/|$)(.*)
-          pathType: Prefix
-        - path: /
-          pathType: Prefix
+        paths:
+          - path: /api/v3(/|$)(.*)
+            pathType: Prefix
+          - path: /
+            pathType: Prefix
   tls:
     - hosts:
         - host1.k3s.local

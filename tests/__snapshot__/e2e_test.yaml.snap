@@ -583,20 +583,24 @@ manifest should match snapshot:
                 pathType: Exact
         - host: example.com
           http:
-            - path: /
-              pathType: Prefix
+            paths:
+              - path: /
+                pathType: Prefix
         - host: example.local
           http:
-            - path: /
-              pathType: Prefix
+            paths:
+              - path: /
+                pathType: Prefix
         - host: host1.local
           http:
-            - path: /default
-              pathType: Prefix
+            paths:
+              - path: /default
+                pathType: Prefix
         - host: host2.local
           http:
-            - path: /default
-              pathType: Prefix
+            paths:
+              - path: /default
+                pathType: Prefix
       tls:
         - hosts:
             - host1.local
@@ -683,10 +687,11 @@ manifest should match snapshot:
       rules:
         - host: host1.k3s.local
           http:
-            - path: /api/v3(/|$)(.*)
-              pathType: Prefix
-            - path: /
-              pathType: Prefix
+            paths:
+              - path: /api/v3(/|$)(.*)
+                pathType: Prefix
+              - path: /
+                pathType: Prefix
       tls:
         - hosts:
             - host1.k3s.local

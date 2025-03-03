@@ -31,15 +31,18 @@ ingresses:
       rules:
         - host: example.com
           http:
-            - path: /
-              pathType: "Prefix"
+            paths:
+              - path: /
+                pathType: "Prefix"
         - host: example
           http:
-            - path: /
-              pathType: "Prefix"
+            paths:
+              - path: /
+                pathType: "Prefix"
         - http:
-            - path: /default
-              pathType: "Prefix"
+            paths:
+              - path: /default
+                pathType: "Prefix"
 
 
   pure-spec:
@@ -56,8 +59,9 @@ ingresses:
       rules:
         - host: "host1.k3s.local"
           http:
-            - path: /api/v3(/|$)(.*)
-              pathType: Prefix
-            - path: /
-              pathType: Prefix       
+            paths:
+              - path: /api/v3(/|$)(.*)
+                pathType: Prefix
+              - path: /
+                pathType: Prefix       
 
