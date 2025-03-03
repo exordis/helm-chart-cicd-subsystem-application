@@ -44,6 +44,12 @@
       port: {{$port.containerPort }}
           {{- end }}
         {{- end }}
+        {{- if not $found }}
+  {{$probe}}:           
+    exec:
+      command: 
+        - echo "{{ $probe }}"
+        {{- end }}
       {{- end }}
     {{- end }}
   {{- end -}}
