@@ -6,27 +6,27 @@ replicas: 3
 applicationContainer: {}
 envs: {}
 
-global:
-#  product: 
-#  subsystem: 
-#  environment:
-  naming:
-    kinds:
-      Namespace:              "{{.subsystem}}-{{.environment}}-{{.id}}" 
-      ClusterSecretStore:     "{{.subsystem}}-{{.environment}}" 
-      ClusterRole:            "{{.subsystem}}-{{.environment}}-{{.application}}-{{.instance}}-{{.id}}"
-      ServiceAccount:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      Deployment:             "{{.subsystem}}-{{.application}}-{{.instance}}"
-      CronJob:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      ConfigMap:              "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      Secret:                 "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      ExternalSecret:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      Ingress:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      PersistentVolumeClaim:  "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      ServiceMonitor:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-      Service:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
-    components:
-      Container: '{{ .id }}'
-      Volume: "{{ .id }}"
-    metadata:
-      application-canonical-name: "{{.subsystem}}-{{.application}}"
+# global:
+#   product: 
+#   subsystem: 
+#   environment:
+#   naming:
+#     kinds:
+#       Namespace:              "{{.subsystem}}-{{.environment}}-{{.id}}" 
+#       ClusterSecretStore:     "{{.subsystem}}-{{.environment}}" 
+#       ClusterRole:            "{{.subsystem}}-{{.environment}}-{{.application}}-{{.instance}}-{{.id}}"
+#       ServiceAccount:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       Deployment:             "{{.subsystem}}-{{.application}}-{{.instance}}"
+#       CronJob:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       ConfigMap:              "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       Secret:                 "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       ExternalSecret:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       Ingress:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       PersistentVolumeClaim:  "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       ServiceMonitor:         "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#       Service:                "{{.subsystem}}-{{.application}}-{{.instance}}-{{.id}}"
+#     components:
+#       Container: '{{ .id }}'
+#       Volume: "{{ .id }}"
+#     metadata:
+#       application-canonical-name: "{{.subsystem}}-{{.application}}"
