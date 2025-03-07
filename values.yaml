@@ -1,5 +1,5 @@
 # application: ""
 applicationType: service
-# instance: ""
+instance: ""
 applicationContainer: {}
 envs: {}
