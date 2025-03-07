@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
-suite: Entities/Containers
+suite: Entities/Volumes
 templates:
   - templates/deployment.yaml
 values:
@@ -8,7 +8,6 @@ tests:
   - it: Should generate simple volume from minimum data in values
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -37,7 +36,6 @@ tests:
   - it: Should generate volume with respect to spec
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -66,7 +64,6 @@ tests:
   - it: Should generate volume configmap volume spec
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -96,7 +93,6 @@ tests:
   - it: Should generate volume configmap volume spec
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -133,7 +129,6 @@ tests:
   - it: Should generate volume secret spec
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -173,7 +168,6 @@ tests:
   - it: Should generate volume secret spec for externalSecret
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -207,7 +201,6 @@ tests:
   - it: Should generate volume pvc spec
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -238,7 +231,6 @@ tests:
   - it: Should generate volume projected spec
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -282,7 +274,6 @@ tests:
   - it: Should fail if secret namespace does not match workload namespace
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -300,7 +291,6 @@ tests:
   - it: Should fail if external secret namespace does not match workload namespace
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -318,7 +308,6 @@ tests:
   - it: Should fail if configmap namespace does not match workload namespace
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -337,7 +326,6 @@ tests:
   - it: Should fail if pvc namespace does not match workload namespace
     template: templates/deployment.yaml
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      

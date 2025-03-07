@@ -9,7 +9,7 @@ title: Cluster Role
 === "Values"
 
     ``` yaml
-    --8<-- "snippets/values/workload-common.yaml"
+    --8<-- "snippets/values/workload.yaml"
     --8<-- "snippets/values/clusterRoles.yaml"
     ```
 
@@ -48,7 +48,7 @@ title: Cluster Role
 
 ## Overrides
 
-`spec.name`
+`metadata.name`
 
 :   `name` is generated from id by [convention](../naming conventions.md)
  

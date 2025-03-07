@@ -6,3 +6,5 @@ global:
 application: sample
 applicationType: service
 instance: docs
+version: 1.0.0
+

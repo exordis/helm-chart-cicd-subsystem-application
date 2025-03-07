@@ -4,7 +4,7 @@
 === "Values"
 
     ``` yaml
-    --8<-- "snippets/values/workload-common.yaml"
+    --8<-- "snippets/values/workload.yaml"
 
     --8<-- "snippets/values/containers.yaml"
 
@@ -104,7 +104,7 @@
 
 ## Overrides
 
-`spec.name`
+`metadata.name`
 
 :   `name` is generated from id (assumed to be `application` for application container) by [convention](../naming conventions.md)
  

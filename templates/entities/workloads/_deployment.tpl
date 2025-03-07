@@ -33,9 +33,9 @@ workloadType: application
 labels:
   exordis/application-workload: "true"
 spec:
-  replicas: {{ $.Values.replicas }}
+  replicas: {{ $.Values.workload.replicas }}
   template:
-{{- if $.Values.clusterRole | default "" | ne "" }}  
+{{- if $.Values.workload.clusterRole | default "" | ne "" }}  
     spec:
       serviceAccountName: "{{ include "subsystem-application.naming.conventions.kind" (list $ $id "ServiceAccount"  ) }}"
 {{- end }}      

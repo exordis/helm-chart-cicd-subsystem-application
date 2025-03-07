@@ -26,15 +26,27 @@
       "registry": {
         "type": "string"
       },
-      "clusterRole": {
-        "type": "string"
-      },
       "workload": {
-        "type": "string",
-        "enum": [
-          "deployment",
-          "none"
-        ]
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "replicas": {
+            "type": "integer"
+          },
+          "kind":{
+            "type": "string",
+            "enum": [
+              "Deployment"
+            ]
+    
+          },
+          "clusterRole": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
       },
       "global": {
         "type": "object",
@@ -78,9 +90,6 @@
             "$ref": "#/definitions/container"
           }
         ]
-      },
-      "replicas": {
-        "type": "integer"
       },
       "instance": {
         "type": "string"

@@ -1,7 +1,5 @@
-application: ""
+# application: ""
 applicationType: service
-instance: ""
-replicas: 3
-# version: 1.0.0
+# instance: ""
 applicationContainer: {}
 envs: {}

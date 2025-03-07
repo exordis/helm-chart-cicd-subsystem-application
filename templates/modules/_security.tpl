@@ -5,8 +5,8 @@
   {{- end -}}
 
 
-  {{- if $.Values.clusterRole | default "" | ne "" }}  
-    {{- include "sdk.engine.create-entity" (list $ "service-account" "workload" (dict "clusterRoles" (list $.Values.clusterRole))) -}}
+  {{- if $.Values.workload.clusterRole | default "" | ne "" }}  
+    {{- include "sdk.engine.create-entity" (list $ "service-account" "workload" (dict "clusterRoles" (list $.Values.workload.clusterRole))) -}}
   {{- end }}      
 {{- end -}}
 

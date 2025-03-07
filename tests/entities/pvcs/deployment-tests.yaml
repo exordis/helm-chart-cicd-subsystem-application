@@ -7,7 +7,6 @@ values:
 tests:
   - it: Should handle mounts
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -33,7 +32,6 @@ tests:
 
   - it: Should fail if references undefined container
     set:
-      workload: deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      

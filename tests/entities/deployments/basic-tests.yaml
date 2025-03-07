@@ -16,7 +16,8 @@ tests:
 
   - it: Should not generate deployment if workload is none
     set: 
-      workload: none
+      workload: 
+        enabled: false
     asserts:
       - hasDocuments:
           count: 0
@@ -32,7 +33,8 @@ tests:
       deployment:
         spec:
           replicas: 4
-      replicas: 1
+      workload:
+        replicas: 1
     asserts:
       - equal:
           path: spec.replicas

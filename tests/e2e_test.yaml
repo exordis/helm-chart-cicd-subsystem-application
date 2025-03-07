@@ -4,7 +4,8 @@ templates:
 values:
   - "../docs/snippets/values/values.linter.yaml"
   - "../docs/snippets/values/metadata.yaml"
-  - "../docs/snippets/values/workload-common.yaml"
+  - "../docs/snippets/values/workload.yaml"
+  - "../docs/snippets/values/docker-defaults.yaml"
   - "../docs/snippets/values/configmaps.yaml"
   - "../docs/snippets/values/cronjobs.yaml"
   - "../docs/snippets/values/deployment.yaml"

@@ -8,7 +8,8 @@ tests:
   - it: Should generate simple containers from minimum data in values
     template: templates/deployment.yaml
     set:
-      workload: deployment
+      workload: 
+        kind: Deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -81,7 +82,8 @@ tests:
   - it: Should generate image for containers with explicitly provided values
     template: templates/deployment.yaml
     set:
-      workload: deployment
+      workload: 
+        kind: Deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -101,7 +103,8 @@ tests:
   - it: Should respect explicitly provided  spec 
     template: templates/deployment.yaml
     set:
-      workload: deployment
+      workload: 
+        kind: Deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -132,7 +135,8 @@ tests:
   - it: Should fail for sidecar has 'application' name
     template: templates/deployment.yaml
     set:
-      workload: deployment
+      workload: 
+        kind: Deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -146,7 +150,8 @@ tests:
   - it: Should fail for initContainer has 'application' name
     template: templates/deployment.yaml
     set:
-      workload: deployment
+      workload: 
+        kind: Deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      
@@ -160,7 +165,8 @@ tests:
   - it: Should fail for sidecar and  initContainer have same names
     template: templates/deployment.yaml
     set:
-      workload: deployment
+      workload: 
+        kind: Deployment
       version: 1.0.0
       registry: registry.gitlab.com
       repository: cicd-unittests      

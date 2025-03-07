@@ -11,10 +11,10 @@
       {{- $wrong_namespace := false -}}
 
       {{- $parts := split "." $container -}}
-      {{- if $parts | len | eq 1 | and ($.Values.workload | ne "none") -}}
+      {{- if $parts | len | eq 1 | and ($.Values.workload.enabled ) -}}
         {{- /*TODO: extract templates to get collection by entity name and vice versa */ -}}
         {{- $templates_prefix :=  (include "sdk.engine._templates_prefix" $) | toYaml -}}
-        {{- $collection_name_template := printf (printf "%s.entities.%%s.collection" $templates_prefix) $.Values.workload -}}
+        {{- $collection_name_template := printf (printf "%s.entities.%%s.collection" $templates_prefix) ( $.Values.workload.kind | lower ) -}}
         {{- $parent_entity_collection = (include $collection_name_template $) -}}
         {{- $parent_id = "workload" -}}
         {{- $container_id = $container -}}

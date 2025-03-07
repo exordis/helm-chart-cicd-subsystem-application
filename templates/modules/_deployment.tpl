@@ -1,5 +1,5 @@
 {{- define "subsystem-application.modules.deployment.read" -}}
-  {{- if $.Values.workload | eq "deployment" -}}
+  {{- if $.Values.workload.kind | eq "Deployment" | and $.Values.workload.enabled -}}
     {{- $data := $.Values.deployment | default dict -}} 
     {{- $containers := dict -}} 
     {{- $_:= set $data "volumes" ($.Values.volumes | default dict | deepCopy) -}} 

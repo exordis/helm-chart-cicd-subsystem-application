@@ -7,7 +7,6 @@ values:
 tests:
   - it: Should generate secret reference in all deployment containers if secret.containers is not defined
     set:
-      workload: deployment
       sidecars: 
         sidecar1: {}
       initContainers: 
@@ -34,7 +33,6 @@ tests:
 
   - it: Should generate secret reference only for containers listed by secret.containers if defined
     set:
-      workload: deployment
       sidecars: 
         sidecar1: {}
         sidecar2: {}
@@ -78,7 +76,6 @@ tests:
   
   - it: Should not generate secret reference in main workload if secret.containers does not list any of its containers
     set:
-      workload: deployment
       sidecars: 
         sidecar1: {}
       initContainers: 
@@ -114,7 +111,6 @@ tests:
 
   - it: Should not generate secret reference in deployment from different namespace
     set:
-      workload: deployment
       sidecars: 
         sidecar1: {}
       initContainers: 

@@ -6,7 +6,7 @@
 === "Values"
 
     ``` yaml
-    --8<-- "snippets/values/workload-common.yaml"
+    --8<-- "snippets/values/workload.yaml"
     --8<-- "snippets/values/deployment.yaml"
     ```
 
