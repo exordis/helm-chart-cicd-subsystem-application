@@ -14,7 +14,7 @@ endpoints: []
 
 # Return entity overrides
 kind: ServiceMonitor
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "ServiceMonitor"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "ServiceMonitor"  ) | quote }} 
 spec:
   endpoints:
   {{- range $endpoint := $monitor.endpoints -}}

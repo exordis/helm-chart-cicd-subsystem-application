@@ -18,7 +18,7 @@ spec:
 
 # Return entity overrides
 kind: PersistentVolumeClaim
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
 {{- end -}}
 
 

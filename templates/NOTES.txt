@@ -1,2 +1,2 @@
 {{- include "sdk.engine.init" $ -}}
-deployed application {{ template "subsystem-application.naming.conventions.metadata" (list $ "application-canonical-name") }} of subsystem {{.Values.global.product}}/{{ .Values.global.subsystem }} to environment {{ .Values.global.environment -}}
+deployed application {{ template "sdk.naming.conventions.metadata" (list $ "application-canonical-name") }} of subsystem {{.Values.global.product}}/{{ .Values.global.subsystem }} to environment {{ .Values.global.environment -}}

@@ -10,7 +10,7 @@ rules: []
 {{- define "subsystem-application.entities.cluster-role.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 kind: ClusterRole
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "ClusterRole"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "ClusterRole"  ) | quote }} 
 
 {{- end -}}
 

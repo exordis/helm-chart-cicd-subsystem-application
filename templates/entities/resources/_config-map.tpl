@@ -11,7 +11,7 @@ binaryData: {}
 {{- define "subsystem-application.entities.config-map.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 kind: ConfigMap
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "ConfigMap"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "ConfigMap"  ) | quote }} 
 
 {{- end -}}
 

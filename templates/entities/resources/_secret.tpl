@@ -13,7 +13,7 @@ type: "Opaque"
 {{- define "subsystem-application.entities.secret.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 kind: "Secret"
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Secret"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "Secret"  ) | quote }} 
 {{- end -}}
 
 

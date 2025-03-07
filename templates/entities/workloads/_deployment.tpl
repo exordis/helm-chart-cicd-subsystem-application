@@ -8,7 +8,7 @@ TODO:
 - Values.deployment should be source of spec. 
 - template should take .spec from deployment entity or spec should be removed
  */ -}}
-namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
+namespace: {{ include "sdk.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
 annotations: {}
 labels: {}
 spec:  
@@ -26,7 +26,7 @@ volumes: {}
 {{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "containers" -}}
 {{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "initContainers" -}}
 {{- $_ := unset (dig "spec" "template" "spec" dict $deployment) "volumes" -}}
-{{- $name := include "subsystem-application.naming.conventions.kind" (list $ $id "Deployment"  ) }} 
+{{- $name := include "sdk.naming.conventions.kind" (list $ $id "Deployment"  ) }} 
 kind: Deployment
 name: {{ $name | quote }} 
 workloadType: application
@@ -37,7 +37,7 @@ spec:
   template:
 {{- if $.Values.workload.clusterRole | default "" | ne "" }}  
     spec:
-      serviceAccountName: "{{ include "subsystem-application.naming.conventions.kind" (list $ $id "ServiceAccount"  ) }}"
+      serviceAccountName: "{{ include "sdk.naming.conventions.kind" (list $ $id "ServiceAccount"  ) }}"
 {{- end }}      
     metadata:
       labels:

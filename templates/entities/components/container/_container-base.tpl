@@ -25,7 +25,7 @@ image:
 {{- define "subsystem-application.entities.container-base.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}{{- $parent := index . 3 -}}
 kind: Container
-name: {{ include "subsystem-application.naming.conventions.component" (list $ $id "Container"  $parent.id $parent.kind  ) | quote }}
+name: {{ include "sdk.naming.conventions.component" (list $ $id "Container"  $parent.id $parent.kind  ) | quote }}
 
 {{- if $parent.workloadType | eq "application" }}
 ref: {{ $id }}

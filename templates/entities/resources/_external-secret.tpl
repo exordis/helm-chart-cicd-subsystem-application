@@ -8,7 +8,7 @@
 containers:
 spec:
   secretStoreRef:
-    name: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "ClusterSecretStore"  ) | quote }}
+    name: {{ include "sdk.naming.conventions.kind" (list $ "" "ClusterSecretStore"  ) | quote }}
     kind: ClusterSecretStore
   refreshInterval: 1m
   target:
@@ -23,8 +23,8 @@ keys: []
 {{- define "subsystem-application.entities.external-secret.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $externalSecret := index . 2 -}}
 kind: ExternalSecret
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "ExternalSecret"  ) | quote }} 
-targetSecretName: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Secret"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "ExternalSecret"  ) | quote }} 
+targetSecretName: {{ include "sdk.naming.conventions.kind" (list $ $id "Secret"  ) | quote }} 
 
 {{- end -}}
 

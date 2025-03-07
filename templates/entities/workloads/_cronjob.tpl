@@ -4,7 +4,7 @@
 
 {{- define "subsystem-application.entities.cronjob.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-namespace: {{ include "subsystem-application.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
+namespace: {{ include "sdk.naming.conventions.kind" (list $ "" "Namespace"  ) | quote }}
 spec: 
   schedule: "0 0 31 2 *"
   concurrencyPolicy: Forbid
@@ -28,7 +28,7 @@ annotations: {}
 {{- define "subsystem-application.entities.cronjob.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
 kind: CronJob
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "CronJob"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "CronJob"  ) | quote }} 
 workloadType: batch
 subcollections:
   - containers

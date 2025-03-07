@@ -7,7 +7,7 @@
 tls: 
   enabled: true # generate cert for all hosts in spec if tls is not explicitly configured in spec
   # TODO: have convention for secret name rather than hardcoding "-tls"
-  secretName: {{ include "subsystem-application.naming.conventions.kind" (list $ (printf "%s-tls" $id) "Secret"  ) | quote }} 
+  secretName: {{ include "sdk.naming.conventions.kind" (list $ (printf "%s-tls" $id) "Secret"  ) | quote }} 
 hosts:
   default: 
     - default
@@ -21,7 +21,7 @@ spec:
 {{- define "subsystem-application.entities.ingress.create" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $ingress := index . 2 -}}
 kind: "Ingress"
-name: {{ include "subsystem-application.naming.conventions.kind" (list $ $id "Ingress"  ) | quote }} 
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "Ingress"  ) | quote }} 
 {{- end -}}
 
 
