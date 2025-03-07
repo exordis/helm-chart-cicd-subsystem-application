@@ -1,0 +1,4 @@
+workload:
+  kind: Deployment
+  replicas: 3
+  clusterRole: application
