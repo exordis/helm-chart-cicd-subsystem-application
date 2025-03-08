@@ -6,6 +6,7 @@ variables:
     exordis/sponsors-helm-chart-cicd-subsystem-application master vNext
   DOCS_DOCKER_ARG_DOCS_DIRECTORY: "/cicd/Continuous Delivery/Helm Charts/Subsystem Application"
   DOCS_DOCKER_ARG_DOCS_TITLE: "Subsystem Application"
+  DOCS_DOCKER_ARG_EXTRA_APK_PACKAGES: cairo
 include:
   - project: $GITLAB_CICD_TEMPLATES_PROJECT_PATH
     ref: master
