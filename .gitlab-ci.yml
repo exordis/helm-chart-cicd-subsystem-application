@@ -14,5 +14,3 @@ include:
     inputs:
       github_sync: true
       helm_public_registry: ghcr.io/exordis/helm-charts
-      
-
