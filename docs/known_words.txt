@@ -5,3 +5,10 @@ sharding
 lifecycle
 pvc
 templating
+kubernetes
+ok
+pre
+cicd
+cronjob
+namespace
+tls
