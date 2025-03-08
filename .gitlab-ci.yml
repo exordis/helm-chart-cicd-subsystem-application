@@ -1,7 +1,15 @@
 variables:
+  DOCS_DOCKER_ARG_DOCUMENTATION_VERIFY_WITH_SITE_PACKAGES: "documentation-inceptum documentation-exordis"
+  VERSIONING_STRATEGY: gitflow
+  GITHUB_SYNC_CONFIG: |
+    exordis/helm-chart-cicd-subsystem-application master
+    exordis/sponsors-helm-chart-cicd-subsystem-application master vNext
   DOCS_DOCKER_ARG_DOCS_DIRECTORY: "/cicd/Continuous Delivery/Helm Charts/Subsystem Application"
   DOCS_DOCKER_ARG_DOCS_TITLE: "Subsystem Application"
 include:
   - project: $GITLAB_CICD_TEMPLATES_PROJECT_PATH
     ref: master
     file: 'helm-chart.yml'     
+    inputs:
+      github_sync: true
+      helm_public_registry: oci://ghcr.io/exorids/helm-charts
