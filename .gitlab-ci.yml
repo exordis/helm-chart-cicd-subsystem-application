@@ -14,4 +14,5 @@ include:
     inputs:
       github_sync: true
       helm_public_registry: oci://ghcr.io/exorids/helm-charts
+      
 
