@@ -7,8 +7,10 @@ application: it-tools
 
 registry: docker.io
 repository: corentinth/it-tools
-replicas: 1
+
 version: 2024.10.22-7ca5933
+workload: 
+  replicas: 1
 
 
 applicationContainer:

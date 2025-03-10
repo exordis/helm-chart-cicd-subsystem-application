@@ -8,8 +8,9 @@ registry: ghcr.io
 repository: gethomepage/homepage
 version: v0.10.9
 
-replicas: 1
-clusterRole: homepage
+workload:
+  replicas: 1
+  clusterRole: homepage
 
 envs:
   # env vars to be used in homepage config  
