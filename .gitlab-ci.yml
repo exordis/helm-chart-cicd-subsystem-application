@@ -15,5 +15,3 @@ include:
       github_sync: true
       helm_public_registry_source: https://github.com/exordis/helm-chart-cicd-subsystem-application
       helm_internal_registry_source: https://github.com/exordis/sponsors-helm-chart-cicd-subsystem-application
-      
-      
