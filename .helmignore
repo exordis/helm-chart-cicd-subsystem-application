@@ -1,4 +1,4 @@
-templates/tests-injected.yaml
+# templates/tests-injected.yaml
 tests/
 schemas/
 /*.ps1
