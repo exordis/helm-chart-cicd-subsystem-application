@@ -1,7 +1,3 @@
-.helmignore
-.vscode
-.git
-.gitlab-ci.yml
 templates/tests-injected.yaml
 tests/
 schemas/
@@ -11,3 +7,4 @@ schemas/
 cicd-subsystem-application-*.tgz
 tmp/
 docs/
+.*
