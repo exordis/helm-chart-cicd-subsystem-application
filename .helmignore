@@ -1,3 +1,13 @@
-values.linter.yaml
-templates/tests
-tests
+.helmignore
+.vscode
+.git
+.gitlab-ci.yml
+templates/tests-injected.yaml
+tests/
+schemas/
+/*.ps1
+/*.sh
+/*.md
+cicd-subsystem-application-*.tgz
+tmp/
+docs/
