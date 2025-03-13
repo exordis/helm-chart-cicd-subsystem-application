@@ -3,9 +3,9 @@ order: 3
 render_macros: false
 ---
 
-Naming conventions are defined with `global.naming` and split in groups `kinds`, `components`, `metadata`. Each group has its own variables available for templating.
+Naming conventions are defined in `global.naming` and are divided into three groups: `kinds`, `components`, and `metadata`. Each group has its own variables available for templating.
 
-All names are converted to lower case after templating
+All names are converted to lowercase after templating.
 
 
 ## Default Naming Convention
