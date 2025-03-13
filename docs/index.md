@@ -4,9 +4,9 @@ order: 1
 
 ## Description
 
-Entire helm chart deploys application, sacrificing some flexibility for simplicity and unification. 
+The entire Helm chart deploys the application, prioritizing simplicity and unification over flexibility.
 
-Application is standalone software unit that implement specific functionality within a Subsystem. Samples of application are - micro-service, web application.
+An application is a standalone software unit that provides specific functionality within a Subsystem. Examples include microservices and web applications.
 
 ## Values
 
@@ -16,20 +16,20 @@ Application is standalone software unit that implement specific functionality wi
 --8<-- "snippets/values/metadata.yaml"
 ```
 
+All metadata values, except `product`, are used to build resource names following [Naming Conventions](naming conventions.md) and are available in application pods as environment variables. To comply with Kubernetes naming constraints, they are validated using the regex `^[a-z]([-a-z0-9]*[a-z0-9])?$`.
 
-Metadata values except `product` are used to build resource names with [Naming Conventions](naming conventions.md) and available in application pods as environment variables. Thus to adhere kubernetes naming constraints validated with regex `^[a-z]([-a-z0-9]*[a-z0-9])?$`
+`product` is used only as a reference value and represents the mapping of a subsystem as a technical asset to an organization's business unit or marketing name.
 
-`product` is used only as reference value and represents mapping of subsystem as technical asset on organization business unit or marketing naming.
-
-`product` value is not available for resource naming to avoid massive kubernetes resources renaming in case of `subsystem` handover from one business unit to another or marketing naming change.
+`product` value is not used for resource naming to prevent massive Kubernetes resource renaming in case of a `subsystem` handover between business units or a marketing name change.
 
 !!! NOTE
-    Kubernetes has 64 characters limit for resource names, so metadata values should be as short as possible to avoid exceeding this limit, though yet not loosing clear identification.
+    Kubernetes has a 64-character limit for resource names, so metadata values should be as short as possible to avoid exceeding this limit while maintaining clear identification.
 
 
 #### Global Metadata Values
 
-Following values are defined within global section as they belong to subsystem context. If application helm chart is deployed as part of subsystem, the values should be provided with subsystem helm chart and be the same for all `subsystem` applications:
+The following values are defined within the global section as they belong to the subsystem context. If the application Helm chart is deployed as part of a subsystem, these values should be provided by the subsystem Helm chart and remain the same for all `subsystem` applications:
+
 
 
 `subsystem` 
@@ -116,13 +116,13 @@ envs:
 
 #### Metadata environment variables
 
-Metadata variables are added to `envs` config map. If `envs` is missing from values, config map contains only metadata:
+Metadata variables are added to the `envs` ConfigMap. If `envs` is missing from values, the ConfigMap contains only metadata:
 
-  - `EXORDIS_PRODUCT` - subsystem product
-  - `EXORDIS_SUBSYSTEM` - subsystem name
-  - `EXORDIS_APPLICATION` - application canonical name as `[Values.global.subsystem]-[Values.global.application]`
-  - `EXORDIS_INSTANCE` - instance name
-  - `EXORDIS_ENVIRONMENT` - environment
+  - `EXORDIS_PRODUCT` - Subsystem product name
+  - `EXORDIS_SUBSYSTEM` - Subsystem name  
+  - `EXORDIS_APPLICATION` - Application canonical name as `[Values.global.subsystem]-[Values.global.application]`  
+  - `EXORDIS_INSTANCE` - Instance name  
+  - `EXORDIS_ENVIRONMENT` - Environment  
 
 
 ### Workload
@@ -131,7 +131,9 @@ Metadata variables are added to `envs` config map. If `envs` is missing from val
 --8<-- "snippets/values/workload.yaml"
 ```
 
-As application is intended to be microservice or web application there can not be more than one workload deployed. (If more is needed, likely each workload has to be deployed independently in scope of same `subsystem` or  entire helm-chart is not applicable for the use case )  
+As the application is intended to be a microservice or web application, only one workload can be deployed.  
+(If multiple workloads are needed, each should be deployed independently within the same `subsystem`, or the entire Helm chart may not be suitable for the use case.)  
+
 
 Application workload is configured with `workload`:
 
@@ -171,9 +173,9 @@ Application workload is configured with `workload`:
 
 ### Entities
 
-The remaining part of values is definition of entities that are translated to kubernetes manifests. 
+The remaining part of the values defines entities that are translated into Kubernetes manifests.
 
-Entities are of following types
+Entities are of the following types:
 
 
 
@@ -192,9 +194,10 @@ Standalone resources to be deployed.
 
 Components of workloads. 
 
-Application workload components are to be defined on root level of values. If `workload` value is set to `none`, such components are ignored. This ensures that application workload is only one and lets change type of application workload without significant changes in `values`
+Application workload components are defined at the root level of values. If the `workload` value is set to `none`, these components are ignored.  
+This ensures that only one application workload exists and allows changing the application workload type without significant changes in `values`.
 
-Batch workload components are to be defined as part of corresponding workload. 
+Batch workload components are defined as part of the corresponding workload.
 
 - [components](Components/containers.md)
 - [volumes](Components/volumes.md)
