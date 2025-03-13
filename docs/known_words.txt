@@ -1,6 +1,8 @@
 configmap
 envs
 microservice
+microservices
+misconfigurations
 sharding
 lifecycle
 pvc
@@ -12,3 +14,4 @@ cicd
 cronjob
 namespace
 tls
+preconfigured
