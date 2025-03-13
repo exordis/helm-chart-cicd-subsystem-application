@@ -2,11 +2,42 @@
 order: 1
 ---
 
-## Description
 
-The entire Helm chart deploys the application, prioritizing simplicity and unification over flexibility.
+This Helm chart provides a **streamlined and validated** approach to deploying applications in Kubernetes, significantly **reducing configuration effort** compared to pure Helm. 
 
-An application is a standalone software unit that provides specific functionality within a Subsystem. Examples include microservices and web applications.
+It **enforces best practices, automates naming conventions, and adds built-in validation**, ensuring that deployments are **consistent, reliable, and easy to manage**.
+
+An **application** is a standalone software unit that provides specific functionality within a **subsystem**. This chart ensures that applications are deployed in a **structured, unified, and validated manner**, reducing complexity and operational overhead.
+
+**:material-github: [Source](https://github.com/exordis/helm-chart-cicd-subsystem-application)**
+
+
+## Key Benefits:
+
+- **Less Configuration, Faster Deployment** – Predefined defaults and structured settings eliminate the need for extensive customization.
+- **Built-in Validation** – Prevents misconfigurations by enforcing Kubernetes naming constraints and required values.
+- **Consistent Naming Conventions** – Automatically generates resource names to ensure clarity and avoid conflicts.
+- **Preconfigured Workloads** – Supports microservices and web applications with minimal setup effort.
+- **Metadata-Driven Configuration** – Injects key metadata into application pods as environment variables.
+- **Unified Deployments Across Applications** – Ensures that all applications within a **structured environment** follow a consistent deployment pattern, improving maintainability.
+
+## Why This Chart?
+
+In pure Helm, deployments require **manual validation, careful naming, and extensive configuration** to ensure consistency. This chart **automates these aspects**, providing **smart defaults, validation mechanisms, and enforced unification**, allowing applications to be deployed quickly, reliably, and with **minimal manual input**.
+
+## Getting Started with a Sample  
+
+If you prefer to start with a practical example, jump to the [Real World Samples](#real-world-samples) section to see Helm chart values in action. These examples provide ready-to-use configurations that demonstrate common deployment scenarios.
+
+
+## Installation
+
+```
+helm install \
+    oci://ghcr.io/exordis/helm-charts/cicd-subsystem-application \
+    --version {{ package_version() }}
+```
+
 
 ## Values
 
@@ -194,7 +225,7 @@ Standalone resources to be deployed.
 
 Components of workloads. 
 
-Application workload components are defined at the root level of values. If the `workload` value is set to `none`, these components are ignored.  
+Application workload components are defined at the root level of values. If the `workload.enable` value is set to `false`, these components are ignored.  
 This ensures that only one application workload exists and allows changing the application workload type without significant changes in `values`.
 
 Batch workload components are defined as part of the corresponding workload.
