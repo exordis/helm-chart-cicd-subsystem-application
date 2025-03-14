@@ -41,6 +41,17 @@ helm install \
 
 ## Values
 
+### Key Principles
+
+- **Single application deployment** – There is only one workload for the application. 
+- **Consistent Metadata** – All generated k8s resources manifests have labels identifying the application . 
+- **Entities based configuration** – k8s resources are defined in `Values` as entities dictionaries where key is `id` of the entity which is used  for referencing within `Values` and expanded according to [Naming Conventions](naming conventions.md) to get `metadata.name`. 
+- **Reuse of native k8s manifest format** – any entity may be defined with just `spec` field containing manifest `spec`  (in some cases where `spec` is not part of manifest same is applied to kind specific fields e.g. `data` for  [ConfigMap](Resources/configmap.md))
+- **Shortcuts rather than custom format** – all chart specific configuration for entity is optional and acts as shortcut - e.g. `ingress.services`defines how to expose [services](Resources/service.md) and when processed it is transformed to patch for ingress `spec` 
+- **Validation** – when entity is configured in chart specific way all possible validations are applied to highlight misconfigurations to developer. Chart has json schema validation.
+- **Defaults** – most common use case is default to minimize required configuration. Any default may be overridden. E.g. [Service](Resources/secret.md) port defaults to point to application container port with the same name
+ 
+
 ### Metadata
 
 ``` yaml

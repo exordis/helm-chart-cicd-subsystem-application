@@ -62,7 +62,7 @@ title: ConfigMap
 
     **default:** nil (add `configMapRef` to all containers)
 
-`stringData`
+`data`
 
 :   `data` to be added to configmap manifest
 
