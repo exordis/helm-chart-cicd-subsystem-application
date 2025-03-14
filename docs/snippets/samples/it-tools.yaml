@@ -1,3 +1,4 @@
+# Metadata 
 global:
   environment: prod
   product: cicd
@@ -5,31 +6,44 @@ global:
 
 application: it-tools
 
+# default registry and image
 registry: docker.io
 repository: corentinth/it-tools
 
+# version of the application 
+# used as docker image version as not specified explicitly
 version: 2024.10.22-7ca5933
-workload: 
-  replicas: 1
 
-
+# application workload main container 
 applicationContainer:
   spec:
     ports:
       - containerPort: 80
         name: http
         protocol: TCP
-    
+
+services:
+  # Service with id 'ui' 
+  # Will be expanded to 'samples-it-tools-ui' according to 
+  # default naming conventions for metadata.name 
+  ui:
+    ports:
+      # By default binds to application workload main container 
+      # port with the same name and uses external port 80
+      http: {}
+
 ingresses:
+  # Ingress wih id 'ui'.
+  # Will be expanded to 'samples-it-tools-ui' according to 
+  # default naming conventions for metadata.name
   ui:
     services:
+      # bind to service with id 'ui'
       ui:
         hosts:
           - it-tools.local
         ports:
+          # expose service port 'http'. 
+          # Path is overridden as default is /[service port name]
           http:
             - path: /
-services:
-  ui:
-    ports:
-      http: {}

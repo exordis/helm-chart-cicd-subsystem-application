@@ -1,0 +1,9 @@
+suite: Samples/Homepage
+templates:
+  - templates/*.yaml
+values:
+  - "../docs/snippets/samples/homepage.yaml"
+tests:
+  - it: manifest should match snapshot
+    asserts:
+      - matchSnapshot: {}
