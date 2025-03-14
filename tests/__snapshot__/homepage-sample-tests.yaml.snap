@@ -1,0 +1,357 @@
+manifest should match snapshot:
+  1: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-prod-homepage-discovery
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - nodes
+          - pods
+          - namespaces
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - networking.k8s.io
+        resources:
+          - ingresses
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - metrics.k8s.io
+        resources:
+          - pods
+          - nodes
+        verbs:
+          - get
+          - list
+  2: |
+    apiVersion: v1
+    binaryData: {}
+    data:
+      bookmarks.yaml: '{}'
+      docker.yaml: '{}'
+      kubernetes.yaml: "mode: cluster      \n"
+      services.yaml: '{}'
+      settings.yaml: '{}'
+      widgets.yaml: "- unifi_console:\n    url: https://unifi.local\n    password: '{{HOMEPAGE_VAR_UNIFI_PASSWORD}}'\n    username: '{{HOMEPAGE_VAR_UNIFI_USERNAME}}' \n"
+    kind: ConfigMap
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage-config
+      namespace: samples-prod
+  3: |
+    apiVersion: v1
+    binaryData: {}
+    data:
+      EXORDIS_APPLICATION: samples-homepage
+      EXORDIS_ENVIRONMENT: prod
+      EXORDIS_INSTANCE: ""
+      EXORDIS_PRODUCT: cicd
+      EXORDIS_SUBSYSTEM: samples
+      HOMEPAGE_VAR_UNIFI_PASSWORD: passw0rd
+      HOMEPAGE_VAR_UNIFI_USERNAME: homepage
+    kind: ConfigMap
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage-envs
+      namespace: samples-prod
+  4: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/application-workload: "true"
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage
+      namespace: samples-prod
+    spec:
+      replicas: 2
+      revisionHistoryLimit: 2
+      selector:
+        matchLabels:
+          exordis/application: samples-homepage
+          exordis/application-instance: ""
+          exordis/application-workload: "true"
+          exordis/environment: prod
+          exordis/subsystem: samples
+      template:
+        metadata:
+          annotations:
+            checksum/configMap.config: 384c51a84f73ded0e376fe62514ee6bc4c534e16d69bdca258d039de4daf2681
+            checksum/configMap.envs: b23183f4da049e8ac68bf2cb79a522f87722829236190cf756fb579322a0bc84
+          labels:
+            app.kubernetes.io/component: samples-homepage
+            app.kubernetes.io/instance: ""
+            app.kubernetes.io/managed-by: helm
+            app.kubernetes.io/name: samples-homepage
+            app.kubernetes.io/part-of: samples
+            app.kubernetes.io/version: v0.10.9
+            exordis/application: samples-homepage
+            exordis/application-instance: ""
+            exordis/application-type: service
+            exordis/application-workload: "true"
+            exordis/environment: prod
+            exordis/product: cicd
+            exordis/subsystem: samples
+            helm.sh/chart: cicd-subsystem-application-0.1.0
+        spec:
+          containers:
+            - envFrom:
+                - configMapRef:
+                    name: samples-homepage-envs
+              image: ghcr.io/gethomepage/homepage:v0.10.9
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 30
+                periodSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 3000
+                timeoutSeconds: 1
+              name: application
+              ports:
+                - containerPort: 3000
+                  name: http
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 30
+                periodSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 3000
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              startupProbe:
+                failureThreshold: 30
+                periodSeconds: 5
+                successThreshold: 1
+                tcpSocket:
+                  port: 3000
+                timeoutSeconds: 1
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /app/config
+                  name: config
+          initContainers:
+            - command:
+                - sh
+                - -c
+                - |
+                  cp -Lr /config-ro/* /config/
+              envFrom:
+                - configMapRef:
+                    name: samples-homepage-envs
+              image: docker.io/alpine:3.21.3
+              imagePullPolicy: IfNotPresent
+              name: copy-config
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts:
+                - mountPath: /config-ro
+                  name: config-ro
+                - mountPath: /config
+                  name: config
+          serviceAccountName: samples-homepage-workload
+          volumes:
+            - emptyDir:
+                sizeLimit: 100Mi
+              name: config
+            - configMap:
+                name: samples-homepage-config
+              name: config-ro
+  5: |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage-ui
+      namespace: samples-prod
+    spec:
+      rules:
+        - host: homepage.local
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: samples-homepage-ui
+                    port:
+                      name: http
+                path: /
+                pathType: Prefix
+      tls:
+        - hosts:
+            - homepage.local
+          secretName: samples-homepage-ui-tls
+  6: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage-workload
+      namespace: samples-prod
+  7: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage-workload
+      namespace: samples-prod
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: samples-prod-homepage-discovery
+    subjects:
+      - kind: ServiceAccount
+        name: samples-homepage-workload
+        namespace: samples-prod
+  8: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: samples-homepage
+        app.kubernetes.io/instance: ""
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: samples-homepage
+        app.kubernetes.io/part-of: samples
+        app.kubernetes.io/version: v0.10.9
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-type: service
+        exordis/environment: prod
+        exordis/product: cicd
+        exordis/subsystem: samples
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: samples-homepage-ui
+      namespace: samples-prod
+    spec:
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: http
+      selector:
+        exordis/application: samples-homepage
+        exordis/application-instance: ""
+        exordis/application-workload: "true"
+        exordis/environment: prod
+        exordis/subsystem: samples
+      sessionAffinity: None

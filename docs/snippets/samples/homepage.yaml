@@ -1,25 +1,38 @@
+# Metadata 
 global:
   environment: prod
   product: cicd
   subsystem: samples
 application: homepage
 
+# default registry and image
 registry: ghcr.io
 repository: gethomepage/homepage
+
+# version of the application 
+# used as docker image version as not specified explicitly
 version: v0.10.9
 
+# workload tuning
 workload:
-  replicas: 1
-  clusterRole: homepage
+  # Two replicas (default is 3)
+  replicas: 2
+  # custom cluster role. clusterRole with id 'discovery' is defined bellow
+  clusterRole: discovery
 
+# additional environment variables to be added to all containers
+# of the application.
 envs:
   # env vars to be used in homepage config  
   HOMEPAGE_VAR_UNIFI_PASSWORD: "passw0rd"
   HOMEPAGE_VAR_UNIFI_USERNAME: "homepage"
 
 clusterRoles:
-  # cluster role for homepage to allow k8s discovery
-  homepage:
+  # cluster role with id 'homepage'.
+  # Will be expanded to 'samples-prod-homepage-discovery' according to 
+  # default naming conventions for metadata.name.
+  # Used for homepage to allow k8s discovery
+  discovery:
     rules:
       - apiGroups: [""]
         resources: ["nodes", "pods","namespaces"]  
@@ -33,7 +46,10 @@ clusterRoles:
 
 
 configMaps:
-  # homepage config
+  # ConfigMap wih id 'config' 
+  # Will be expanded to 'samples-homepage-config' according to 
+  # default naming conventions for metadata.name 
+  # Holds homepage config.
   config:
     containers: []
     data:
@@ -49,7 +65,7 @@ configMaps:
             password: '{{HOMEPAGE_VAR_UNIFI_PASSWORD}}'
             username: '{{HOMEPAGE_VAR_UNIFI_USERNAME}}' 
 
-
+# application workload main container
 applicationContainer:
   spec:
     ports:
@@ -60,7 +76,11 @@ applicationContainer:
     terminationMessagePolicy: File
 
 initContainers:
-  # copies config files loaded with configmap to homepage /app/config directory
+  # Application workload pod init container with id 'copy-config'
+  # Homepage reads configs and writes its data to the same dir so to have this dir RW:
+  #   - ConfigMap with homepage config is mounted as 'config-ro' volume
+  #   - Homepage is mounted as emptyDir volume
+  #   - init container copies file from 'config-ro' to config dir volume
   copy-config:
     image:
       registry: docker.io
@@ -74,28 +94,34 @@ initContainers:
           cp -Lr /config-ro/* /config/
 
 volumes:
-  # homepage /app/config directory
+  # Application workload volume with id 'config'
+  # Holds homepage /app/config directory
   config:
     mounts:
       application: /app/config
       copy-config: /config
-  # config files content
+  # Application workload volume with id 'config'
+  # Loads config files content from configmap with id 'config'
   config-ro:
     configMap: config
     mounts:
       copy-config: /config-ro
 
 services:
+  # Service with id 'ui' (will be expanded to 'samples-homepage-ui' according to default naming conventions for metadata.name  )
   ui:
     ports:
       http: {}
 
 ingresses:
+  # Ingress with id 'ui' (will be expanded to 'samples-homepage-ui' according to default naming conventions for metadata.name  )
   ui:
     services:
+      # bind to service with id 'ui'
       ui:
         hosts:
           - homepage.local
         ports:
+          # expose service port 'http'. Path is overriden as default is /[service port name]
           http:
             - path: /
