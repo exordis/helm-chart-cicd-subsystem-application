@@ -40,4 +40,13 @@ subcollections:
 {{- define "subsystem-application.entities.cronjob.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $cronjob := index . 2 -}}
 {{ include "subsystem-application.entities.workloads.helpers.references" (list $ $cronjob) }}
+  {{- if hasKey $cronjob "serviceAccount" }}
+spec: 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ $cronjob.serviceAccount.name | quote }}
+  {{- end }}
 {{- end }}
+
