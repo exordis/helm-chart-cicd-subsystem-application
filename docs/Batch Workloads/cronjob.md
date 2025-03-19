@@ -35,6 +35,12 @@
 
     **default:** empty dict
 
+`clusterRole`
+
+:   Cronjob cluster role. If value contains `id` of [Cluster Role](../Resources/cluster-role.md) defined in `.Values.clusterRoles` it is expanded to full name, otherwise value considered as pre-created Cluster Role and kept as is. If `clusterRole` is defined, ServiceAccount and binding to this role is created for cronjob
+
+    **default:** null (no explicit cluster role to be assigned)    
+
 `containers`
 
 :   cronjob [Containers](../Components/containers.md)

@@ -201,7 +201,7 @@ Application workload is configured with `workload`:
 
 `clusterRole`
 
-:   Workload cluster role. If value contains `id` of [Cluster Role](Resources/cluster-role.md) defined in `.Values.workload.clusterRoles` it is expanded to full name, otherwise value considered as pre-created Cluster Role and kept as is. If `clusterRole` is defined, ServiceAccount and binding to this role is created for application workload
+:   Workload cluster role. If value contains `id` of [Cluster Role](Resources/cluster-role.md) defined in `.Values.clusterRoles` it is expanded to full name, otherwise value considered as pre-created Cluster Role and kept as is. If `clusterRole` is defined, ServiceAccount and binding to this role is created for application workload
 
     **default:** null (no explicit cluster role to be assigned)
 
