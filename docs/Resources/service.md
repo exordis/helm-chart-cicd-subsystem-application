@@ -20,6 +20,12 @@
     --8<-- "snippets/manifests/ServiceMonitor/cicd-sample-docs-full.yml"
     ```
 
+`enabled`
+
+:   if set to false service is excluded from rendering
+
+    **default:** true
+
 
 `namespace`
 

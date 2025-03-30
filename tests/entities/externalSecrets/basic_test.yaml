@@ -30,6 +30,20 @@ tests:
             deletionPolicy: Retain
             name: cicd-sample-unittests-password
 
+
+  - it: Should skip external secret if it is disabled
+    set:
+      externalSecrets:
+        password:
+          enabled: false
+    asserts:
+      - containsDocument:
+          kind: ExternalSecret
+          apiVersion: external-secrets.io/v1beta1
+          name: cicd-sample-unittests-password
+          namespace: cicd-test
+        not: true
+
   - it: Should generate proper ExternalSecret labels and annotations
     set:
       externalSecrets:

@@ -23,4 +23,17 @@ tests:
             resources:
               requests:
                 storage: 1Gi          
+
+  - it: Should skip pvc if it is disabled
+    set:
+      pvcs:
+        mypvc:
+          enabled: false
+    asserts:
+      - containsDocument:
+          kind: PersistentVolumeClaim
+          apiVersion: v1
+          name: cicd-sample-unittests-mypvc
+          namespace: cicd-test
+        not: true
  

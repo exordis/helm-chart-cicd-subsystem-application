@@ -26,6 +26,12 @@
     --8<-- "snippets/manifests/Ingress/cicd-sample-docs-pure-spec.yml"
     ```
 
+`enabled`
+
+:   if set to false ingress is excluded from rendering
+
+    **default:** true
+
 
 
 `namespace`

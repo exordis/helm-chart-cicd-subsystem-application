@@ -15,7 +15,11 @@
     --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
+`enabled`
 
+:   if set to false cronjob is excluded from rendering
+
+    **default:** true
 
 `namespace`
 

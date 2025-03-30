@@ -27,6 +27,12 @@ title: External Secret
     --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
+`enabled`
+
+:   if set to false external secret is excluded from rendering
+
+    **default:** true
+
 
 `namespace`
 

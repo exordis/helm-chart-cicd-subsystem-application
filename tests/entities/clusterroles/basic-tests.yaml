@@ -36,3 +36,26 @@ tests:
               verbs:
                 - get
                 - list   
+
+
+  - it: Should skip cluster role if it is disabled
+    set:
+      clusterRoles:
+        application:
+          enabled: false
+          rules:
+            - apiGroups:
+                - ''
+              resources:
+                - namespaces
+                - pods
+                - nodes
+              verbs:
+                - get
+                - list        
+    asserts:
+      - containsDocument:
+          kind: ClusterRole
+          apiVersion: rbac.authorization.k8s.io/v1
+          name: cicd-test-sample-unittests-application                
+        not: true

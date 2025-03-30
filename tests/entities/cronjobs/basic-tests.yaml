@@ -66,3 +66,20 @@ tests:
                 ttlSecondsAfterFinished: 86400
             schedule: 0 * * * *    
 
+  - it: Should skip  cronjob if it is disabled
+    set:
+      cronjobs:
+        cleanup:
+          enabled: false
+          containers:
+            main:
+          spec:
+            schedule: 0 * * * *
+    asserts:
+      - containsDocument:
+          kind: CronJob
+          apiVersion: batch/v1
+          name: cicd-sample-unittests-cleanup
+          namespace: cicd-test
+          any: true
+        not: true
