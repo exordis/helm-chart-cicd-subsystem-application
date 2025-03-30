@@ -6,16 +6,22 @@
   {{- include "sdk.engine.create-entity" (list $ "config-map" "envs" $envsConfigMap) -}}
 
   {{- range $id, $configMap := $.Values.configMaps -}}  
-    {{- include "sdk.engine.create-entity" (list $ "config-map" $id $configMap) -}}
+    {{- if (or (not (hasKey ($configMap|default dict) "enabled")) $configMap.enabled) -}}
+      {{- include "sdk.engine.create-entity" (list $ "config-map" $id $configMap) -}}
+    {{- end -}}
   {{- end -}}
 
   {{- range $id, $externalSecret := $.Values.externalSecrets -}}  
-    {{- include "sdk.engine.create-entity" (list $ "external-secret" $id $externalSecret) -}}
+    {{- if (or (not (hasKey ($externalSecret|default dict) "enabled")) $externalSecret.enabled) -}}
+      {{- include "sdk.engine.create-entity" (list $ "external-secret" $id $externalSecret) -}}
+    {{- end -}}
   {{- end -}}
 
 
   {{- range $id, $secret := $.Values.secrets -}}  
-    {{- include "sdk.engine.create-entity" (list $ "secret" $id $secret) -}}
+    {{- if (or (not (hasKey ($secret|default dict) "enabled")) $secret.enabled) -}}
+      {{- include "sdk.engine.create-entity" (list $ "secret" $id $secret) -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

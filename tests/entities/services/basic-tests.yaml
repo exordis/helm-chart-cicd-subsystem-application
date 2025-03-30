@@ -42,6 +42,23 @@ tests:
             exordis/subsystem: cicd
             exordis/application-workload: "true"
 
+
+  - it: Should skip service if it is disabled
+    set:
+      services:
+        minimum:
+          enabled: false
+          ports:
+            http:
+    asserts:
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: cicd-sample-unittests-minimum
+          namespace: cicd-test
+        not: true
+
+
   - it: Should generate port with explicitly provided values
     set:
       applicationContainer:

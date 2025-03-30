@@ -3,7 +3,7 @@
 
 {{- define "subsystem-application.entities.ingress.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-{{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
+{{ include "subsystem-application.metadata.entity-defaults" $ }}
 tls: 
   enabled: true # generate cert for all hosts in spec if tls is not explicitly configured in spec
   # TODO: have convention for secret name rather than hardcoding "-tls"

@@ -2,8 +2,6 @@
 suite: Entities/ConfigMaps
 templates:
   - templates/configmaps.yaml
-  - templates/deployment.yaml
-  - templates/cronjobs.yaml
 values:
   - ../values.metadata.yaml
 tests:
@@ -20,6 +18,12 @@ tests:
       path: metadata.name
       value: cicd-sample-unittests-config 
     asserts:
+      - containsDocument:
+          kind: ConfigMap
+          apiVersion: v1
+          name: cicd-sample-unittests-config 
+          namespace: cicd-test    
+          any: true
       - equal:
           path: data.key
           value: value
@@ -29,6 +33,25 @@ tests:
       - equal:
           path: metadata.namespace
           value: cicd-test
+
+  - it: Should skip  configMap if it is disabled
+    template: templates/configmaps.yaml
+    set:
+      configMaps:
+        config:
+          enabled: false
+          data:
+            key: "value" 
+          binaryData:
+            file.txt: dGVzdA==
+    asserts:
+      - containsDocument:
+          kind: ConfigMap
+          apiVersion: v1
+          name: cicd-sample-unittests-config 
+          namespace: cicd-test   
+          any: true
+        not: true
 
 
   - it: Should generate configMap with provided namespace 

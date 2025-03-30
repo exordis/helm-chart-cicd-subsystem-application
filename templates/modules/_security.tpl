@@ -1,7 +1,9 @@
 {{- define "subsystem-application.modules.security.read" -}}
 
   {{- range $id, $clusterRole := $.Values.clusterRoles -}}  
-    {{- include "sdk.engine.create-entity" (list $ "cluster-role" $id $clusterRole) -}}
+    {{- if (or (not (hasKey ($clusterRole|default dict) "enabled")) $clusterRole.enabled) }}
+      {{- include "sdk.engine.create-entity" (list $ "cluster-role" $id $clusterRole) -}}
+    {{- end -}}
   {{- end -}}
 
 

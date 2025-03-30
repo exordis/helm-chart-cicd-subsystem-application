@@ -4,7 +4,7 @@
 {{- define "subsystem-application.entities.external-secret.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 {{- /*TODO: Better default ClusterSecretStore name resolution. For now just relay on convention*/ -}}
-{{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
+{{ include "subsystem-application.metadata.entity-defaults" $ }}
 containers:
 spec:
   secretStoreRef:

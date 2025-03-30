@@ -15,7 +15,8 @@ tests:
         init2: {}
       configMaps:
         config:
-          value: 1
+          data:
+            value: ""
     documentSelector:
       path: kind
       value: Deployment
@@ -48,7 +49,8 @@ tests:
           containers:
             - init1 
             - sidecar1 
-          value: 1
+          data:
+            value: ""
     documentSelector:
       path: kind
       value: Deployment
@@ -95,7 +97,8 @@ tests:
         config:
           containers: 
             - cronjobs.cleanup.main
-          value: 1
+          data:
+            value: ""
     documentSelector:
       path: kind
       value: Deployment
