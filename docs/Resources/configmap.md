@@ -37,6 +37,12 @@ title: ConfigMap
     --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
+`enabled`
+
+:   if set to false config map is excluded from rendering
+
+    **default:** true
+
 
 `namespace`
 

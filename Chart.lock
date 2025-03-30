@@ -3,4 +3,4 @@ dependencies:
   repository: oci://registry.gitlab.com/knst/cy/registry/charts
   version: 0.1.41
 digest: sha256:ae8f30476158a2781d58f635717c68d58fd1a591e8e1a881a15a8e750cc67a88
-generated: "2025-03-30T16:48:17.6686714+03:00"
+generated: "2025-03-30T17:53:55.4338485+03:00"

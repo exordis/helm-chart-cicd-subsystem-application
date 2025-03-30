@@ -4,7 +4,7 @@
 
 {{- define "subsystem-application.entities.service.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-{{ include "subsystem-application.metadata.entity-metadata-defaults" $ }}
+{{ include "subsystem-application.metadata.entity-defaults" $ }}
 ports: {}
 spec: 
   sessionAffinity: None

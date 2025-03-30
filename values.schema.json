@@ -296,7 +296,11 @@
     "definitions": {
       "configMap": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
+          "enabled": {
+            "type": "boolean"
+          },          
           "annotations": {
             "type": "object",
             "patternProperties": {
@@ -337,8 +341,7 @@
                 "type": "string"
               }
             }
-          },
-          "additionalProperties": false
+          }
         }
       },
       "cronjob": {
@@ -348,6 +351,9 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "enabled": {
+            "type": "boolean"
+          },           
           "containers": {
             "type": "array",
             "items": {
@@ -398,6 +404,9 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "enabled": {
+            "type": "boolean"
+          },          
           "containers": {
             "type": "array",
             "items": {
@@ -498,6 +507,9 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "enabled": {
+            "type": "boolean"
+          },              
           "annotations": {
             "type": "object",
             "patternProperties": {
@@ -529,6 +541,9 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "enabled": {
+            "type": "boolean"
+          },              
           "annotations": {
             "type": "object",
             "patternProperties": {
@@ -650,7 +665,11 @@
       },
       "service": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
+          "enabled": {
+            "type": "boolean"
+          },          
           "annotations": {
             "type": "object",
             "patternProperties": {
@@ -673,6 +692,9 @@
           "spec": {
             "type": "object"
           },
+          "monitor": {
+            "$ref": "#/definitions/serviceMonitor"
+          },
           "ports": {
             "type": "object",
             "patternProperties": {
@@ -686,12 +708,13 @@
                   }
                 ]
               }
-            },
-            "additionalProperties": false
+            }
           }          
         }
       },
-
+      "serviceMonitor": {
+        "type": "object"
+      },
       "servicePort": {
         "type": "object",
         "properties": {

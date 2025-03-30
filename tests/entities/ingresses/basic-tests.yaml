@@ -48,6 +48,23 @@ tests:
                 secretName: cicd-sample-unittests-minimum-tls                      
 
 
+  - it: Should skip ingress if it is disabled
+    set:
+      ingresses:
+        minimum:
+          enabled: false
+          services:
+            minimum:
+              hosts:
+                - host1.local             
+    asserts:
+      - containsDocument:
+          kind: Ingress
+          apiVersion: networking.k8s.io/v1
+          name: cicd-sample-unittests-minimum
+          namespace: cicd-test
+        not: true
+
   - it: Should generate service with explicitly provided values
     set:
       applicationContainer:

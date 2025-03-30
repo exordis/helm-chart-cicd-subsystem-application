@@ -24,6 +24,12 @@ title: Cluster Role
 
 
 
+`enabled`
+
+:   if set to false cluster role is excluded from rendering
+
+    **default:** true
+
 `labels`
 
 :   list of labels to add to secret in addition to [common labels](../common metadata.md)

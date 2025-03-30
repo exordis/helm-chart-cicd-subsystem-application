@@ -18,6 +18,11 @@ title: PVC
     --8<-- "snippets/manifests/PersistentVolumeClaim/cicd-sample-docs-mypvc.yml"
     ```
 
+`enabled`
+
+:   if set to false pvc is excluded from rendering
+
+    **default:** true
 
 
 `namespace`
