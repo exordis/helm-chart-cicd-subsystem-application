@@ -1,51 +1,54 @@
 $schema: https://json-schema.org/draft-07/schema#
-definitions:
-  ingress:
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    enum:
+      - public
+      - internal
+  default_backend:
+    $ref: "ingress-backend.yaml"
+  rewriteTarget:
+    type: string
+  proxyBodySize:
+    type: integer
+  proxyBuffering:
+    type: boolean
+  useRegex:
+    type: boolean
+  useTls:
+    type: boolean
+  hosts:
+    type: array
+    items:
+      type: string
+  annotations:
     type: object
-    additionalProperties: false
-    properties:
-      type:
+    patternProperties:
+      ^.+$:
         type: string
-        enum:
-          - public
-          - internal
-      default_backend:
-        $ref: "ingressBackend.yaml#/definitions/ingressBackend"
-      rewriteTarget:
-        type: string
-      proxyBodySize:
-        type: integer
-      proxyBuffering:
-        type: boolean
-      useRegex:
-        type: boolean
-      useTls:
-        type: boolean
-      hosts:
-        type: array
-        items:
+  paths:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        path:
           type: string
-      annotations:
-        type: object
-        patternProperties:
-          ^.+$:
-            type: string
-      paths:
-        type: array
-        items:
-          type: object
-          additionalProperties: false
-          properties:
-            path:
-              type: string
-            pathType:
-              type: string
-            backend:
-              $ref: "ingressBackend.yaml#/definitions/ingressBackend"
-          required:
-            - path
-      spec:
-        type: object
-    required:
-      - hosts
-      - paths
+        pathType:
+          type: string
+        backend:
+          $ref: "ingress-backend.yaml"
+      required:
+        - path
+  spec:
+    type: object
+  # test:
+  #   $ref: "#/definitions/ingress-backend1"
+required:
+  - hosts
+  - paths
+# definitions:
+#   ingress-backend1:
+#     $ref: "ingress-backend.yaml"
