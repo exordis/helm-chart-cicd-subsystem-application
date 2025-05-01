@@ -16,7 +16,7 @@ initContainers:
     spec:
       imagePullPolicy: Always
 
-# application workload init sidecars
+# application workload sidecars
 sidecars:
   jsreport:
     image:

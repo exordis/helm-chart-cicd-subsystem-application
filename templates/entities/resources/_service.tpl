@@ -8,6 +8,7 @@
 ports: {}
 spec: 
   sessionAffinity: None
+  type: ClusterIP
 {{- end -}}
 
 
@@ -40,21 +41,24 @@ spec:
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $service := index . 2 -}}
   {{- $wrong_ports := "" -}}
 
-  {{- range $port := $service.spec.ports | default list  -}}
-    {{- $found := false -}}
 
-    {{- range $container := concat (list $.Values.applicationContainer) ($.Values.sidecars | default dict | values )  -}}
-      {{- range $containerPort := (dig "spec" "ports" list $container)   -}}
-        {{- $found = $found 
-                      | or ($port.targetPort | toString | eq ($containerPort.name | default "")  )
-                      | or ($port.targetPort | toString | eq ($containerPort.containerPort | default -1 | toString) )  -}}
+  {{- if $service.spec.type | ne "ExternalName" -}}
+    {{- range $port := $service.spec.ports | default list  -}}
+      {{- $found := false -}}
+
+      {{- range $container := concat (list $.Values.applicationContainer) ($.Values.sidecars | default dict | values )  -}}
+        {{- range $containerPort := (dig "spec" "ports" list $container)   -}}
+          {{- $found = $found 
+                        | or ($port.targetPort | toString | eq ($containerPort.name | default "")  )
+                        | or ($port.targetPort | toString | eq ($containerPort.containerPort | default -1 | toString) )  -}}
+        {{- end }}
       {{- end }}
-    {{- end }}
 
-    {{- if not $found -}}
-      {{- $wrong_ports = printf "%s\n- service '%s' port '%s' targetPort '%s' is not exposed by 'application' container or any of sidecars" $wrong_ports $service.id $port.name ($port.targetPort| toString )   -}}    
-    {{- end }}
+      {{- if not $found -}}
+        {{- $wrong_ports = printf "%s\n- service '%s' port '%s' targetPort '%s' is not exposed by 'application' container or any of sidecars" $wrong_ports $service.id $port.name ($port.targetPort| toString )   -}}    
+      {{- end }}
 
+    {{- end }}
   {{- end }}
 
   {{- if $wrong_ports | ne "" -}}
