@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e 
 
+CHART_TO_TEST="."
+if [ -d tests/chart ]
+then
+  CHART_TO_TEST="tests/chart"
+fi
+
 # Define the default -f argument
 DEFAULT_FILE_ARG="-f 'tests/**/*-tests.yaml' -f 'tests/**/*-test.yaml' -f 'tests/**/*_test.yaml'"
 
@@ -30,7 +36,7 @@ OUTPUT_DIR="docs/snippets/manifests"
 # copying to native FS executing there  
 cp -R /src/* /apps 
 cd /apps 
-eval "helm unittest . $PROVIDED_ARGS"
+eval "helm unittest $CHART_TO_TEST $PROVIDED_ARGS"
 
 
 # Get snapshot data back to mounted directory

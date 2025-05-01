@@ -1,0 +1,13 @@
+$schema: https://json-schema.org/draft-07/schema#
+type: object
+additionalProperties: false
+properties:
+  service:
+    $ref: "definitions/naming.yaml#/resource-name"
+  port:
+    type: integer
+  foreign:
+    type: boolean
+required:
+  - port
+  - service

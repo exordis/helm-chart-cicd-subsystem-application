@@ -125,7 +125,7 @@ tests:
           path: spec.clusterIP
           value: None
 
-  - it: Should fail when referencing non-exposed container port
+  - it: Should fail when referencing non-exposed container port for non ExternalName service
     set:
       sidecars:
         metrics:
@@ -145,3 +145,18 @@ tests:
     asserts:
       - failedTemplate:
           errorPattern: service 'svc' port 'wrong' targetPort 'wrong' is not exposed by 'application' container or any of sidecars
+
+  - it: Should not fail with unknown port forExternalName service
+    set:
+      services:
+        svc:
+          spec: 
+            type: ExternalName
+          ports:
+            https: {}
+    asserts:
+      - containsDocument:
+          kind: Service
+          apiVersion: v1
+          name: cicd-sample-unittests-svc
+          namespace: cicd-test

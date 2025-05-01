@@ -1,0 +1,31 @@
+$schema: https://json-schema.org/draft-07/schema#
+type: object
+required: 
+  - "application"
+  - "applicationType"
+  - "global"
+  - "version"
+properties:
+  global:
+    type: object
+    required:
+      - product
+      - subsystem
+      - environment
+    properties:
+      product:
+        $ref: "definitions/naming.yaml#/product-name"
+      subsystem:
+        $ref: "definitions/naming.yaml#/subsystem-name"
+      environment:
+        $ref: "definitions/naming.yaml#/environment-name"
+  application:
+    $ref: "definitions/naming.yaml#/resource-name"
+  applicationType: 
+    $ref: "definitions/naming.yaml#/application-type"
+  ingresses:
+    type: object
+    additionalProperties:
+      $ref: "ingress.yaml"
+    propertyNames:
+      $ref: "definitions/naming.yaml#/resource-name"

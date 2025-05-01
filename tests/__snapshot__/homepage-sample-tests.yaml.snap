@@ -355,3 +355,4 @@ manifest should match snapshot:
         exordis/environment: prod
         exordis/subsystem: samples
       sessionAffinity: None
+      type: ClusterIP
