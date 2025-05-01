@@ -1,0 +1,16 @@
+resource-name:
+  type: string
+  pattern: "^[a-z]([-a-z0-9]*[a-z0-9])?$"
+  maxLength: 63
+product-name:
+  type: string
+  pattern: "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]([- ][A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9])*$"
+subsystem-name:
+  $ref: "#/resource-name"
+environment-name:
+  $ref: "#/resource-name"
+application-type: 
+  type: string
+  enum:
+    - service
+    - web
