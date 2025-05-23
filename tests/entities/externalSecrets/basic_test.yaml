@@ -12,7 +12,7 @@ tests:
     asserts:
       - containsDocument:
           kind: ExternalSecret
-          apiVersion: external-secrets.io/v1beta1
+          apiVersion: external-secrets.io/v1
           name: cicd-sample-unittests-password
           namespace: cicd-test
       - equal:
@@ -39,7 +39,7 @@ tests:
     asserts:
       - containsDocument:
           kind: ExternalSecret
-          apiVersion: external-secrets.io/v1beta1
+          apiVersion: external-secrets.io/v1
           name: cicd-sample-unittests-password
           namespace: cicd-test
         not: true

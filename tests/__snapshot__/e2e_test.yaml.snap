@@ -435,7 +435,7 @@ manifest should match snapshot:
                 sizeLimit: 100Mi
               name: volume1
   9: |
-    apiVersion: external-secrets.io/v1beta1
+    apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
       annotations:
