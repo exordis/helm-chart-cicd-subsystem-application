@@ -18,7 +18,7 @@
         "type": "object"
       },
       "version": {
-        "$ref": "#/definitions/dockerImageVersion"
+        "$ref": "#/definitions/semver"
       },
       "repository": {
         "type": "string"
@@ -750,7 +750,11 @@
       "servicePortMonitorEndpoint":{
         "type": "object"
       },
-      "dockerImageVersion": {
+      "dockerTag": {
+        "type": "string",
+        "pattern": "^[\\w][\\w.-]{0,127}$"
+      },
+      "semver": {
         "type": "string",
         "pattern": "^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
       },
@@ -805,7 +809,7 @@
             "type": "string"
           },
           "version": {
-            "$ref": "#/definitions/dockerImageVersion"
+            "$ref": "#/definitions/dockerTag"
           }
         },
         "additionalProperties": false
