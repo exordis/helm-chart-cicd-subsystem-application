@@ -57,7 +57,7 @@ tests:
       - isSubset:
           path: spec
           content:
-            jobLabel: monitored 
+            jobLabel: cicd-sample-unittests-monitored 
 
   - it: Should apply service monitor endpoint extra fields
     set:

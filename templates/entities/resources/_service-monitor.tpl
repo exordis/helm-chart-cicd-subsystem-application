@@ -31,7 +31,7 @@ spec:
 {{- $_ := set $monitor.spec "selector" list -}}
 
 {{- $service := get $.entities.services $monitor.service -}}
-{{- $_ := set $monitor.spec "jobLabel" ($monitor.spec.jobLabel | default $monitor.service) -}}
+{{- $_ := set $monitor.spec "jobLabel" ($monitor.spec.jobLabel | default $service.name) -}}
 spec:
   namespaceSelector:
     matchNames:
