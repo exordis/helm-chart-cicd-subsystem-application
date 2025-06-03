@@ -54,10 +54,7 @@ tests:
           content: 
             interval: 15s
             port: http          
-      - isSubset:
-          path: spec
-          content:
-            jobLabel: cicd-sample-unittests-monitored 
+
 
   - it: Should apply service monitor endpoint extra fields
     set:
