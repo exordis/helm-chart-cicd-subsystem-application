@@ -164,7 +164,8 @@ tests:
               exordis/application: cicd-sample
               exordis/application-instance: unittests
               exordis/environment: test
-              exordis/subsystem: cicd         
+              exordis/subsystem: cicd   
+              app.kubernetes.io/name: cicd-sample-unittests-monitored      
       - equal:
           path: spec.namespaceSelector
           value:
