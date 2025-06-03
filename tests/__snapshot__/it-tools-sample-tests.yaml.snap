@@ -177,6 +177,7 @@ manifest should match snapshot:
         exordis/application-type: service
         exordis/environment: prod
         exordis/product: cicd
+        exordis/service-name: samples-it-tools-ui
         exordis/subsystem: samples
         helm.sh/chart: cicd-subsystem-application-0.1.0
       name: samples-it-tools-ui
