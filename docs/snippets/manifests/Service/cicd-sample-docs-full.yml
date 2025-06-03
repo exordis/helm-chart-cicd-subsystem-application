@@ -15,6 +15,7 @@ metadata:
     exordis/application-type: service
     exordis/environment: test
     exordis/product: Some Product
+    exordis/service-name: cicd-sample-docs-full
     exordis/subsystem: cicd
     helm.sh/chart: cicd-subsystem-application-0.1.0
     service-label: full service definition
