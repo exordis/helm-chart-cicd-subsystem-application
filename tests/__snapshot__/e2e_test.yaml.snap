@@ -891,7 +891,6 @@ manifest should match snapshot:
         matchLabels:
           exordis/application: cicd-sample
           exordis/application-instance: docs
-          exordis/application-workload: "true"
           exordis/environment: test
           exordis/subsystem: cicd
   20: |
