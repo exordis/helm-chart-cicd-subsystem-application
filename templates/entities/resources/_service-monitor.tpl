@@ -39,7 +39,7 @@ spec:
   selector:
       matchLabels: 
         {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}
-
+        app.kubernetes.io/name: {{ $service.name }}
 {{- end -}}
 
 
