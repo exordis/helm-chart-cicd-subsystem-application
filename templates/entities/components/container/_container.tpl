@@ -64,15 +64,15 @@ startupProbe:
   failureThreshold: 30
   periodSeconds: 5
   successThreshold: 1
-  timeoutSeconds: 1
+  timeoutSeconds: 3
 livenessProbe:
   failureThreshold: 30
   periodSeconds: 10
   successThreshold: 1
-  timeoutSeconds: 1
+  timeoutSeconds: 3
 readinessProbe:
   failureThreshold: 30
   periodSeconds: 10
   successThreshold: 1
-  timeoutSeconds: 1
+  timeoutSeconds: 3
 {{- end -}}
