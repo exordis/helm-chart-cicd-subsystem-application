@@ -155,7 +155,7 @@ Ingress manifest is generated for each ingress.
 - `spec` value is extended with rules generated from `services`
 -  Resulting `spec` is processed with expansion of `spec.rules[].host` based on lists provided with `hosts` e.g. if some rule has host `myhosts` and `hosts.myhosts` is defined, the rule would be repeated for each value in `hosts.myhosts` as `host`
 
-if `spec.tls` is not explicitly provided and `tls` is set to `true`, it is generated:
+if `spec.tls` is not explicitly provided or `tls.enabled` is set to `true`, it is generated:
 
   - `spec.tls.hosts` contains all hosts referenced on `spec` in this case
   - annotation `nginx.ingress.kubernetes.io/force-ssl-redirect: "true"` is added

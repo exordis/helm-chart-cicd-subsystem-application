@@ -41,7 +41,10 @@ tests:
             exordis/environment: test
             exordis/subsystem: cicd
             exordis/application-workload: "true"
-
+      - isSubset:
+          path: metadata.labels
+          content:
+            exordis/service-name: cicd-sample-unittests-minimum 
 
   - it: Should skip service if it is disabled
     set:

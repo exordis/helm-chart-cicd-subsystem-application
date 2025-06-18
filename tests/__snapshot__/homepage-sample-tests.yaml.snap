@@ -168,7 +168,7 @@ manifest should match snapshot:
                 successThreshold: 1
                 tcpSocket:
                   port: 3000
-                timeoutSeconds: 1
+                timeoutSeconds: 3
               name: application
               ports:
                 - containerPort: 3000
@@ -180,7 +180,7 @@ manifest should match snapshot:
                 successThreshold: 1
                 tcpSocket:
                   port: 3000
-                timeoutSeconds: 1
+                timeoutSeconds: 3
               resources:
                 limits:
                   cpu: 200m
@@ -194,7 +194,7 @@ manifest should match snapshot:
                 successThreshold: 1
                 tcpSocket:
                   port: 3000
-                timeoutSeconds: 1
+                timeoutSeconds: 3
               terminationMessagePath: /dev/termination-log
               terminationMessagePolicy: File
               volumeMounts:
@@ -338,6 +338,7 @@ manifest should match snapshot:
         exordis/application-type: service
         exordis/environment: prod
         exordis/product: cicd
+        exordis/service-name: samples-homepage-ui
         exordis/subsystem: samples
         helm.sh/chart: cicd-subsystem-application-0.1.0
       name: samples-homepage-ui

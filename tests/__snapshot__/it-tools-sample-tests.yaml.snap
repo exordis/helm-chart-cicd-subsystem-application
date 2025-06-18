@@ -91,7 +91,7 @@ manifest should match snapshot:
                 successThreshold: 1
                 tcpSocket:
                   port: 80
-                timeoutSeconds: 1
+                timeoutSeconds: 3
               name: application
               ports:
                 - containerPort: 80
@@ -103,7 +103,7 @@ manifest should match snapshot:
                 successThreshold: 1
                 tcpSocket:
                   port: 80
-                timeoutSeconds: 1
+                timeoutSeconds: 3
               resources:
                 limits:
                   cpu: 200m
@@ -117,7 +117,7 @@ manifest should match snapshot:
                 successThreshold: 1
                 tcpSocket:
                   port: 80
-                timeoutSeconds: 1
+                timeoutSeconds: 3
               volumeMounts: []
           initContainers: null
           volumes: null
@@ -177,6 +177,7 @@ manifest should match snapshot:
         exordis/application-type: service
         exordis/environment: prod
         exordis/product: cicd
+        exordis/service-name: samples-it-tools-ui
         exordis/subsystem: samples
         helm.sh/chart: cicd-subsystem-application-0.1.0
       name: samples-it-tools-ui

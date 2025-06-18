@@ -31,7 +31,6 @@ spec:
 {{- $_ := set $monitor.spec "selector" list -}}
 
 {{- $service := get $.entities.services $monitor.service -}}
-{{- $_ := set $monitor.spec "jobLabel" ($monitor.spec.jobLabel | default $monitor.service) -}}
 spec:
   namespaceSelector:
     matchNames:
@@ -39,8 +38,7 @@ spec:
   selector:
       matchLabels: 
         {{- include "subsystem-application.metadata.selector-labels" $ | nindent 8 }}
-        "exordis/application-workload": "true"
-
+        exordis/service-name: {{ $service.name }}
 {{- end -}}
 
 
