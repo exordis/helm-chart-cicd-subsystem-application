@@ -15,12 +15,12 @@ spec:
 {{- end -}}
 
 {{- define "subsystem-application.entities.pvc.create" -}}
-{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}{{- $parent := index . 3 -}}
 
 # Return entity overrides
 kind: PersistentVolumeClaim
-{{ if $pvc.convertToTemplateForStatefulSet | and ($.Values.workload.kind | eq "StatefulSet") -}}
-name: {{ include "sdk.naming.conventions.kind" (list $ $id "Volume"  ) | quote }} 
+{{ if and ($.Values.workload.kind | eq "StatefulSet") ($pvc.convertToTemplateForStatefulSet) -}}
+name: {{ include "sdk.naming.conventions.component" (list $ $id "Volume" $parent.id $parent.kind   ) | quote }}
 {{- else -}}
 name: {{ include "sdk.naming.conventions.kind" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
 {{- end -}}

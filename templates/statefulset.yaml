@@ -44,7 +44,7 @@ spec:
   volumeClaimTemplates:
     {{- /* TODO: check for flag indicating if template should be created or pvc must be a pvc */ -}}
     {{- range .pvcs }}
-    - metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .) | nindent 8 }}
+    - metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ . true true) | nindent 8 }}
       spec: {{ .spec | toYaml | nindent 8   }}
     {{- end }}
     
