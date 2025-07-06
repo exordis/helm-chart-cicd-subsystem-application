@@ -11,19 +11,19 @@
 === "Ingress Manifests"
 
     ``` yaml
-    --8<-- "snippets/manifests/Ingress/cicd-sample-docs-minimum.yml"
+    --8<-- "snippets/manifests/deployment/Ingress/cicd-sample-docs-minimum.yml"
     ```
 
     <!---->
 
     ``` yaml
-    --8<-- "snippets/manifests/Ingress/cicd-sample-docs-full.yml"
+    --8<-- "snippets/manifests/deployment/Ingress/cicd-sample-docs-full.yml"
     ```
 
     <!---->
 
     ``` yaml
-    --8<-- "snippets/manifests/Ingress/cicd-sample-docs-pure-spec.yml"
+    --8<-- "snippets/manifests/deployment/Ingress/cicd-sample-docs-pure-spec.yml"
     ```
 
 `enabled`

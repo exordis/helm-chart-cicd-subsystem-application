@@ -18,7 +18,7 @@ title: Cluster Role
 
     ``` yaml
     
-    --8<-- "snippets/manifests/ClusterRole/cicd-test-sample-docs-application.yml"
+    --8<-- "snippets/manifests/deployment/ClusterRole/cicd-test-sample-docs-application.yml"
     
     ```
 

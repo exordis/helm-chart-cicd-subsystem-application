@@ -10,27 +10,27 @@
 === "Secret Manifests"
 
     ``` yaml
-    --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-full-metadata.yml"
+    --8<-- "snippets/manifests/deployment/Secret/cicd-sample-docs-secret-full-metadata.yml"
     ```
 
     ``` yaml
-    --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-with-containers.yml"
+    --8<-- "snippets/manifests/deployment/Secret/cicd-sample-docs-secret-with-containers.yml"
     ```
 
     ``` yaml
-    --8<-- "snippets/manifests/Secret/cicd-sample-docs-secret-without-containers.yml"
+    --8<-- "snippets/manifests/deployment/Secret/cicd-sample-docs-secret-without-containers.yml"
     ```
 
 === "Deployment Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/Deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/deployment/Deployment/cicd-sample-docs.yml"
     ```
 
 === "CronJob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/deployment/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 `enabled`

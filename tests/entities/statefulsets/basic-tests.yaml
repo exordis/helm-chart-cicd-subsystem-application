@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/StatefulSet
+templates:
+  - templates/statefulset.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should generate statefulset from minimum data in values
+    set: 
+      workload: 
+        kind: StatefulSet
+    asserts:
+      - containsDocument:
+          kind: StatefulSet
+          apiVersion: apps/v1
+          name: cicd-sample-unittests
+          namespace: cicd-test
+
+  - it: Should not generate StatefulSet if workload is none
+    set: 
+      workload: 
+        kind: StatefulSet
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Should not generate StatefulSet volumeClaimTemplates from pvcs
+    set: 
+      workload: 
+        kind: StatefulSet
+      pvcs:
+        pvc1: 
+          convertToTemplateForStatefulSet: false    
+        pvc2: {}       
+    asserts:
+      - lengthEqual:
+          path: spec.volumeClaimTemplates
+          count: 1    
+      - equal:
+          path: spec.volumeClaimTemplates[0].metadata.name
+          value: "cicd-sample-unittests-pvc2"
+                  
+
+  - it: Should override replicas
+    set:
+      applicationContainer:
+        spec:
+          ports:
+            - containerPort: 80
+              name: http  
+      statefulset:
+        spec:
+          replicas: 4
+      workload: 
+        kind: StatefulSet
+        replicas: 1
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+
+  - it: Should preserve pod template non-overridable values
+    set:
+      workload: 
+        kind: StatefulSet
+      statefulset:
+        spec:
+          template:
+            metadata:
+              labels:
+                custom-label: "custom label"
+              annotations:
+                custom-annotation: "custom annotation"
+            spec:
+              terminationGracePeriodSeconds: 60
+    asserts:
+      - equal:
+          path: spec.template.spec.terminationGracePeriodSeconds
+          value: 60
+      - equal:
+          path: spec.template.metadata.labels.custom-label
+          value: "custom label"
+      - equal:
+          path: spec.template.metadata.annotations.custom-annotation
+          value: "custom annotation"
+
+
+  - it: Should have label exordis/application-workload on statefulset and template
+    set:
+      workload: 
+        kind: StatefulSet
+      statefulset: {}
+    asserts:
+      - isSubset:
+          path: metadata.labels
+          content:
+            exordis/application-workload: "true"
+      - isSubset:
+          path: spec.template.metadata.labels
+          content:
+            exordis/application-workload: "true"
+      

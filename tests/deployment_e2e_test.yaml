@@ -1,10 +1,10 @@
-suite: Ensure no changes in manifests compared to saved snapshot (no unintentional changes)
+suite: "E2E/Deployment - Ensure no changes in manifests compared to saved snapshot (no unintentional changes)"
 templates:
   - templates/*.yaml
 values:
   - "../docs/snippets/values/values.linter.yaml"
   - "../docs/snippets/values/metadata.yaml"
-  - "../docs/snippets/values/workload.yaml"
+  - "../docs/snippets/values/workload-deployment.yaml"
   - "../docs/snippets/values/docker-defaults.yaml"
   - "../docs/snippets/values/configmaps.yaml"
   - "../docs/snippets/values/cronjobs.yaml"

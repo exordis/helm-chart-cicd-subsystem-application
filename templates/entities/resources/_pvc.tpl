@@ -4,6 +4,7 @@
 {{- define "subsystem-application.entities.pvc.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 {{ include "subsystem-application.metadata.entity-defaults" $ }}
+convertToTemplateForStatefulSet: true
 mounts: {}
 spec:
   accessModes:
@@ -22,13 +23,12 @@ name: {{ include "sdk.naming.conventions.kind" (list $ $id "PersistentVolumeClai
 {{- end -}}
 
 
-
 {{- define "subsystem-application.entities.pvc.process" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
     {{- $wrong_references := "" -}}
 
     {{- $known_containers := list -}}
-    {{- range $workload := concat ($.entities.deployments | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
+    {{- range $workload := concat ($.entities.deployments | default dict | values)  ($.entities.statefulsets | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
       {{- range $container := $workload.containers | values | concat ($workload.initContainers | values)  -}}
         {{- $known_containers = $known_containers | concat (list $container.ref)  -}}
       {{- end -}}

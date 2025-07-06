@@ -1,5 +1,7 @@
 {{- include "sdk.engine.init" $ -}}
-{{- range $.entities.pvcs }}
+{{- /* TODO: check for flag indicating if template should be created or pvc must be a pvc */ -}}
+{{- range $.entities.pvcs -}}
+{{- if $.Values.workload.kind | ne "StatefulSet" | or (not .convertToTemplateForStatefulSet) }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -7,4 +9,5 @@ metadata: {{ include "subsystem-application.metadata.entity-metadata" (list $ .)
 spec:
 {{ .spec | toYaml | indent 2 }}
 
+{{- end -}}
 {{- end -}}

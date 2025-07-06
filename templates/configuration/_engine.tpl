@@ -2,6 +2,7 @@
 modules:
   - configuration
   - deployment
+  - statefulset
   - networking
   - cronjobs
   - storage
@@ -17,6 +18,7 @@ entities:
   pvcs: {}
   cronjobs: {}
   deployments: {}
+  statefulsets: {}
   clusterRoles: {}
   serviceAccounts: {}
 shared_ids:

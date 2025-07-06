@@ -12,19 +12,19 @@ title: External Secret
 === "ExternalSecret Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/ExternalSecret/cicd-sample-docs-external-full.yml"
+    --8<-- "snippets/manifests/deployment/ExternalSecret/cicd-sample-docs-external-full.yml"
     ```
 
 === "Deployment Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/Deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/deployment/Deployment/cicd-sample-docs.yml"
     ```
 
 === "CronJob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/deployment/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 `enabled`

@@ -7,13 +7,13 @@
 
     ``` yaml
     --8<-- "snippets/values/workload.yaml"
-    --8<-- "snippets/values/deployment.yaml"
+    --8<-- "snippets/values/statefulset.yaml"
     ```
 
-=== "Deployment Manifest"
+=== "StatefulSet Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/deployment/Deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/statefulset/StatefulSet/cicd-sample-docs.yml"
     ```
 
 
@@ -77,3 +77,4 @@ None
 - `spec.template.spec.containers` is generated  from [Containers](../Components/containers.md)
 - `spec.template.spec.initContainers` is generated  from [Containers](../Components/containers.md)
 - `spec.template.spec.volumes` is generated  from [Volumes](../Components/volumes.md)
+- `spec.volumeClaimTemplates` is generated  from [PVCs](../Resources/pvc.md) with `convertToTemplateForStatefulSet: true`

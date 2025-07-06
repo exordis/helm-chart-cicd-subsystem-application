@@ -14,27 +14,27 @@ title: ConfigMap
 === "ConfigMap Manifests"
 
     ``` yaml
-    --8<-- "snippets/manifests/ConfigMap/cicd-sample-docs-config-map-full-metadata.yml"
+    --8<-- "snippets/manifests/deployment/ConfigMap/cicd-sample-docs-config-map-full-metadata.yml"
     ```
 
     ``` yaml
-    --8<-- "snippets/manifests/ConfigMap/cicd-sample-docs-config-map-with-containers.yml"
+    --8<-- "snippets/manifests/deployment/ConfigMap/cicd-sample-docs-config-map-with-containers.yml"
     ```
 
     ``` yaml
-    --8<-- "snippets/manifests/ConfigMap/cicd-sample-docs-config-map-without-containers.yml"
+    --8<-- "snippets/manifests/deployment/ConfigMap/cicd-sample-docs-config-map-without-containers.yml"
     ```
 
 === "Deployment Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/Deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/deployment/Deployment/cicd-sample-docs.yml"
     ```
 
 === "CronJob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/deployment/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 `enabled`
