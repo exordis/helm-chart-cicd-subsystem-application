@@ -1,0 +1,103 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations: {}
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 1.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs-cleanup
+  namespace: cicd-test
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            custom-annotation: custom annotation
+          labels:
+            app.kubernetes.io/component: cicd-sample
+            app.kubernetes.io/instance: docs
+            app.kubernetes.io/managed-by: helm
+            app.kubernetes.io/name: cicd-sample
+            app.kubernetes.io/part-of: cicd
+            app.kubernetes.io/version: 1.0.0
+            custom-label: custom label
+            exordis/application: cicd-sample
+            exordis/application-instance: docs
+            exordis/application-type: service
+            exordis/environment: test
+            exordis/product: Some Product
+            exordis/subsystem: cicd
+            helm.sh/chart: cicd-subsystem-application-0.1.0
+        spec:
+          containers:
+            - args:
+                - tag
+                - delete
+                - --registry
+              envFrom:
+                - secretRef:
+                    name: cicd-sample-docs-external-full
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+                - secretRef:
+                    name: cicd-sample-docs-secret-with-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: registry.gitlab.com/cicd-unittests:1.0.0
+              imagePullPolicy: IfNotPresent
+              name: main
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts:
+                - mountPath: /some-data
+                  name: volume2
+          initContainers:
+            - envFrom:
+                - secretRef:
+                    name: cicd-sample-docs-external-full
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: registry.gitlab.com/cicd-sample/cleanup-init:1.0.0
+              imagePullPolicy: IfNotPresent
+              name: cleanup-init
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts: []
+          restartPolicy: Never
+          serviceAccountName: default
+          volumes:
+            - emptyDir:
+                sizeLimit: 300Mi
+              name: volume2
+      ttlSecondsAfterFinished: 86400
+  schedule: 0 6 * * *

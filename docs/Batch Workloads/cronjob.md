@@ -12,7 +12,7 @@
 === "Cronjob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/deployment/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 `enabled`

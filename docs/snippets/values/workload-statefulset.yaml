@@ -1,0 +1,4 @@
+workload:
+  kind: StatefulSet
+  replicas: 3
+  clusterRole: application

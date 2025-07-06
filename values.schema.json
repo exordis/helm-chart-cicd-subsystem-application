@@ -38,7 +38,8 @@
           "kind":{
             "type": "string",
             "enum": [
-              "Deployment"
+              "Deployment",
+              "StatefulSet"
             ]
     
           },
@@ -100,6 +101,9 @@
       },
       "deployment": {
         "$ref": "#/definitions/deployment"
+      },
+      "statefulset": {
+        "$ref": "#/definitions/statefulset"
       },
       "envs": {
         "type": "object",
@@ -510,6 +514,9 @@
           "enabled": {
             "type": "boolean"
           },              
+          "convertToTemplateForStatefulSet": {
+            "type": "boolean"
+          },              
           "annotations": {
             "type": "object",
             "patternProperties": {
@@ -759,6 +766,15 @@
         "pattern": "^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
       },
       "deployment": {
+        "type": "object",
+        "properties": {
+          "spec": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false
+      },
+      "statefulset": {
         "type": "object",
         "properties": {
           "spec": {

@@ -4,6 +4,7 @@ templates/temporary.yaml
 .idea
 #tests/__snapshot__/*
 tmp/
+tmpcharts*/
 charts/
 *.tgz
 .vscode/

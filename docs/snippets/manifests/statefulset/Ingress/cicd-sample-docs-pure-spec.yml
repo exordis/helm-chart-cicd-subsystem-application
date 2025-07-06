@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  labels:
+    app.kubernetes.io/component: cicd-sample
+    app.kubernetes.io/instance: docs
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/name: cicd-sample
+    app.kubernetes.io/part-of: cicd
+    app.kubernetes.io/version: 1.0.0
+    exordis/application: cicd-sample
+    exordis/application-instance: docs
+    exordis/application-type: service
+    exordis/environment: test
+    exordis/product: Some Product
+    exordis/subsystem: cicd
+    helm.sh/chart: cicd-subsystem-application-0.1.0
+  name: cicd-sample-docs-pure-spec
+  namespace: cicd-test
+spec:
+  defaultBackend:
+    service:
+      name: full
+      port:
+        name: api
+  rules:
+    - host: host1.k3s.local
+      http:
+        paths:
+          - path: /api/v3(/|$)(.*)
+            pathType: Prefix
+          - path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - host1.k3s.local
+      secretName: testsecret-tls
