@@ -11,6 +11,7 @@ spec:
 containers: {}
 initContainers: {}
 volumes: {}
+pvcs: {}
 
 {{ end -}}
 
@@ -45,6 +46,7 @@ subcollections:
   - containers
   - initContainers
   - volumes
+  - pvcs
 {{- end -}}
 
 {{- define "subsystem-application.entities.statefulset.process" -}}

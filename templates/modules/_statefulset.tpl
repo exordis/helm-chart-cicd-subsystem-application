@@ -9,18 +9,24 @@
     {{- $workload := $.entities.statefulsets.workload  -}}
     {{- include "sdk.engine.create-entity" (list $ "container" "application" ($.Values.applicationContainer | default dict ) $workload ) -}}
 
-    {{- /* create pvc volumes and templates */ -}} 
+    {{- /* create pvc volumes */ -}} 
     {{- range $pvc_id, $pvc := $.Values.pvcs -}}  
       {{- $pvc := $pvc | default dict -}}
       {{- $mounts := $pvc.mounts | default dict  -}}   
-      {{- $needsVolume := false -}}
+
+      {{- $convertToTemplateForStatefulSet := (or (not (hasKey ($pvc|default dict) "convertToTemplateForStatefulSet")) $pvc.convertToTemplateForStatefulSet) -}}
+      {{- if $convertToTemplateForStatefulSet -}}
+        {{- include "sdk.engine.create-entity" (list $ "pvc" $pvc_id $pvc $workload) -}}
+      {{- end -}}
 
       {{- range $container := $workload.containers | values | concat ($workload.initContainers | values) -}}
-        {{- if hasKey $mounts  $container.ref   -}}
-          {{- $volume := dict "pvc" $pvc_id "mounts" ($pvc.mounts | default dict) "pvc" $pvc_id   -}}
+        {{- if hasKey $mounts  $container.ref -}}
+          {{- $volume := dict "volumeClaimTemplate" $pvc_id "mounts" ($pvc.mounts | default dict)  -}}
           {{- include "sdk.engine.create-entity" (list $ "volume" $pvc_id $volume $workload) -}}
         {{- end -}}        
       {{- end -}}
+
+
     {{- end -}}
 
   {{- end -}}
