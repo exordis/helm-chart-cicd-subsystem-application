@@ -24,7 +24,7 @@
 
 `mounts`    
 
-:   Defines list of mounts for containers. Format `key` - container name, `value` - mount path 
+:   Defines list of mounts for containers. Format `key` - container name, `value` - mount path as string or dict with `path` for mount path and `mountPropagation` (allowed values are `HostToContainer`, `Bidirectional`). `mountPropagation` is optional
 
 
 `spec`    

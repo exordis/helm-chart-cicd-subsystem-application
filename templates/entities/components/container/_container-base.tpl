@@ -67,8 +67,17 @@ ref: {{ printf "%s.%s.%s" $parent_collection $parent.id $id }}
 
   {{- range $volume := ($container.parent | default $.entities).volumes | default dict -}}
     {{- range $mountContainer, $mountPath := $volume.mounts -}}
+      {{- $mountPropagation := "None" -}}
+      {{- if kindIs "map" $mountPath }}
+        {{- $mountPropagation = $mountPath.mountPropagation | default "None" -}}
+        {{- $mountPath = $mountPath.path -}}
+      {{- end -}}
       {{- if $mountContainer | eq $container.id }}
-        {{- $_ := set $container.spec "volumeMounts" ($container.spec.volumeMounts | concat (list (dict "mountPath"  $mountPath "name" $volume.name)))  -}}
+        {{- if $mountPropagation | ne "None" -}}
+          {{- $_ := set $container.spec "volumeMounts" ($container.spec.volumeMounts | concat (list (dict "mountPath"  $mountPath "name" $volume.name "mountPropagation" $mountPropagation )))  -}}
+        {{- else -}}
+          {{- $_ := set $container.spec "volumeMounts" ($container.spec.volumeMounts | concat (list (dict "mountPath"  $mountPath "name" $volume.name )))  -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
