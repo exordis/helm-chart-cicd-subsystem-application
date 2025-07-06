@@ -771,7 +771,26 @@
         "type": "object",
         "patternProperties": {
           "^[a-zA-Z0-9.-]+$": {
-            "$ref": "#/definitions/absolutePath"
+            "oneOf": [
+              {
+                "type": "string",
+                "$ref": "#/definitions/nullableAbsolutePath"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "$ref": "#/definitions/nullableAbsolutePath"
+                  },
+                  "mountPropagation": {
+                    "type": "string",
+                    "enum": ["None", "HostToContainer", "Bidirectional"]
+                  }
+                },
+                "required": ["path"],
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "additionalProperties": false
