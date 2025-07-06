@@ -189,7 +189,7 @@ Application workload is configured with `workload`:
 
 `kind`
 
-:   workload kind. Only [Deployment](Workloads/deployment.md) is supported at the moment
+:   workload kind. [Deployment](Workloads/deployment.md) or [StatefulSet](Workloads/statefulset.md)
 
     **default:** `Deployment`
 

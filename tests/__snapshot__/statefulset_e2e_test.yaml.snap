@@ -895,9 +895,6 @@ manifest should match snapshot:
               volumeMounts: []
           serviceAccountName: cicd-sample-docs-workload
           volumes:
-            - name: mypvc
-              persistentVolumeClaim:
-                claimName: cicd-sample-docs-mypvc
             - emptyDir:
                 sizeLimit: 100Mi
               name: volume1

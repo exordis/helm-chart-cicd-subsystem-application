@@ -4,7 +4,7 @@
 
 {{- define "subsystem-application.entities.volume.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
-
+render: true
 mounts: {}
 spec:
 {{- if $data.spec | default dict | len | ne 0 -}}

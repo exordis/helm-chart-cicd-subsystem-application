@@ -19,7 +19,11 @@ spec:
 
 # Return entity overrides
 kind: PersistentVolumeClaim
+{{ if $pvc.convertToTemplateForStatefulSet | and ($.Values.workload.kind | eq "StatefulSet") -}}
+name: {{ include "sdk.naming.conventions.kind" (list $ $id "Volume"  ) | quote }} 
+{{- else -}}
 name: {{ include "sdk.naming.conventions.kind" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
+{{- end -}}
 {{- end -}}
 
 
