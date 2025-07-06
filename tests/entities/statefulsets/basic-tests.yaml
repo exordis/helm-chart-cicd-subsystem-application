@@ -32,7 +32,9 @@ tests:
       pvcs:
         pvc1: 
           convertToTemplateForStatefulSet: false    
-        pvc2: {}       
+        pvc2: 
+          annotations:
+            exordis/no-backups: "true"
     asserts:
       - lengthEqual:
           path: spec.volumeClaimTemplates
@@ -40,6 +42,10 @@ tests:
       - equal:
           path: spec.volumeClaimTemplates[0].metadata.name
           value: "cicd-sample-unittests-pvc2"
+      - isSubset:
+          path: spec.volumeClaimTemplates[0].metadata.annotations
+          content:
+            exordis/no-backups: "true"            
                   
 
   - it: Should override replicas
