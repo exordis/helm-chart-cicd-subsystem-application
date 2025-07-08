@@ -759,7 +759,7 @@
       },
       "dockerTag": {
         "type": "string",
-        "pattern": "^[\\w][\\w.-]{0,127}$"
+        "pattern": "^[\\w][\\w.@:-]{0,127}$"
       },
       "semver": {
         "type": "string",
