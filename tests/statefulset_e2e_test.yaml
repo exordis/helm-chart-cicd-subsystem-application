@@ -4,11 +4,11 @@ templates:
 values:
   - "../docs/snippets/values/values.linter.yaml"
   - "../docs/snippets/values/metadata.yaml"
-  - "../docs/snippets/values/workload-statefulset.yaml"
+  - "../docs/snippets/values/statefulset.yaml"
   - "../docs/snippets/values/docker-defaults.yaml"
   - "../docs/snippets/values/configmaps.yaml"
   - "../docs/snippets/values/cronjobs.yaml"
-  - "../docs/snippets/values/deployment.yaml"
+  - "../docs/snippets/values/workload-statefulset.yaml"
   - "../docs/snippets/values/secrets.yaml"
   - "../docs/snippets/values/services.yaml"
   - "../docs/snippets/values/externalSecrets.yaml"

@@ -12,4 +12,14 @@ statefulset:
         annotations:
           custom-annotation: "custom annotation"
       spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: "topology.kubernetes.io/zone"
+                      operator: In
+                      values:
+                        - pve02
+                        - pve03  
         terminationGracePeriodSeconds: 60
