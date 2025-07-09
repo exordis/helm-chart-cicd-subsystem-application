@@ -157,7 +157,9 @@ spec:
             sizeLimit: 100Mi
           name: volume1
   volumeClaimTemplates:
-    - metadata:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
         annotations: {}
         labels:
           app.kubernetes.io/component: cicd-sample
