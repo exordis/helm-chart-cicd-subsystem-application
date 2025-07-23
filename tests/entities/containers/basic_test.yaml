@@ -78,7 +78,33 @@ tests:
           content:
             name: myinit
 
+  - it: Should sort initContainers by order
+    template: templates/deployment.yaml
+    set:
+      workload: 
+        kind: Deployment
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      applicationContainer:
+      initContainers:
+        init1:
+          order: 2
+        init2:
+          order: 1
+    asserts:
+      - lengthEqual:
+            path: spec.template.spec.initContainers
+            count: 2
+      - equal:
+          path: spec.template.spec.initContainers[0].name
+          value: init2
+      - equal:
+          path: spec.template.spec.initContainers[1].name
+          value: init1
 
+
+              
   - it: Should generate image for containers with explicitly provided values
     template: templates/deployment.yaml
     set:

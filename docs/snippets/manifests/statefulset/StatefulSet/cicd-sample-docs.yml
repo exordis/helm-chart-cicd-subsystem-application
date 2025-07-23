@@ -159,7 +159,27 @@ spec:
                 name: cicd-sample-docs-config-map-without-containers
           image: registry.gitlab.com/my-migration-image:1.0.0
           imagePullPolicy: Always
-          name: migration
+          name: migration1
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          volumeMounts: []
+        - envFrom:
+            - secretRef:
+                name: cicd-sample-docs-external-full
+            - secretRef:
+                name: cicd-sample-docs-secret-without-containers
+            - configMapRef:
+                name: cicd-sample-docs-envs
+            - configMapRef:
+                name: cicd-sample-docs-config-map-without-containers
+          image: registry.gitlab.com/my-migration-image:1.0.0
+          imagePullPolicy: Always
+          name: migration2
           resources:
             limits:
               cpu: 200m

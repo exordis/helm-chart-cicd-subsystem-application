@@ -9,7 +9,15 @@ applicationContainer:
 
 # application workload init containers
 initContainers:
-  migration:
+  migration2:
+    order: 2
+    image:
+      repository: my-migration-image
+      version: 1.0.0
+    spec:
+      imagePullPolicy: Always
+  migration1:
+    order: 1
     image:
       repository: my-migration-image
       version: 1.0.0

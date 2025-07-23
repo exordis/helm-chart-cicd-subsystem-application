@@ -126,7 +126,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/definitions/container"
+                "$ref": "#/definitions/initContainer"
               }
             ]
           }
@@ -860,6 +860,22 @@
           }
         },
         "additionalProperties": false
+      },
+      "initContainer": {
+        "type": "object",
+        "properties": {
+          "spec": {
+            "type": "object"
+          },
+          "image": {
+            "$ref": "#/definitions/dockerImage"
+          },
+          "order": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
       }
+
     }
   }
