@@ -96,6 +96,9 @@
     `tcpSocket` is added only if container has exposed ports with protocol `TCP` (otherwise default default probe is generated without probe type and has no effect) , actual port number is populated as number of first exposed port. 
      
 
+`order`    
+
+:   Applicable only for init containers - order of execution (init containers are sorted by `order`,`name` in workload manifest). Default 1000.
 
 ## Validations
 
