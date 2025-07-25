@@ -62,9 +62,9 @@ title: External Secret
 
 `keys`
 
-:   map of `referenceKey -> sourceKey`. Simple shortcut for the case where list of external secret keys are to be passed with given key names to target secret 
+:   map of `targetKey -> remoteKey`. Simple shortcut for the case where list of external secret keys are to be passed with given key names to target secret 
 
-    if `sourceKey` is nil it defaults to `referenceKey` value
+    if `remoteKey` is nil it defaults to `targetKey` value
 
     **default:** empty dict
 

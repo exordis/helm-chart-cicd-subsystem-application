@@ -25,11 +25,11 @@ metadata:
 spec:
   data:
     - remoteRef:
-        key: SITE_LOGIN
-      secretKey: LOGIN
+        key: LOGIN
+      secretKey: SITE_LOGIN
     - remoteRef:
-        key: SITE_PASSWORD
-      secretKey: PASSWORD
+        key: PASSWORD
+      secretKey: SITE_PASSWORD
   refreshInterval: 1m
   secretStoreRef:
     kind: ClusterSecretStore
@@ -41,8 +41,8 @@ spec:
     template:
       data:
         AUTH: '{{ `{{ .LOGIN }}:{{ .PASSWORD }}` }}'
-        LOGIN: '{{ .LOGIN }}'
-        PASSWORD: '{{ .PASSWORD }}'
+        SITE_LOGIN: '{{ .SITE_LOGIN }}'
+        SITE_PASSWORD: '{{ .SITE_PASSWORD }}'
       metadata:
         annotations:
           extra-annotation: annotation value
