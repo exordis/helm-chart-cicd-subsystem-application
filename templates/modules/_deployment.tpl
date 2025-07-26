@@ -17,9 +17,13 @@
 
       {{- range $container := $workload.containers | values | concat ($workload.initContainers | values) -}}
         {{- if hasKey $mounts  $container.ref   -}}
+          {{- $needsVolume = true -}}
+        {{- end -}}        
+      {{- end -}}
+
+      {{- if $needsVolume -}}
           {{- $volume := dict "pvc" $pvc_id "mounts" ($pvc.mounts | default dict) "pvc" $pvc_id   -}}
           {{- include "sdk.engine.create-entity" (list $ "volume" $pvc_id $volume $workload) -}}
-        {{- end -}}        
       {{- end -}}
     {{- end -}}
 
