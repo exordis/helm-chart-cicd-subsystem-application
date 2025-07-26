@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
 suite: Entities/PVC
 templates:
-  - templates/deployment.yaml
+  - templates/statefulset.yaml
 values:
   - ../values.metadata.yaml
 tests:
@@ -19,17 +19,16 @@ tests:
           mounts:
             application: /data       
             init: /init-data   
-            car: /car-data      
+            car: /car-data   
+      workload: 
+        kind: StatefulSet    
     asserts:
       - lengthEqual:
-          path: spec.template.spec.volumes
+          path: spec.volumeClaimTemplates
           count: 1
-      - equal:
-          path: spec.template.spec.volumes[?(@.name=="mypvc")]
-          value:
-            name: mypvc
-            persistentVolumeClaim:
-              claimName: cicd-sample-unittests-mypvc
+      - notEqual:
+          path: spec.volumeClaimTemplates[?(@.metadata.name=="mypvc")]
+          value: []
       - equal:
           path: spec.template.spec.containers[?(@.name=="application")].volumeMounts
           value:
