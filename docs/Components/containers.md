@@ -16,13 +16,13 @@
 === "Deployment Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/Deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/deployment/Deployment/cicd-sample-docs.yml"
     ```
 
 === "CronJob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/deployment/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 `image`    
@@ -96,6 +96,9 @@
     `tcpSocket` is added only if container has exposed ports with protocol `TCP` (otherwise default default probe is generated without probe type and has no effect) , actual port number is populated as number of first exposed port. 
      
 
+`order`    
+
+:   Applicable only for init containers - order of execution (init containers are sorted by `order`,`name` in workload manifest). Default 1000.
 
 ## Validations
 

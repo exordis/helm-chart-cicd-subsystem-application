@@ -11,13 +11,13 @@
 === "Service Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/Service/cicd-sample-docs-full.yml"
+    --8<-- "snippets/manifests/deployment/Service/cicd-sample-docs-full.yml"
     ```
 
 === "ServiceMonitor Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/ServiceMonitor/cicd-sample-docs-full.yml"
+    --8<-- "snippets/manifests/deployment/ServiceMonitor/cicd-sample-docs-full.yml"
     ```
 
 `enabled`

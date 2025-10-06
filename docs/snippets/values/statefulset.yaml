@@ -1,0 +1,25 @@
+statefulset:
+  spec:
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template: 
+      metadata:
+        labels:
+          custom-label: "custom label"
+        annotations:
+          custom-annotation: "custom annotation"
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: "topology.kubernetes.io/zone"
+                      operator: In
+                      values:
+                        - pve02
+                        - pve03  
+        terminationGracePeriodSeconds: 60

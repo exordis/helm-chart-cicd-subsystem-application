@@ -38,7 +38,8 @@
           "kind":{
             "type": "string",
             "enum": [
-              "Deployment"
+              "Deployment",
+              "StatefulSet"
             ]
     
           },
@@ -101,6 +102,9 @@
       "deployment": {
         "$ref": "#/definitions/deployment"
       },
+      "statefulset": {
+        "$ref": "#/definitions/statefulset"
+      },
       "envs": {
         "type": "object",
         "patternProperties": {
@@ -122,7 +126,7 @@
                 "type": "null"
               },
               {
-                "$ref": "#/definitions/container"
+                "$ref": "#/definitions/initContainer"
               }
             ]
           }
@@ -510,6 +514,9 @@
           "enabled": {
             "type": "boolean"
           },              
+          "convertToTemplateForStatefulSet": {
+            "type": "boolean"
+          },              
           "annotations": {
             "type": "object",
             "patternProperties": {
@@ -752,7 +759,7 @@
       },
       "dockerTag": {
         "type": "string",
-        "pattern": "^[\\w][\\w.-]{0,127}$"
+        "pattern": "^[\\w][\\w.@:-]{0,127}$"
       },
       "semver": {
         "type": "string",
@@ -767,11 +774,39 @@
         },
         "additionalProperties": false
       },
+      "statefulset": {
+        "type": "object",
+        "properties": {
+          "spec": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false
+      },
       "mounts": {
         "type": "object",
         "patternProperties": {
           "^[a-zA-Z0-9.-]+$": {
-            "$ref": "#/definitions/absolutePath"
+            "oneOf": [
+              {
+                "type": "string",
+                "$ref": "#/definitions/nullableAbsolutePath"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "$ref": "#/definitions/nullableAbsolutePath"
+                  },
+                  "mountPropagation": {
+                    "type": "string",
+                    "enum": ["None", "HostToContainer", "Bidirectional"]
+                  }
+                },
+                "required": ["path"],
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -825,6 +860,22 @@
           }
         },
         "additionalProperties": false
+      },
+      "initContainer": {
+        "type": "object",
+        "properties": {
+          "spec": {
+            "type": "object"
+          },
+          "image": {
+            "$ref": "#/definitions/dockerImage"
+          },
+          "order": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
       }
+
     }
   }

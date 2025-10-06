@@ -1,0 +1,24 @@
+suite: "E2E/Deployment - Ensure no changes in manifests compared to saved snapshot (no unintentional changes)"
+templates:
+  - templates/*.yaml
+values:
+  - "../docs/snippets/values/values.linter.yaml"
+  - "../docs/snippets/values/metadata.yaml"
+  - "../docs/snippets/values/deployment.yaml"
+  - "../docs/snippets/values/docker-defaults.yaml"
+  - "../docs/snippets/values/configmaps.yaml"
+  - "../docs/snippets/values/cronjobs.yaml"
+  - "../docs/snippets/values/workload-deployment.yaml"
+  - "../docs/snippets/values/secrets.yaml"
+  - "../docs/snippets/values/services.yaml"
+  - "../docs/snippets/values/externalSecrets.yaml"
+  - "../docs/snippets/values/ingresses.yaml"
+  - "../docs/snippets/values/pvcs.yaml"
+  - "../docs/snippets/values/containers.yaml"
+  - "../docs/snippets/values/volumes.yaml"
+  - "../docs/snippets/values/clusterRoles.yaml"
+tests:
+  - it: manifest should match snapshot
+    asserts:
+      - matchSnapshot: {}
+

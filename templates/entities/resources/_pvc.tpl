@@ -4,6 +4,7 @@
 {{- define "subsystem-application.entities.pvc.defaults" -}}
 {{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $data := index . 2 -}}
 {{ include "subsystem-application.metadata.entity-defaults" $ }}
+convertToTemplateForStatefulSet: true
 mounts: {}
 spec:
   accessModes:
@@ -14,13 +15,16 @@ spec:
 {{- end -}}
 
 {{- define "subsystem-application.entities.pvc.create" -}}
-{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}
+{{- $ := index . 0 -}}{{- $id := index . 1 -}}{{- $pvc := index . 2 -}}{{- $parent := index . 3 -}}
 
 # Return entity overrides
 kind: PersistentVolumeClaim
+{{ if and ($.Values.workload.kind | eq "StatefulSet") ($pvc.convertToTemplateForStatefulSet) -}}
+name: {{ include "sdk.naming.conventions.component" (list $ $id "Volume" $parent.id $parent.kind   ) | quote }}
+{{- else -}}
 name: {{ include "sdk.naming.conventions.kind" (list $ $id "PersistentVolumeClaim"  ) | quote }} 
 {{- end -}}
-
+{{- end -}}
 
 
 {{- define "subsystem-application.entities.pvc.process" -}}
@@ -28,7 +32,7 @@ name: {{ include "sdk.naming.conventions.kind" (list $ $id "PersistentVolumeClai
     {{- $wrong_references := "" -}}
 
     {{- $known_containers := list -}}
-    {{- range $workload := concat ($.entities.deployments | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
+    {{- range $workload := concat ($.entities.deployments | default dict | values)  ($.entities.statefulsets | default dict | values) ($.entities.cronjobs | default dict | values)  -}}
       {{- range $container := $workload.containers | values | concat ($workload.initContainers | values)  -}}
         {{- $known_containers = $known_containers | concat (list $container.ref)  -}}
       {{- end -}}

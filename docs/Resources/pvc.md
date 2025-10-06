@@ -15,12 +15,18 @@ title: PVC
 === "PersistentVolumeClaim Manifests"
 
     ``` yaml
-    --8<-- "snippets/manifests/PersistentVolumeClaim/cicd-sample-docs-mypvc.yml"
+    --8<-- "snippets/manifests/deployment/PersistentVolumeClaim/cicd-sample-docs-mypvc.yml"
     ```
 
 `enabled`
 
 :   if set to false pvc is excluded from rendering
+
+    **default:** true
+
+`convertToTemplateForStatefulSet`
+
+:   if set to true pvc is manifest is not generated if `workload.kind` is `StatefulSet`, but [StatefulSet](../Workloads/statefulset.md) manifest `volumeClaimTemplates` is extended instead
 
     **default:** true
 

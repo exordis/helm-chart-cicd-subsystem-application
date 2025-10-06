@@ -2,7 +2,8 @@
 {{- define "subsystem-application.entities.initContainers.entity" -}}init-container{{- end -}}
 
 {{- define "subsystem-application.entities.init-container.defaults" -}}
-{{- include "subsystem-application.entities.container-base.defaults" . -}}
+order: 1000
+{{ include "subsystem-application.entities.container-base.defaults" . -}}
 {{- end -}}
 
 {{- define "subsystem-application.entities.init-container.create" -}}

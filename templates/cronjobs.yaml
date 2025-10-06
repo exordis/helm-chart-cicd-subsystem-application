@@ -30,9 +30,7 @@ spec:
             - {{  .spec | toYaml |  nindent 14 | trim }}
             {{- end }}      
           initContainers:
-            {{- range .initContainers }}
-            - {{ .spec | toYaml | nindent 14 | trim }}
-            {{- end }}
+            {{- include "subsystem-application.helpers.sort-init-container" (list $ .) | nindent 12 }}
           volumes:
             {{- range .volumes }}
             - {{ .spec | toYaml | nindent 14 }}

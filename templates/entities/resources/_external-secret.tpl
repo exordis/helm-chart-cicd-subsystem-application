@@ -56,8 +56,8 @@ spec:
           {{- include "subsystem-application.metadata.common-annotations" $  | fromYaml | mustMergeOverwrite $externalSecret.annotations $targetAnnotations | toYaml | nindent 10 }}
       {{- if $externalSecret.keys }}
       data:
-        {{- range $remoteRef, $secretKey := $externalSecret.keys -}} 
-        {{- $secretKey = $secretKey | default $remoteRef}}
+        {{- range $secretKey,$remoteRef := $externalSecret.keys -}} 
+        {{- $remoteRef = $remoteRef | default $secretKey }}
         {{ $secretKey }}: '{{`{{`}} .{{$secretKey}} {{`}}`}}'
         {{- $_ := set $externalSecret.spec "data" ( append $externalSecret.spec.data  (dict "secretKey" $secretKey "remoteRef" (dict "key" $remoteRef) ) ) -}}
         {{- end }} 

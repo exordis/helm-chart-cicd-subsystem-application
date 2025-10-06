@@ -12,19 +12,19 @@ title: External Secret
 === "ExternalSecret Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/ExternalSecret/cicd-sample-docs-external-full.yml"
+    --8<-- "snippets/manifests/deployment/ExternalSecret/cicd-sample-docs-external-full.yml"
     ```
 
 === "Deployment Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/Deployment/cicd-sample-docs.yml"
+    --8<-- "snippets/manifests/deployment/Deployment/cicd-sample-docs.yml"
     ```
 
 === "CronJob Manifest"
 
     ``` yaml
-    --8<-- "snippets/manifests/CronJob/cicd-sample-docs-cleanup.yml"
+    --8<-- "snippets/manifests/deployment/CronJob/cicd-sample-docs-cleanup.yml"
     ```
 
 `enabled`
@@ -62,9 +62,9 @@ title: External Secret
 
 `keys`
 
-:   map of `referenceKey -> sourceKey`. Simple shortcut for the case where list of external secret keys are to be passed with given key names to target secret 
+:   map of `targetKey -> remoteKey`. Simple shortcut for the case where list of external secret keys are to be passed with given key names to target secret 
 
-    if `sourceKey` is nil it defaults to `referenceKey` value
+    if `remoteKey` is nil it defaults to `targetKey` value
 
     **default:** empty dict
 

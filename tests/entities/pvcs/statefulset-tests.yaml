@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: Entities/PVC
+templates:
+  - templates/statefulset.yaml
+values:
+  - ../values.metadata.yaml
+tests:
+  - it: Should handle mounts
+    set:
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      initContainers:
+        init:
+      sidecars:
+        car:
+      pvcs:
+        mypvc:
+          mounts:
+            application: /data       
+            init: /init-data   
+            car: /car-data   
+      workload: 
+        kind: StatefulSet    
+    asserts:
+      - lengthEqual:
+          path: spec.volumeClaimTemplates
+          count: 1
+      - notEqual:
+          path: spec.volumeClaimTemplates[?(@.metadata.name=="mypvc")]
+          value: []
+      - equal:
+          path: spec.template.spec.containers[?(@.name=="application")].volumeMounts
+          value:
+            - mountPath: /data
+              name: mypvc
+      - equal:
+          path: spec.template.spec.containers[?(@.name=="car")].volumeMounts
+          value:
+            - mountPath: /car-data
+              name: mypvc
+      - equal:
+          path: spec.template.spec.initContainers[?(@.name=="init")].volumeMounts
+          value:
+            - mountPath: /init-data
+              name: mypvc
+
+  - it: Should fail if references undefined container
+    set:
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      pvcs:
+        mypvc:
+          mounts:
+            unknown: /data  
+            cronjobs.cleanup.unknown: /data
+    asserts:
+      - failedTemplate:
+          errorPattern: pvc 'mypvc' references undefined container 'unknown'          
+      - failedTemplate:
+          errorPattern: pvc 'mypvc' references undefined container 'cronjobs.cleanup.unknown'          

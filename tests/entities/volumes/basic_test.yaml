@@ -32,6 +32,37 @@ tests:
             name: volume-defaults    
             mountPath: /data
           
+  - it: Should generate handle volume mount as dict
+    template: templates/deployment.yaml
+    set:
+      version: 1.0.0
+      registry: registry.gitlab.com
+      repository: cicd-unittests      
+      volumes:
+        volume-defaults:
+          mounts:
+            application: 
+              path: /data
+              mountPropagation: "Bidirectional"
+
+    asserts:
+      - lengthEqual:
+          path: spec.template.spec.volumes
+          count: 1
+      - equal:
+          path: spec.template.spec.volumes[?(@.name=="volume-defaults")]
+          value:
+            name: volume-defaults
+            emptyDir:
+              sizeLimit: 100Mi
+      - contains:
+          path: spec.template.spec.containers[?(@.name=="application")].volumeMounts
+          content:
+            name: volume-defaults    
+            mountPath: /data
+            mountPropagation: "Bidirectional"
+
+          
 
   - it: Should generate volume with respect to spec
     template: templates/deployment.yaml

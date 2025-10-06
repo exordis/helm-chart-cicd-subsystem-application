@@ -265,176 +265,6 @@ manifest should match snapshot:
           ttlSecondsAfterFinished: 86400
       schedule: 0 6 * * *
   8: |
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      annotations: {}
-      labels:
-        app.kubernetes.io/component: cicd-sample
-        app.kubernetes.io/instance: docs
-        app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: cicd-sample
-        app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 1.0.0
-        exordis/application: cicd-sample
-        exordis/application-instance: docs
-        exordis/application-type: service
-        exordis/application-workload: "true"
-        exordis/environment: test
-        exordis/product: Some Product
-        exordis/subsystem: cicd
-        helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: cicd-sample-docs
-      namespace: cicd-test
-    spec:
-      replicas: 3
-      revisionHistoryLimit: 2
-      selector:
-        matchLabels:
-          exordis/application: cicd-sample
-          exordis/application-instance: docs
-          exordis/application-workload: "true"
-          exordis/environment: test
-          exordis/subsystem: cicd
-      strategy:
-        rollingUpdate:
-          maxSurge: 25%
-          maxUnavailable: 25%
-        type: RollingUpdate
-      template:
-        metadata:
-          annotations:
-            checksum/configMap.config-map-with-containers: 48b7e320feb03b105aa89ed415344c030af90d34a34c66f56146d9f0fd2da3e3
-            checksum/configMap.config-map-without-containers: 1dbfa263d171e565d412b904c69bdf60fc6bc8db2fcb31e13049242a8bbdecac
-            checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
-            checksum/configMap.external-secret-template: f921d5d8c41b9909941321f0d31975eb7ca6d83cba279a6fa91b5f035c9c3f56
-            checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
-            checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
-            custom-annotation: custom annotation
-          labels:
-            app.kubernetes.io/component: cicd-sample
-            app.kubernetes.io/instance: docs
-            app.kubernetes.io/managed-by: helm
-            app.kubernetes.io/name: cicd-sample
-            app.kubernetes.io/part-of: cicd
-            app.kubernetes.io/version: 1.0.0
-            custom-label: custom label
-            exordis/application: cicd-sample
-            exordis/application-instance: docs
-            exordis/application-type: service
-            exordis/application-workload: "true"
-            exordis/environment: test
-            exordis/product: Some Product
-            exordis/subsystem: cicd
-            helm.sh/chart: cicd-subsystem-application-0.1.0
-        spec:
-          containers:
-            - envFrom:
-                - secretRef:
-                    name: cicd-sample-docs-external-full
-                - secretRef:
-                    name: cicd-sample-docs-secret-without-containers
-                - secretRef:
-                    name: cicd-sample-docs-secret-with-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-with-containers
-              image: registry.gitlab.com/cicd-unittests:1.0.0
-              imagePullPolicy: IfNotPresent
-              livenessProbe:
-                failureThreshold: 30
-                periodSeconds: 10
-                successThreshold: 1
-                tcpSocket:
-                  port: 80
-                timeoutSeconds: 3
-              name: application
-              ports:
-                - containerPort: 80
-                  name: http
-                  protocol: TCP
-              readinessProbe:
-                failureThreshold: 30
-                periodSeconds: 10
-                successThreshold: 1
-                tcpSocket:
-                  port: 80
-                timeoutSeconds: 3
-              resources:
-                limits:
-                  cpu: 200m
-                  memory: 256Mi
-                requests:
-                  cpu: 50m
-                  memory: 64Mi
-              startupProbe:
-                failureThreshold: 30
-                periodSeconds: 5
-                successThreshold: 1
-                tcpSocket:
-                  port: 80
-                timeoutSeconds: 3
-              volumeMounts:
-                - mountPath: /some-data
-                  name: volume1
-                - mountPath: /pvc-data
-                  name: mypvc
-            - envFrom:
-                - secretRef:
-                    name: cicd-sample-docs-external-full
-                - secretRef:
-                    name: cicd-sample-docs-secret-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-              image: docker.io/jsreport/jsreport:4.7.0
-              imagePullPolicy: IfNotPresent
-              name: jsreport
-              resources:
-                limits:
-                  cpu: 200m
-                  memory: 256Mi
-                requests:
-                  cpu: 50m
-                  memory: 64Mi
-              volumeMounts:
-                - mountPath: /some-another-data-but-same-as-for-application
-                  name: volume1
-          initContainers:
-            - envFrom:
-                - secretRef:
-                    name: cicd-sample-docs-external-full
-                - secretRef:
-                    name: cicd-sample-docs-secret-without-containers
-                - configMapRef:
-                    name: cicd-sample-docs-envs
-                - configMapRef:
-                    name: cicd-sample-docs-config-map-without-containers
-              image: registry.gitlab.com/my-migration-image:1.0.0
-              imagePullPolicy: Always
-              name: migration
-              resources:
-                limits:
-                  cpu: 200m
-                  memory: 256Mi
-                requests:
-                  cpu: 50m
-                  memory: 64Mi
-              volumeMounts: []
-          serviceAccountName: cicd-sample-docs-workload
-          terminationGracePeriodSeconds: 60
-          volumes:
-            - name: mypvc
-              persistentVolumeClaim:
-                claimName: cicd-sample-docs-mypvc
-            - emptyDir:
-                sizeLimit: 100Mi
-              name: volume1
-  9: |
     apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
@@ -462,11 +292,11 @@ manifest should match snapshot:
     spec:
       data:
         - remoteRef:
-            key: SITE_LOGIN
-          secretKey: LOGIN
+            key: LOGIN
+          secretKey: SITE_LOGIN
         - remoteRef:
-            key: SITE_PASSWORD
-          secretKey: PASSWORD
+            key: PASSWORD
+          secretKey: SITE_PASSWORD
       refreshInterval: 1m
       secretStoreRef:
         kind: ClusterSecretStore
@@ -478,8 +308,8 @@ manifest should match snapshot:
         template:
           data:
             AUTH: '{{ `{{ .LOGIN }}:{{ .PASSWORD }}` }}'
-            LOGIN: '{{ .LOGIN }}'
-            PASSWORD: '{{ .PASSWORD }}'
+            SITE_LOGIN: '{{ .SITE_LOGIN }}'
+            SITE_PASSWORD: '{{ .SITE_PASSWORD }}'
           metadata:
             annotations:
               extra-annotation: annotation value
@@ -505,7 +335,7 @@ manifest should match snapshot:
                 items:
                   - keys: config.yml
                 name: cicd-sample-docs-external-secret-template
-  10: |
+  9: |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
@@ -609,7 +439,7 @@ manifest should match snapshot:
             - example.com
             - example.local
           secretName: cicd-sample-docs-full-tls
-  11: |
+  10: |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
@@ -655,7 +485,7 @@ manifest should match snapshot:
         - hosts:
             - host1.local
           secretName: cicd-sample-docs-minimum-tls
-  12: |
+  11: |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
@@ -696,34 +526,7 @@ manifest should match snapshot:
         - hosts:
             - host1.k3s.local
           secretName: testsecret-tls
-  13: |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      annotations: {}
-      labels:
-        app.kubernetes.io/component: cicd-sample
-        app.kubernetes.io/instance: docs
-        app.kubernetes.io/managed-by: helm
-        app.kubernetes.io/name: cicd-sample
-        app.kubernetes.io/part-of: cicd
-        app.kubernetes.io/version: 1.0.0
-        exordis/application: cicd-sample
-        exordis/application-instance: docs
-        exordis/application-type: service
-        exordis/environment: test
-        exordis/product: Some Product
-        exordis/subsystem: cicd
-        helm.sh/chart: cicd-subsystem-application-0.1.0
-      name: cicd-sample-docs-mypvc
-      namespace: cicd-test
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
-  14: |
+  12: |
     apiVersion: v1
     data: {}
     kind: Secret
@@ -750,7 +553,7 @@ manifest should match snapshot:
     stringData:
       password: passw0rd
     type: Opaque
-  15: |
+  13: |
     apiVersion: v1
     data: {}
     kind: Secret
@@ -775,7 +578,7 @@ manifest should match snapshot:
     stringData:
       password: passw0rd
     type: Opaque
-  16: |
+  14: |
     apiVersion: v1
     data: {}
     kind: Secret
@@ -800,7 +603,7 @@ manifest should match snapshot:
     stringData:
       token: t0ken
     type: Opaque
-  17: |
+  15: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
@@ -821,7 +624,7 @@ manifest should match snapshot:
         helm.sh/chart: cicd-subsystem-application-0.1.0
       name: cicd-sample-docs-workload
       namespace: cicd-test
-  18: |
+  16: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -850,7 +653,7 @@ manifest should match snapshot:
       - kind: ServiceAccount
         name: cicd-sample-docs-workload
         namespace: cicd-test
-  19: |
+  17: |
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
@@ -894,7 +697,7 @@ manifest should match snapshot:
           exordis/environment: test
           exordis/service-name: cicd-sample-docs-full
           exordis/subsystem: cicd
-  20: |
+  18: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -936,3 +739,224 @@ manifest should match snapshot:
         exordis/subsystem: cicd
       sessionAffinity: None
       type: LoadBalancer
+  19: |
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/component: cicd-sample
+        app.kubernetes.io/instance: docs
+        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/name: cicd-sample
+        app.kubernetes.io/part-of: cicd
+        app.kubernetes.io/version: 1.0.0
+        exordis/application: cicd-sample
+        exordis/application-instance: docs
+        exordis/application-type: service
+        exordis/application-workload: "true"
+        exordis/environment: test
+        exordis/product: Some Product
+        exordis/subsystem: cicd
+        helm.sh/chart: cicd-subsystem-application-0.1.0
+      name: cicd-sample-docs
+      namespace: cicd-test
+    spec:
+      replicas: 3
+      revisionHistoryLimit: 2
+      selector:
+        matchLabels:
+          exordis/application: cicd-sample
+          exordis/application-instance: docs
+          exordis/application-workload: "true"
+          exordis/environment: test
+          exordis/subsystem: cicd
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            checksum/configMap.config-map-with-containers: 48b7e320feb03b105aa89ed415344c030af90d34a34c66f56146d9f0fd2da3e3
+            checksum/configMap.config-map-without-containers: 1dbfa263d171e565d412b904c69bdf60fc6bc8db2fcb31e13049242a8bbdecac
+            checksum/configMap.envs: 7804c1a2bc6fb98bc7b87c036f6bdb678f897e534204c2e4efd7d881bf5b2924
+            checksum/configMap.external-secret-template: f921d5d8c41b9909941321f0d31975eb7ca6d83cba279a6fa91b5f035c9c3f56
+            checksum/secret.secret-with-containers: 8e0836f50407f40dc36bf200910416c00f82b8bf5284ab96e908b1d709eb65e3
+            checksum/secret.secret-without-containers: 2e931d517cebd760f5460ea95663a82d8df2673e2c075918c21b33c96bfd6686
+            custom-annotation: custom annotation
+          labels:
+            app.kubernetes.io/component: cicd-sample
+            app.kubernetes.io/instance: docs
+            app.kubernetes.io/managed-by: helm
+            app.kubernetes.io/name: cicd-sample
+            app.kubernetes.io/part-of: cicd
+            app.kubernetes.io/version: 1.0.0
+            custom-label: custom label
+            exordis/application: cicd-sample
+            exordis/application-instance: docs
+            exordis/application-type: service
+            exordis/application-workload: "true"
+            exordis/environment: test
+            exordis/product: Some Product
+            exordis/subsystem: cicd
+            helm.sh/chart: cicd-subsystem-application-0.1.0
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: topology.kubernetes.io/zone
+                        operator: In
+                        values:
+                          - pve02
+                          - pve03
+          containers:
+            - envFrom:
+                - secretRef:
+                    name: cicd-sample-docs-external-full
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+                - secretRef:
+                    name: cicd-sample-docs-secret-with-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-with-containers
+              image: registry.gitlab.com/cicd-unittests:1.0.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 30
+                periodSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 80
+                timeoutSeconds: 3
+              name: application
+              ports:
+                - containerPort: 80
+                  name: http
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 30
+                periodSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 80
+                timeoutSeconds: 3
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              startupProbe:
+                failureThreshold: 30
+                periodSeconds: 5
+                successThreshold: 1
+                tcpSocket:
+                  port: 80
+                timeoutSeconds: 3
+              volumeMounts:
+                - mountPath: /some-data
+                  name: volume1
+                - mountPath: /pvc-data
+                  name: mypvc
+            - envFrom:
+                - secretRef:
+                    name: cicd-sample-docs-external-full
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: docker.io/jsreport/jsreport:4.7.0
+              imagePullPolicy: IfNotPresent
+              name: jsreport
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts:
+                - mountPath: /some-another-data-but-same-as-for-application
+                  name: volume1
+          initContainers:
+            - envFrom:
+                - secretRef:
+                    name: cicd-sample-docs-external-full
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: registry.gitlab.com/my-migration-image:1.0.0
+              imagePullPolicy: Always
+              name: migration1
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts: []
+            - envFrom:
+                - secretRef:
+                    name: cicd-sample-docs-external-full
+                - secretRef:
+                    name: cicd-sample-docs-secret-without-containers
+                - configMapRef:
+                    name: cicd-sample-docs-envs
+                - configMapRef:
+                    name: cicd-sample-docs-config-map-without-containers
+              image: registry.gitlab.com/my-migration-image:1.0.0
+              imagePullPolicy: Always
+              name: migration2
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+              volumeMounts: []
+          serviceAccountName: cicd-sample-docs-workload
+          terminationGracePeriodSeconds: 60
+          volumes:
+            - emptyDir:
+                sizeLimit: 100Mi
+              name: volume1
+      volumeClaimTemplates:
+        - apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            annotations: {}
+            labels:
+              app.kubernetes.io/component: cicd-sample
+              app.kubernetes.io/instance: docs
+              app.kubernetes.io/managed-by: helm
+              app.kubernetes.io/name: cicd-sample
+              app.kubernetes.io/part-of: cicd
+              exordis/application: cicd-sample
+              exordis/application-instance: docs
+              exordis/application-type: service
+              exordis/environment: test
+              exordis/product: Some Product
+              exordis/subsystem: cicd
+            name: mypvc
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi

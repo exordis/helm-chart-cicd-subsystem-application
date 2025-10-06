@@ -28,31 +28,40 @@ if [ $HAS_FILE_ARG -eq 0 ]; then
 fi
 
 
-# Define snapshot file and output directory
-SNAPSHOT_FILE="tests/__snapshot__/e2e_test.yaml.snap"
-OUTPUT_DIR="docs/snippets/manifests"
 
-# on windows fs access to directory mounted as folder is too slow
-# copying to native FS executing there  
-cp -R /src/* /apps 
-cd /apps 
+# On Windows, copy mounted directory to native FS for performance
+cp -R /src/* /apps
+cd /apps
 eval "helm unittest $CHART_TO_TEST $PROVIDED_ARGS"
 
-
-# Get snapshot data back to mounted directory
-rm -rf /src/tests/__snapshot__ 
+# Copy snapshot data back to mounted directory
+rm -rf /src/tests/__snapshot__
 cp -R /apps/tests/__snapshot__ /src/tests/
 
-# Extract snapshot manifests as snippets
+# Install yq quietly (Alpine)
 apk add --no-cache yq > /dev/null
 
-# Ensure output directory exists
-rm -rf /tmp/manifests
-mkdir -p /tmp/manifests
+extract_snapshots_to_dir() {
+  local SNAPSHOT_FILE=$1
+  local OUTPUT_DIR=$2
 
-yq '.["manifest should match snapshot"] | to_entries | map(.value | from_yaml) | map("/tmp/manifests" + "/" + .kind) | .[]' "$SNAPSHOT_FILE" | xargs -I{} mkdir -p "{}"
-yq '.["manifest should match snapshot"] | to_entries | map(.value | from_yaml) | .[]' "$SNAPSHOT_FILE" -s '"/tmp/manifests" + "/" + .kind + "/" + .metadata.name'
+  # Prepare temp directory for extracted manifests
+  rm -rf /tmp/manifests
+  mkdir -p /tmp/manifests
 
-rm -rf "/src/$OUTPUT_DIR"
-mkdir -p "/src/$OUTPUT_DIR"
-cp -R /tmp/manifests/* "/src/$OUTPUT_DIR"
+  # Create directories for each kind
+  yq '.["manifest should match snapshot"] | to_entries | map(.value | from_yaml) | map("/tmp/manifests" + "/" + .kind) | .[]' "$SNAPSHOT_FILE" | xargs -I{} mkdir -p "{}"
+
+  # Extract and write manifests with path /tmp/manifests/<Kind>/<metadata.name>
+  yq '.["manifest should match snapshot"] | to_entries | map(.value | from_yaml) | .[]' "$SNAPSHOT_FILE" -s '"/tmp/manifests" + "/" + .kind + "/" + .metadata.name'
+
+  # Clean and copy extracted manifests to output directory
+  rm -rf "/src/$OUTPUT_DIR"
+  mkdir -p "/src/$OUTPUT_DIR"
+  cp -R /tmp/manifests/* "/src/$OUTPUT_DIR"
+}
+
+
+# Define snapshot file and output directory
+extract_snapshots_to_dir "tests/__snapshot__/deployment_e2e_test.yaml.snap" "docs/snippets/manifests/deployment"
+extract_snapshots_to_dir "tests/__snapshot__/statefulset_e2e_test.yaml.snap" "docs/snippets/manifests/statefulset"
